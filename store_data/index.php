@@ -1,9 +1,9 @@
 <?php
 
-function validateDate($date, $format = 'd-M-Y'){
-    $d = DateTime::createFromFormat($format, $date);
-    return $d && $d->format($format) == $date;
-}
+	function validateDate($date, $format = 'd-M-Y'){
+	    $d = DateTime::createFromFormat($format, $date);
+	    return $d && $d->format($format) == $date;
+	}
 
 	$db = new SQLite3('home_data.sqlite3', SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRITE);
 	$ds18b20[] = array();
@@ -38,9 +38,7 @@ function validateDate($date, $format = 'd-M-Y'){
 	date_default_timezone_set('Europe/Athens');
 
 
-
 	$statement->bindValue(1, $now_date);
-
 	$result = $statement->execute();
 	$result->finalize();
 
@@ -156,8 +154,6 @@ function validateDate($date, $format = 'd-M-Y'){
 			</div>
 		</div>
 
-
-
 		<div class="row">
 			<div class="col-lg-12 text-center">
 				<form method="get" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
@@ -179,14 +175,12 @@ function validateDate($date, $format = 'd-M-Y'){
 
 		});
 
-
 		var temps = [<?php 
 			foreach ($ds18b20 as $val) {
 				foreach ($val as $key => $value) {
 					if ($key == 'tempr') {
 						echo $value . ',';
 					}
-
 				}
 			}
 		?>];
@@ -197,7 +191,6 @@ function validateDate($date, $format = 'd-M-Y'){
 					if ($key == 'time') {
 						echo "'" . $value . "',";
 					}
-
 				}
 			}
 		?>];
@@ -208,7 +201,6 @@ function validateDate($date, $format = 'd-M-Y'){
 					if ($key == 'tempr') {
 						echo $value . ',';
 					}
-
 				}
 			}
 		?>];
@@ -219,7 +211,6 @@ function validateDate($date, $format = 'd-M-Y'){
 					if ($key == 'time') {
 						echo "'" . $value . "',";
 					}
-
 				}
 			}
 		?>];
@@ -230,7 +221,6 @@ function validateDate($date, $format = 'd-M-Y'){
 					if ($key == 'humidity') {
 						echo "'" . $value . "',";
 					}
-
 				}
 			}
 		?>];
@@ -272,7 +262,6 @@ function validateDate($date, $format = 'd-M-Y'){
 		    options: same_options
 		});
 
-
 		var myChart = new Chart(ctx_dht_11_hum, {
 		    type: 'line',
 		    data: {
@@ -288,7 +277,6 @@ function validateDate($date, $format = 'd-M-Y'){
 		    },
 		    options: same_options
 		});
-
 		
 		var myChart = new Chart(ctx_temps_dht_11, {
 		    type: 'line',
@@ -312,7 +300,6 @@ function validateDate($date, $format = 'd-M-Y'){
 		    },
 		    options: same_options
 		});
-
 	</script>
 </body>
 </html>
