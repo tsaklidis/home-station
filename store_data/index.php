@@ -87,6 +87,8 @@ function validateDate($date, $format = 'd-M-Y'){
 <head>
 	<title>Tsaklidis Home Live Temperatures</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:image" content="https://gitlab.com/steftsak/home-station/raw/master/screens/1.png"/>
+	<link rel="shortcut icon" type="image/icon" href="favicon.ico"/>
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
