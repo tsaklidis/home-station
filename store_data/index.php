@@ -22,7 +22,7 @@ function validateDate($date, $format = 'd-M-Y'){
 
 	if(isset($_GET['hours'])) {
 		$hours_limit = $_GET['hours'];
-		if (is_numeric($hours_limit) && ($hours_limit < 24 && $hours_limit >= 1)) { // 24 hours == 288 rows
+		if (is_numeric($hours_limit) && ($hours_limit < 25 && $hours_limit >= 1)) { // 24 hours == 288 rows
 		 	$hours_limit = round($hours_limit * 12); // 12 samples every 5 minutes
 		 } 
 		else{
