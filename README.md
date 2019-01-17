@@ -1,4 +1,4 @@
-# Home temprature station
+# Home Temperature Station
 
 The hardware is:
 <ul>
