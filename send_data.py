@@ -1,18 +1,25 @@
 import DHT11
 import DS18B20
 import datetime
-import pickle
+# import pickle
 import json
 import led
-import os
 import requests
 import time
+# import os
 
 
 # url = 'http://192.168.1.2/sensors/catch.php'
 url = 'https://tsaklidis.gr/home/catch.php'
 
-time.sleep(10) # wait for wifi after reboot
+# wait for wifi after reboot
+# and show I am waiting
+for i in xrange(0, 9):
+    led.on()
+    time.sleep(.500)
+    led.off()
+    time.sleep(.500)
+
 while True:
 
     data = {}
@@ -47,24 +54,24 @@ while True:
         url, data=json.dumps(data), headers=headers)
 
     # Prevent data lose
-    if response.status_code == 201:
-        led.off()
-    else:
-        with open('not_sent.pkl', 'a+') as handle:
-            pickle.dump(data, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    # if response.status_code == 201:
+    #     led.off()
+    # else:
+    #     with open('/home/pi/Desktop/sensors/not_sent.pkl', 'a+') as handle:
+    #         pickle.dump(data, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-    if os.stat("not_sent.pkl").st_size > 0:  # check if file is not empty
-        with open('not_sent.pkl') as f:
-            loaded_data = pickle.load(f)
+    # if os.stat("/home/pi/Desktop/sensors/not_sent.pkl").st_size > 0:  # check if file is not empty
+    #     with open('/home/pi/Desktop/sensors/not_sent.pkl', 'rb') as f:
+    #         loaded_data = pickle.load(f)
 
-        response = requests.post(
-            url, data=json.dumps(loaded_data), headers=headers)
+    #     response = requests.post(
+    #         url, data=json.dumps(loaded_data), headers=headers)
 
-        if response.status_code == 201:
-            led.off()
-            # overwrite it with emptyness
-            open('not_sent.pkl', 'w').close()
-
+    #     if response.status_code == 201:
+    #         led.off()
+    #         # overwrite it with emptyness
+    #         open('/home/pi/Desktop/sensors/not_sent.pkl', 'w').close()
+    led.off()
     # print response.content
     # samples every 5 minutes
     time.sleep(300)
