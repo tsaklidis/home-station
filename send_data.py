@@ -1,11 +1,12 @@
 import DHT11
 import DS18B20
 import datetime
+import pickle
 import json
-import time
 import led
 import os
 import requests
+import time
 
 
 # url = 'http://192.168.1.2/sensors/catch.php'
@@ -51,20 +52,22 @@ while True:
     if response.status_code == 201:
         led.off()
     else:
-        with open('not_sent.json', 'a+') as file:
-            file.write(json.dumps(data))
+        with open('not_sent.pkl', 'a+') as handle:
+            # file.write(json.dumps(data))
+            pickle.dump(data, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-    if os.stat("not_sent.json").st_size == 0:  # check if file is empty
-        with open('not_sent.json') as f:
-            data = json.load(f)
+    if os.stat("not_sent.pkl").st_size > 0:  # check if file is not empty
+        with open('not_sent.pkl') as f:
+            # data = json.loads(f)
+            data = pickle.load(f)
             response = requests.post(
                 url, data=json.dumps(data), headers=headers)
 
             if response.status_code == 201:
                 led.off()
                 # overwrite it with emptyness
-                open('not_sent.json', 'w').close()
+                open('not_sent.pkl', 'w').close()
 
     # print response.content
     # samples every 5 minutes
-    time.sleep(3)
+    time.sleep(300)
