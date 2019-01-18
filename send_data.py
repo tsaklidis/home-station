@@ -1,10 +1,12 @@
-import json
-import time
 import DHT11
 import DS18B20
-import led
-import requests
 import datetime
+import json
+import time
+import led
+import os
+import requests
+
 
 # url = 'http://192.168.1.2/sensors/catch.php'
 url = 'https://tsaklidis.gr/home/catch.php'
@@ -45,7 +47,24 @@ while True:
     response = requests.post(
         url, data=json.dumps(data), headers=headers)
 
+    # Prevent data lose
+    if response.status_code == 201:
+        led.off()
+    else:
+        with open('not_sent.json', 'a+') as file:
+            file.write(json.dumps(data))
+
+    if os.stat("not_sent.json").st_size == 0:  # check if file is empty
+        with open('not_sent.json') as f:
+            data = json.load(f)
+            response = requests.post(
+                url, data=json.dumps(data), headers=headers)
+
+            if response.status_code == 201:
+                led.off()
+                # overwrite it with emptyness
+                open('not_sent.json', 'w').close()
+
     # print response.content
-    led.off()
     # samples every 5 minutes
-    time.sleep(300)
+    time.sleep(3)

@@ -28,15 +28,18 @@
 			$ds18b20->execute();
 
 			$db->close();
+			http_response_code(201);
 
 		}
 		else{
 			echo "<h1>Not allowed</h1>";
+			http_response_code(403);
 		}
 
 	}
 	else{
 		echo "<h1>Not allowed</h1>";
+		http_response_code(403);
 	}
 
 ?>
