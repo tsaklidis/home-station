@@ -1,4 +1,5 @@
 *.log
 *.pyc
+*.pkl
 *.sublime-project
 *.sublime-workspace
