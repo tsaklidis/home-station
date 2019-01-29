@@ -1,11 +1,13 @@
-# Import Libraries
-import os
 import glob
 import time
+# import os
 
 # Initialize the GPIO Pins
-os.system('modprobe w1-gpio')  # Turns on the GPIO module
-os.system('modprobe w1-therm')  # Turns on the Temperature module
+# Add them to /etc/modules or uncomment
+# w1_gpio
+# w1_therm
+# os.system('modprobe w1-gpio')  # Turns on the GPIO module
+# os.system('modprobe w1-therm')  # Turns on the Temperature module
 
 # Finds the correct device file that holds the temperature data
 base_dir = '/sys/bus/w1/devices/'

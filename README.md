@@ -22,7 +22,7 @@ And run the script every 5 minutes
 */5 * * * * python ~/send_data.py >> ~/info.log 2>&1
 ```
 
-The system cycle is:
+The flow is:
 ```mermaid
 graph TD;
   DS18B20-->Raspberry;
@@ -34,7 +34,6 @@ graph TD;
 > TODO:
 > <ul>
 >	<li>On data loss, save all the data saved to pickle file</li>
->	<li>Remove 'sh: 1: modprobe: not found' from info.log (printed from DS18B20)</li>
 > </ul>
 
 If you have any questions or problems running the scripts just contact me. 
