@@ -158,7 +158,7 @@
 			<div class="col-lg-12 text-center">
 				<form method="get" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 					Change date: <input type="text" class="text-center" name="date" id="datepicker">
-					Hours range: <input type="number" class="text-center" value="3" name="hours" id="hours">
+					Hours range: <input type="number" class="text-center" value="1" name="hours" id="hours">
 					<button class="btn btn-sm btn-info">OK</button>
 				</form>
 			</div>
