@@ -138,6 +138,11 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-12 text-center">
+				<a class="badge badge-warning" href="home_data.sqlite3">Get the database</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 text-center">
 				<div class="wrp">
 					<div>Temperature</div>
 					<div class="circle color_one"><?php echo round($last_tempr["tempr"], 1);?>&#8451;</div>
@@ -148,6 +153,7 @@
 				</div>
 			</div>
 		</div>
+		
 		
 		<div class="row">
 			<div class="col-lg-12 text-center">
@@ -166,8 +172,13 @@
 					Hours range: <input type="number" class="text-center" value="3" name="hours" id="hours">
 					<button class="btn btn-sm btn-info">OK</button>
 				</form>
+				<br>
 				<hr>
-				<a class="badge badge-warning" href="home_data.sqlite3">Download the db</a>
+				<br>
+				<p>
+					Home Temperature Station by 
+					<a href="https://tsaklidis.gr" class="badge badge-info"> Stefanos I. Tsaklidis</a>
+				</p>
 
 			</div>
 		</div>
