@@ -38,7 +38,9 @@
 	date_default_timezone_set('Europe/Athens');
 
 
+
 	$statement->bindValue(1, $now_date);
+
 	$result = $statement->execute();
 	$result->finalize();
 
@@ -86,7 +88,6 @@
 	<title>Tsaklidis Home Live Temperatures</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta property="og:image" content="https://gitlab.com/steftsak/home-station/raw/master/screens/1.png"/>
-	<link rel="shortcut icon" type="image/icon" href="favicon.ico"/>
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -97,6 +98,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
 
 	<style type="text/css">
+		body{background-color:#2d2d2d; color: white;}
 		#temperature_chart, #dht_11_hum, #temps_dht_11{
 			max-width: 600px;
 			display: inline-block !important;
@@ -154,11 +156,13 @@
 			</div>
 		</div>
 
+
+
 		<div class="row">
 			<div class="col-lg-12 text-center">
 				<form method="get" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 					Change date: <input type="text" class="text-center" name="date" id="datepicker">
-					Hours range: <input type="number" class="text-center" value="1" name="hours" id="hours">
+					Hours range: <input type="number" class="text-center" value="3" name="hours" id="hours">
 					<button class="btn btn-sm btn-info">OK</button>
 				</form>
 			</div>
@@ -175,12 +179,16 @@
 
 		});
 
+		Chart.defaults.global.defaultFontColor = "#fff";
+
+
 		var temps = [<?php 
 			foreach ($ds18b20 as $val) {
 				foreach ($val as $key => $value) {
 					if ($key == 'tempr') {
 						echo $value . ',';
 					}
+
 				}
 			}
 		?>];
@@ -191,6 +199,7 @@
 					if ($key == 'time') {
 						echo "'" . $value . "',";
 					}
+
 				}
 			}
 		?>];
@@ -201,6 +210,7 @@
 					if ($key == 'tempr') {
 						echo $value . ',';
 					}
+
 				}
 			}
 		?>];
@@ -211,6 +221,7 @@
 					if ($key == 'time') {
 						echo "'" . $value . "',";
 					}
+
 				}
 			}
 		?>];
@@ -221,6 +232,7 @@
 					if ($key == 'humidity') {
 						echo "'" . $value . "',";
 					}
+
 				}
 			}
 		?>];
@@ -235,7 +247,20 @@
 		            yAxes: [{
 		                ticks: {
 		                    // beginAtZero:true,
-		                }
+		                },
+		                gridLines: {
+		                  display: true ,
+		                  color: "#4D4D4D"
+		                },
+		            }],
+		            xAxes: [{
+		                ticks: {
+		                    // beginAtZero:true,
+		                },
+		                gridLines: {
+		                  display: false ,
+		                  color: "#4D4D4D"
+		                },
 		            }]
 		        }
 		    };
@@ -247,13 +272,13 @@
 		        datasets: [{
 		            label: 'Temperature (DS18B20)',
 		            data: temps.reverse(),
-		            "fill":false,
+		            "fill":true,
 		            backgroundColor: [
-		                'rgba(255, 99, 132, 0.6)',
+		                'rgba(247, 100, 100, 0.3)',
 
 		            ],
 		            borderColor: [
-		                'rgba(255,99,132,1)',
+		                'rgba(247, 100, 100, 1)',
 
 		            ],
 		            borderWidth: 1
@@ -261,6 +286,7 @@
 		    },
 		    options: same_options
 		});
+
 
 		var myChart = new Chart(ctx_dht_11_hum, {
 		    type: 'line',
@@ -271,12 +297,17 @@
 		                data: hum.reverse(),
 		                label: "Humidity (DHT-11 +-5%)",
 		                borderColor: "#3e95cd",
-		                fill: true
+		                fill: true,
+		                backgroundColor: [
+		                    'rgba(62, 149, 205, 0.3)',
+
+		                ],
 		              }, 
 		            ]
 		    },
 		    options: same_options
 		});
+
 		
 		var myChart = new Chart(ctx_temps_dht_11, {
 		    type: 'line',
@@ -300,6 +331,7 @@
 		    },
 		    options: same_options
 		});
+
 	</script>
 </body>
 </html>
