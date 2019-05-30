@@ -99,6 +99,7 @@
 
 	<style type="text/css">
 		body{background-color:#2d2d2d; color: white;}
+		hr{border-color:#464646;}
 		#temperature_chart, #dht_11_hum, #temps_dht_11{
 			max-width: 600px;
 			display: inline-block !important;
@@ -165,6 +166,9 @@
 					Hours range: <input type="number" class="text-center" value="3" name="hours" id="hours">
 					<button class="btn btn-sm btn-info">OK</button>
 				</form>
+				<hr>
+				<a class="badge badge-warning" href="home_data.sqlite3">Download the db</a>
+
 			</div>
 		</div>
 	</div>
