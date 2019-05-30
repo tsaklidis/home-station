@@ -3,7 +3,7 @@ import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-led_pin = 2
+led_pin = 27
 GPIO.setup(led_pin, GPIO.OUT)
 
 

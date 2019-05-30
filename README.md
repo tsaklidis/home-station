@@ -40,4 +40,4 @@ If you have any questions or problems running the scripts just contact me.
 
 ![](screens/1.png)
 
-![](screens/2.jpg)
+![](screens/circuit.png)
