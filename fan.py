@@ -3,7 +3,7 @@ import time
 import datetime
 import RPi.GPIO as GPIO
 
-start_tmp = 43
+start_tmp = 45
 
 
 class FanControl:
@@ -20,6 +20,9 @@ class FanControl:
         except Exception as e:
             exit(e)
 
+    def _power_led(self, power):
+        GPIO.output(self.led, power)
+
     def log(self, s):
         fileLog = open('/home/pi/Desktop/sensors/fan.log', 'a+', 0)
         t = time.time()
@@ -27,9 +30,6 @@ class FanControl:
             t).strftime('%Y/%m/%d %H:%M:%S - ')
         fileLog.write(stamp + s + "\n")
         fileLog.close()
-
-    def _power_led(self, power):
-        GPIO.output(self.led, power)
 
     # Resets all GPIO ports used by this program
     def exitPin(self):
@@ -49,10 +49,9 @@ class FanControl:
 fan = FanControl()
 fan.log("######### Cooler initialized #########")
 while True:
-    # res returns "temp=46.2'C\n"
+    # res has "temp=46.2'C\n"
     res = os.popen('/opt/vc/bin/vcgencmd measure_temp').readline()
     cpu_temp = float((res.replace("temp=", "").replace("'C\n", "")))
-    # print "CPU: ", cpu_temp
 
     if cpu_temp > start_tmp:
         if not fan.spinning:
@@ -61,7 +60,7 @@ while True:
         fan.spin(False)
         fan.exitPin()
 
-    if cpu_temp > 45:
+    if cpu_temp > 50:
         # take some time to cool the cpu
         time.sleep(40)
     else:
