@@ -38,6 +38,6 @@ graph TD;
 
 If you have any questions or problems running the scripts just contact me. 
 
-![](screens/1.png)
+![](screens/dark.png)
 
 ![](screens/circuit.png)
