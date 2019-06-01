@@ -8,20 +8,20 @@ start_tmp = 45
 
 class FanControl:
     pin = 23
-    led = 24
+    status_led = 24
     spinning = False
 
     def _prepare(self):
         try:
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(self.pin, GPIO.OUT)
-            GPIO.setup(self.led, GPIO.OUT)
+            GPIO.setup(self.status_led, GPIO.OUT)
             GPIO.setwarnings(False)
         except Exception as e:
             exit(e)
 
     def _power_led(self, power):
-        GPIO.output(self.led, power)
+        GPIO.output(self.status_led, power)
 
     def log(self, s):
         fileLog = open('/home/pi/Desktop/sensors/fan.log', 'a+', 0)
