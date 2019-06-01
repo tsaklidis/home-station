@@ -44,6 +44,6 @@ If you have any questions or problems running the scripts just contact me.
 
 <hr>
 
-![](photo/board.jpg)
+![](photo/case.jpg)
 
 ![](photo/board2.jpg)
