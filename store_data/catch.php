@@ -1,9 +1,9 @@
 <?php
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-		$ip = gethostbyname('http://tsaklidis.noip.me/');
+		$ip = gethostbyname('http://tsaklidis.noip.me/');  
 
-		if ($_SERVER['HTTP_CF_CONNECTING_IP'] = $ip) {
+		if ($_SERVER['HTTP_CF_CONNECTING_IP'] = $ip) { // Don't forget to disable this if you run on your project
 			// Get JSON as a string
 			$json_str = file_get_contents('php://input');
 			// Get as an object
