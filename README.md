@@ -59,6 +59,8 @@ graph TD;
   Server-->Browser;
 ```
 
+To save the data on your db upload the contents of the store_data folder to an apache or nginx public folder.
+
 > TODO:
 > <ul>
 >	<li>On data loss, save all the data saved to pickle file</li>
