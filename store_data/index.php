@@ -329,16 +329,15 @@
 		    data: {
 		        labels: times_dht_11,
 		        datasets: [{
-		            label: 'Temperature (DHT-11 +-2*C)',
+		            // label: 'Temperature (DHT-11 +-2*C)',
+		            label: 'Temperature (DHT-22 ±0.5*C)',
 		            data: temps_dht_11.reverse(),
 		            "fill":false,
 		            backgroundColor: [
 		                'rgba(60, 150, 40, 0.6)',
-
 		            ],
 		            borderColor: [
 		                'rgba(60, 150, 40, 1)',
-
 		            ],
 		            borderWidth: 1
 		        }]

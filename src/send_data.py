@@ -1,4 +1,4 @@
-import DHT11
+import DHT22
 import DS18B20
 import datetime
 import pickle
@@ -13,16 +13,16 @@ url = 'https://tsaklidis.gr/home/catch.php'
 
 
 data = {}
-data['DHT11'] = []
+data['DHT22'] = []
 data['DS18B20'] = []
 bu_path = os.path.dirname(os.path.abspath(__file__))
 
 dt = datetime.datetime.now()
-data['DHT11'].append({
+data['DHT22'].append({
     'date': dt.strftime('%d-%b-%Y'),
     'time': dt.strftime('%H:%M'),
-    'tempr': DHT11.read_temp(),
-    'humidity': DHT11.read_humidity()
+    'tempr': DHT22.read_temp(),
+    'humidity': DHT22.read_humidity()
 })
 
 data['DS18B20'].append({
