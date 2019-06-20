@@ -52,16 +52,18 @@ else:
     with open(bu_path + '/not_sent.pkl', 'a+') as handle:
         pickle.dump(data, handle, protocol=pickle.HIGHEST_PROTOCOL)
         print 'Data loss at: {0} '.format(dt.strftime('%d-%b-%Y %H:%M'))
+try:
 
-if os.stat(bu_path + "/not_sent.pkl").st_size > 0:  # check if file is not empty
-    with open(bu_path + '/not_sent.pkl', 'rb') as f:
-        loaded_data = pickle.load(f)
+    if os.stat(bu_path + "/not_sent.pkl").st_size > 0:  # check if file is not empty
+        with open(bu_path + '/not_sent.pkl', 'rb') as f:
+            loaded_data = pickle.load(f)
 
-    response = requests.post(
-        url, data=json.dumps(loaded_data), headers=headers)
+        response = requests.post(
+            url, data=json.dumps(loaded_data), headers=headers)
 
-    if response.status_code == 201:
-        led.off()
-        # overwrite it with emptyness
-        open(bu_path + '/not_sent.pkl', 'w').close()
-
+        if response.status_code == 201:
+            led.off()
+            # overwrite it with emptyness
+            open(bu_path + '/not_sent.pkl', 'w').close()
+except OSError:
+    pass

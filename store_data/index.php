@@ -310,7 +310,7 @@
 
 		        datasets: [{ 
 		                data: hum.reverse(),
-		                label: "Humidity (DHT-11 +-5%)",
+		                label: "Humidity (DHT-22 +-5%)",
 		                borderColor: "#3e95cd",
 		                fill: true,
 		                backgroundColor: [
