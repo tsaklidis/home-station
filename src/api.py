@@ -95,7 +95,7 @@ class RemoteApi:
                 try:
                     token = data['token']
                     # Token loaded, check if it's valid
-                    if self._validate_token():
+                    if self._validate_token(token):
                         # Token is valid, return it, add to headers
                         headers['Authorization'] = 'Token {}'.format(self.TOKEN)
                         self.TOKEN = token
@@ -109,11 +109,8 @@ class RemoteApi:
                         'reason': 'No token value in file.'
                         })
         except IOError, ValueError:
-            self._log_error({
-                'type': 'IOError, ValueError',
-                'from': '_init_token()',
-                'reason': 'No token.txt OR no token value in file.'
-                })
+            # No token.txt OR no token value in file.
+            pass
 
         if not self.TOKEN:
             #  No local token, ask for new
