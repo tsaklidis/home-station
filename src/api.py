@@ -29,31 +29,30 @@ class RemoteApi:
             "token_name": "rpi"
         }
 
-        led.on()
+        
         if persistent:
-            # Ask for persistent token
-            response = requests.post(url['token_persist_new'],
-                                        data=json.dumps(body), headers=headers)
-            if response.status_code == 201:
-                led.off()
-                return response.json()['token']
-            if response.status_code == 403:
-                # No permissions for persistent token, ask for expiring
-                led.off()
-                return response.json()
-            else:
-                led.off()
-                return False
+            hit_url = url['token_persist_new']
         else:
-            # Ask for expiring token
-            response = requests.post(url['token_new'],
-                                        data=json.dumps(body), headers=headers)
-            if response.status_code == 201:
-                led.off()
-                return response.json()['token']
-            else:
-                led.off()
-                return response.json()
+            hit_url = url['token_new']
+
+        led.on()
+        response = requests.post(hit_url,
+                                    data=json.dumps(body), headers=headers)
+        if response.status_code == 201:
+            led.off()
+            return response.json()['token']
+        if response.status_code == 403:
+            led.off()
+            return response.json()
+        if response.status_code == 409:
+            self._remind_token()
+        else:
+            led.off()
+            return False
+
+    def _remind_token(self):
+        # {"error": "Valid token with same name exists"}
+        pass
 
     def _store_token(self, token):
         with open('token.txt', 'w') as outfile:
@@ -80,7 +79,7 @@ class RemoteApi:
         response = requests.post(url['ms_pack_new'],
                                 data=json.dumps(measurement), headers=headers)
         led.off()
-        
+
         # TODO
         # Prevent data loss
 
