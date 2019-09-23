@@ -1,7 +1,11 @@
-from credentials import auth
-import requests
 import json
 import led
+import os
+import requests
+
+from credentials import auth
+
+the_path = os.path.dirname(os.path.abspath(__file__))
 
 base_url = 'https://logs.tsaklidis.gr/api/'
 url = {
@@ -55,13 +59,13 @@ class RemoteApi:
         pass
 
     def _store_token(self, token):
-        with open('token.txt', 'w') as outfile:
+        with open(the_path + '/token.txt', 'w') as outfile:
             d = {"token":token}
             json.dump(d, outfile)
 
     def _load_token(self):
         try:
-            with open('token.txt') as json_file:
+            with open(the_path + '/token.txt') as json_file:
                 data = json.load(json_file)
                 try:
                     return data['token']
@@ -81,14 +85,16 @@ class RemoteApi:
         led.off()
 
         # TODO
+        # Check for not saved data
         # Prevent data loss
 
 
     def __init__(self):
         # Try to load local token
         self.TOKEN = self._load_token()
-        
-        if not self.TOKEN:
+        if self.TOKEN:
+            headers['Authorization'] = 'Token {}'.format(self.TOKEN)
+        elif not self.TOKEN:
             #  No local token, ask for new
             res = self._get_token(persistent=False)
             if isinstance(res, basestring):
@@ -97,7 +103,7 @@ class RemoteApi:
                 self._store_token(res)
             else:
                 # Got smth else, save the msg from API
-                with open('errors.txt', 'a+') as outfile:
+                with open(the_path + '/errors.txt', 'a+') as outfile:
                     json.dump(res, outfile)
                     outfile.write('\n')
 
