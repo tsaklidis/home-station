@@ -1,6 +1,7 @@
-from credentials import auth, UUIDS
+from credentials import auth
 import requests
 import json
+import led
 
 base_url = 'https://logs.tsaklidis.gr/api/'
 url = {
@@ -10,18 +11,17 @@ url = {
     'token_new': base_url + 'token/expiring/new/',
     'token_persist_new': base_url + 'token/persistent/new/',
 }
+headers = {
+    'User-Agent': 'rpi_station',
+    'Content-Type': 'application/json',
+}
 
-
-class Api:
+class RemoteApi:
 
     TOKEN = ''
 
     def _get_token(self, persistent=False):
 
-        headers = {
-            'User-Agent': 'rpi_station',
-            'Content-Type': 'application/json',
-           }
 
         body = {
             "username": auth['username'],
@@ -29,24 +29,30 @@ class Api:
             "token_name": "rpi"
         }
 
+        led.on()
         if persistent:
             # Ask for persistent token
             response = requests.post(url['token_persist_new'],
                                         data=json.dumps(body), headers=headers)
             if response.status_code == 201:
+                led.off()
                 return response.json()['token']
             if response.status_code == 403:
                 # No permissions for persistent token, ask for expiring
+                led.off()
                 return response.json()
             else:
+                led.off()
                 return False
         else:
             # Ask for expiring token
             response = requests.post(url['token_new'],
                                         data=json.dumps(body), headers=headers)
             if response.status_code == 201:
+                led.off()
                 return response.json()['token']
             else:
+                led.off()
                 return response.json()
 
     def _store_token(self, token):
@@ -64,6 +70,20 @@ class Api:
                     return False
         except IOError, ValueError:
             return False
+
+    def send_packet(self, measurement):
+        # measurement = [
+        #     {"space_uuid":"97db","sensor_uuid":"6a41", "value":26},
+        #     {"space_uuid":"ff3","sensor_uuid":"836f", "value":266}
+        # ]
+        led.on()
+        response = requests.post(url['ms_pack_new'],
+                                data=json.dumps(measurement), headers=headers)
+        led.off()
+        
+        # TODO
+        # Prevent data loss
+
 
     def __init__(self):
         # Try to load local token
