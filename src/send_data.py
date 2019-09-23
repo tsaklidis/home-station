@@ -29,5 +29,5 @@ DS18B20 = {
 
 pack = [DHT22_tmpr, DHT22_hum, DS18B20]
 
-station.send_data(pack)
+station.send_packet(pack)
 
