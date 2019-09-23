@@ -3,3 +3,6 @@
 *.pkl
 *.sublime-project
 *.sublime-workspace
+src/credentials.py
+src/token.txt
+src/errors.txt
