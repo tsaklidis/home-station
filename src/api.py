@@ -24,15 +24,17 @@ class RemoteApi:
 
     TOKEN = ''
 
+    def _log_error(self, er):
+        with open(the_path + '/errors.txt', 'a+') as outfile:
+            json.dump(er, outfile)
+            outfile.write('\n')
+
     def _get_token(self, persistent=False):
-
-
         body = {
             "username": auth['username'],
             "password": auth['password'],
             "token_name": "rpi"
         }
-
         
         if persistent:
             hit_url = url['token_persist_new']
@@ -68,17 +70,64 @@ class RemoteApi:
             with open(the_path + '/token.txt') as json_file:
                 data = json.load(json_file)
                 try:
-                    return data['token']
+                    token = data['token']
+                    # Token loaded, check if it's valid
+                    if self._validate_token():
+                        # Token is valid, return it, add to headers
+                        headers['Authorization'] = 'Token {}'.format(self.TOKEN)
+                        return token
+                    else:
+                        # Take actions for invalid/expired token
+                        pass
                 except KeyError:
                     return False
         except IOError, ValueError:
             return False
 
+    def _validate_token(self, token):
+        return True
+
+    def _init_token(self):
+        # Try to load local token from token.txt file
+        try:
+            with open(the_path + '/token.txt') as json_file:
+                data = json.load(json_file)
+                try:
+                    token = data['token']
+                    # Token loaded, check if it's valid
+                    if self._validate_token():
+                        # Token is valid, return it, add to headers
+                        headers['Authorization'] = 'Token {}'.format(self.TOKEN)
+                        self.TOKEN = token
+                    else:
+                        # Take actions for invalid/expired token
+                        pass
+                except KeyError:
+                    self._log_error({
+                        'type': 'KeyError',
+                        'from': '_init_token()',
+                        'reason': 'No token value in file.'
+                        })
+        except IOError, ValueError:
+            self._log_error({
+                'type': 'IOError, ValueError',
+                'from': '_init_token()',
+                'reason': 'No token.txt OR no token value in file.'
+                })
+
+        if not self.TOKEN:
+            #  No local token, ask for new
+            res = self._get_token(persistent=False)
+            if isinstance(res, basestring):
+                # We have a valid token, save it
+                self.TOKEN = res
+                self._store_token(res)
+                headers['Authorization'] = 'Token {}'.format(res)
+            else:
+                # Got smth else, save the msg from API
+                self._log_error(res)
+
     def send_packet(self, measurement):
-        # measurement = [
-        #     {"space_uuid":"97db","sensor_uuid":"6a41", "value":26},
-        #     {"space_uuid":"ff3","sensor_uuid":"836f", "value":266}
-        # ]
         led.on()
         response = requests.post(url['ms_pack_new'],
                                 data=json.dumps(measurement), headers=headers)
@@ -90,22 +139,9 @@ class RemoteApi:
 
 
     def __init__(self):
-        # Try to load local token
-        self.TOKEN = self._load_token()
-        if self.TOKEN:
-            headers['Authorization'] = 'Token {}'.format(self.TOKEN)
-        elif not self.TOKEN:
-            #  No local token, ask for new
-            res = self._get_token(persistent=False)
-            if isinstance(res, basestring):
-                # We have a valid token, save it
-                self.TOKEN = res
-                self._store_token(res)
-            else:
-                # Got smth else, save the msg from API
-                with open(the_path + '/errors.txt', 'a+') as outfile:
-                    json.dump(res, outfile)
-                    outfile.write('\n')
+        self._init_token()
+
+            
 
 
 
