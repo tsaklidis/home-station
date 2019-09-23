@@ -97,7 +97,7 @@ class RemoteApi:
                     # Token loaded, check if it's valid
                     if self._validate_token(token):
                         # Token is valid, return it, add to headers
-                        headers['Authorization'] = 'Token {}'.format(self.TOKEN)
+                        headers['Authorization'] = 'Token {}'.format(token)
                         self.TOKEN = token
                     else:
                         # Take actions for invalid/expired token
