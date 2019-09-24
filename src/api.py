@@ -2,6 +2,7 @@ import json
 import led
 import os
 import requests
+import datetime
 
 from credentials import auth
 
@@ -62,7 +63,7 @@ class RemoteApi:
 
         response = self._request(hit_url, dt=json.dumps(body), hdrs=headers)
         if response.status_code == 201:
-            return response.json()['token']
+            return response.json()
         if response.status_code == 403:
             return response.json()
         if response.status_code == 409:
@@ -74,23 +75,27 @@ class RemoteApi:
         # {"error": "Valid token with same name exists"}
         pass
 
-    def _store_token(self, token):
+    def _store_token(self, d):
         with open(the_path + '/token.txt', 'w') as outfile:
-            d = {"token": token}
             json.dump(d, outfile)
 
-    def _validate_token(self, token):
+    def _validate_token(self, data):
+        # expiration = datetime.datetime.strptime(
+        #     data['expiration'], '%Y-%m-%d %H:%M:%S')
+        # if expiration > datetime.datetime.now():
+        #     # ATTENTION:
+        #     # A Token can be "not expired" but may be "invalid".
+        #     # Avoiding request to token_check endpoint the,
+        #     # system will handle an invalid token as a valid one.
+        #     return True
         creds = {
             "username": auth['username'],
             "password": auth['password'],
-            "key": token
+            "key": data['token']
         }
         ask = self._request(url['token_check'],
                             dt=json.dumps(creds), hdrs=headers)
-        if ask.status_code == 200:
-            return True
-        else:
-            return False
+        return ask.json()['valid']
 
     def _init_token(self):
         # Try to load local token from token.txt file
@@ -100,14 +105,24 @@ class RemoteApi:
                 try:
                     token = data['token']
                     # Token loaded, check if it's valid
-                    if self._validate_token(token):
-                        # Token is valid, return it, add to headers
+                    if self._validate_token(data):
+                        # Token is valid, store it and it add to headers
                         self.TOKEN = token
-                        self._store_token(token)
+                        self._store_token(data)
                         headers['Authorization'] = 'Token {}'.format(token)
                     else:
                         # Take actions for invalid/expired token
-                        pass
+                        res = self._get_token(persistent=False)
+                        if res:
+                            if 'token' in res:
+                                # We have a valid token, save it
+                                self.TOKEN = res
+                                self._store_token(res)
+                                headers['Authorization'] = 'Token {}'.format(
+                                    res['token'])
+                        else:
+                            # Got smth else, save the msg from API
+                            self._log(res)
                 except KeyError:
                     self._log({
                         'type': 'KeyError',
@@ -119,14 +134,16 @@ class RemoteApi:
             if not self.TOKEN:
                 #  No local token, ask for new
                 res = self._get_token(persistent=False)
-                if isinstance(res, basestring):
-                    # We have a valid token, save it
-                    self.TOKEN = res
-                    self._store_token(res)
-                    headers['Authorization'] = 'Token {}'.format(res)
+                if res:
+                    if 'token' in res:
+                        # We have a valid token, save it
+                        self.TOKEN = res
+                        self._store_token(res)
+                        headers['Authorization'] = 'Token {}'.format(
+                            res['token'])
                 else:
-                    # Got smth else, save the msg from API
-                    self._log(res.json())
+                    # Token is False, got smth else, save the msg from API
+                    self._log(res)
 
     def send_packet(self, measurement):
         self._request(
