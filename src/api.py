@@ -35,7 +35,7 @@ class RemoteApi:
             ans_pack = {}
             ans_pack['response'] = ans.json()
             ans_pack['url'] = link
-            ans_pack['data'] = dt
+            # ans_pack['data'] = dt
             self._log(ans_pack, file='requests.log')
         return ans
 
@@ -46,6 +46,7 @@ class RemoteApi:
             the_file = the_path + '/logs/errors.log'
         with open(the_file, 'a+') as outfile:
             json.dump(er, outfile)
+            outfile.write('\n\n')
 
     def _get_token(self, persistent=False):
         body = {
@@ -125,7 +126,7 @@ class RemoteApi:
                     headers['Authorization'] = 'Token {}'.format(res)
                 else:
                     # Got smth else, save the msg from API
-                    self._log(res)
+                    self._log(res.json())
 
     def send_packet(self, measurement):
         self._request(
