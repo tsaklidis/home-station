@@ -36,7 +36,6 @@ class RemoteApi:
             ans_pack['response'] = ans.json()
             ans_pack['url'] = link
             ans_pack['data'] = dt
-            ans_pack['headers'] = hdrs
             self._log(ans_pack, file='requests.log')
         return ans
 
@@ -47,7 +46,6 @@ class RemoteApi:
             the_file = the_path + '/logs/errors.log'
         with open(the_file, 'a+') as outfile:
             json.dump(er, outfile)
-            outfile.write('\n####____####\n')
 
     def _get_token(self, persistent=False):
         body = {
