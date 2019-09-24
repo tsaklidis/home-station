@@ -14,7 +14,7 @@ url = {
     'ms_pack_new': base_url + 'measurement/pack/new/',
     'token_new': base_url + 'token/expiring/new/',
     'token_persist_new': base_url + 'token/persistent/new/',
-    'token_check': base_url + '/api/token/check/'
+    'token_check': base_url + 'token/check/'
 }
 headers = {
     'User-Agent': 'rpi_station',
