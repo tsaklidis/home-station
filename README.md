@@ -7,7 +7,7 @@ The hardware is:
 	<li>DHT-22 for Humidity (5% RH accuracy) and temperature (±0.5°C accuracy)</li>
 </ul>
 The data is stored on a remote server with the help of an API.
-<p>API backend available here <a href="#">here</a> </p>
+<p>API backend available here <a href="https://github.com/tsaklidis/LogingAPI">here</a> </p>
 
 <p>Check the live version https://logs.tsaklidis.gr</p>
 
