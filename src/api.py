@@ -2,9 +2,14 @@ import json
 import led
 import os
 import requests
-import datetime
 
-from credentials import auth
+try:
+    from credentials import auth
+except ImportError, exc:
+    exc.args = tuple(['%s (did you created own credentials.py?)' %
+                      exc.args[0]])
+    raise exc
+
 
 the_path = os.path.dirname(os.path.abspath(__file__))
 

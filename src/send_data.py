@@ -1,8 +1,13 @@
 import DHT22
 import DS18B20
 import api
-from credentials import UUIDS
 
+try:
+    from credentials import UUIDS
+except ImportError, exc:
+    exc.args = tuple(['%s (did you created own credentials.py?)' %
+                      exc.args[0]])
+    raise exc
 
 station = api.RemoteApi()
 

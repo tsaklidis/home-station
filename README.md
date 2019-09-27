@@ -6,10 +6,10 @@ The hardware is:
 	<li>DS18B20 for temperature (±0.1°C)</li>
 	<li>DHT-22 for Humidity (5% RH accuracy) and temperature (±0.5°C accuracy)</li>
 </ul>
-The data is stored on sqlite3.
-<p>Sqlite3 file is available <a href="https://tsaklidis.gr/home/home_data.sqlite3">here</a> </p>
+The data is stored on a remote server with the help of an API.
+<p>API backend available here <a href="#">here</a> </p>
 
-<p>Check the live version https://tsaklidis.gr/home/index.php</p>
+<p>Check the live version https://logs.tsaklidis.gr</p>
 
 
 I use the system's cron to run the script and monitor the output. To edit the cron use 
@@ -55,11 +55,11 @@ The flow is:
 graph TD;
   DS18B20-->Raspberry;
   DHT11-->Raspberry;
-  Raspberry-->Server;
-  Server-->Browser;
+  Raspberry-->API;
+  API-->Browser;
 ```
 
-To save the data on your db upload the contents of the store_data folder to an apache or nginx public folder.
+I created an API system. You can use it in order to save your data. If you like sql + php version use the code on master.
 
 > TODO:
 > <ul>
@@ -69,6 +69,8 @@ To save the data on your db upload the contents of the store_data folder to an a
 If you have any questions or problems running the scripts just contact me. 
 
 ![](photo/dark.png)
+
+![](photo/dark_big_range.png)
 
 ![](photo/circuit.png)
 
