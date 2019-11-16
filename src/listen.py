@@ -1,4 +1,5 @@
 import api
+import json
 import paho.mqtt.client as mqtt
 from credentials import mosq
 
@@ -35,12 +36,14 @@ def on_disconnect(client, userdata, rc):
 
 
 def on_message_from_temperature(client, userdata, message):
-    print("house/balkoni/temperature: " + message.payload.decode())
+    # print("house/balkoni/temperature: " + message.payload.decode())
+    data = json.loads(message.payload.decode())
 
     DS18B20 = {
         "space_uuid": balkoni['space'],
         "sensor_uuid": balkoni['DS18B20'],
-        "value": message.payload.decode()
+        "value": data['value'],
+        "volt": data['volt']
     }
     pack = [DS18B20, ]
 
@@ -48,7 +51,7 @@ def on_message_from_temperature(client, userdata, message):
 
 
 def on_message_from_presure(client, userdata, message):
-    print("house/balkoni/presure: " + message.payload.decode())
+    # print("house/balkoni/presure: " + message.payload.decode())
 
     BMP280 = {
         "space_uuid": balkoni['space'],
