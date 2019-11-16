@@ -100,7 +100,7 @@ pressure = (p + (var1 + var2 + (dig_P7)) / 16.0) / 100
 
 
 def get_presure():
-    return pressure
+    return round(pressure, 2)
 
 
 def get_temp(F):
