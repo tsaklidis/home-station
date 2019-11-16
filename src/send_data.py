@@ -1,7 +1,7 @@
+import api
+import BMP280
 import DHT22
 import DS18B20
-import api
-from bmp280 import actions
 
 try:
     from credentials import UUIDS
@@ -31,9 +31,9 @@ DS18B20 = {
 BMP280 = {
     "space_uuid": UUIDS['space'],
     "sensor_uuid": UUIDS['BMP280'],
-    "value": actions.get_presure()
+    "value": BMP280.get_presure()
 }
-
+# Each value overwrites the imports
 pack = [DHT22_tmpr, DHT22_hum, DS18B20, BMP280]
 
 station.send_packet(pack)
