@@ -1,0 +1,13 @@
+[Unit]
+Description=Send MQTT data to logs.tsaklidis.gr
+
+[Service]
+Type=simple
+User=pi
+
+# silly sleep hack for network delay
+ExecStartPre=/bin/sleep 10 
+ExecStart=/usr/bin/python /home/pi/Desktop/home-station/src/listen.py
+
+[Install]
+WantedBy=multi-user.target

@@ -1,6 +1,7 @@
 import DHT22
 import DS18B20
 import api
+from bmp280 import actions
 
 try:
     from credentials import UUIDS
@@ -27,6 +28,12 @@ DS18B20 = {
     "value": DS18B20.read_temp()
 }
 
-pack = [DHT22_tmpr, DHT22_hum, DS18B20]
+BMP280 = {
+    "space_uuid": UUIDS['space'],
+    "sensor_uuid": UUIDS['BMP280'],
+    "value": actions.get_presure()
+}
+
+pack = [DHT22_tmpr, DHT22_hum, DS18B20, BMP280]
 
 station.send_packet(pack)

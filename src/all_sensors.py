@@ -3,6 +3,7 @@ import time
 import DHT22
 import DS18B20
 import led
+from bmp280 import actions
 
 
 while True:
@@ -10,6 +11,7 @@ while True:
         led.on()
         print 'DS18B20:', DS18B20.read_temp(), '*C'
         print 'DHT22: {0}*C, {1}%'.format(DHT22.read_temp(), DHT22.read_humidity())
+        print 'BMP280: {}\n'.format(actions.print_all_data())
         led.off()
         time.sleep(2)
     except KeyboardInterrupt:
