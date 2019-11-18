@@ -37,7 +37,10 @@ def on_disconnect(client, userdata, rc):
 
 def on_message_from_temperature(client, userdata, message):
     # print("house/balkoni/temperature: " + message.payload.decode())
-    data = json.loads(message.payload.decode())
+    try:
+        data = json.loads(message.payload.decode())
+    except KeyError:
+        data = {'value': 999, 'volt': 999}
 
     DS18B20 = {
         "space_uuid": balkoni['space'],
@@ -50,15 +53,15 @@ def on_message_from_temperature(client, userdata, message):
     esp32.send_packet(pack)
 
 
-def on_message_from_presure(client, userdata, message):
+def on_message_from_humidity(client, userdata, message):
     # print("house/balkoni/presure: " + message.payload.decode())
 
-    BMP280 = {
+    DHT11 = {
         "space_uuid": balkoni['space'],
-        "sensor_uuid": balkoni['BMP280'],
+        "sensor_uuid": balkoni['DHT11'],
         "value": message.payload.decode()
     }
-    pack = [BMP280, ]
+    pack = [DHT11, ]
 
     esp32.send_packet(pack)
 
@@ -95,13 +98,13 @@ client.connect(broker_url, broker_port)
 # subscribe to single topic:
 # client.subscribe('house/balkoni/temperature', qos=1)
 
-topics = [('house/balkoni/temperature', 1), ('house/balkoni/presure', 1)]
+topics = [('house/balkoni/temperature', 1), ('house/balkoni/humidity', 1)]
 client.subscribe(topics)
 
 client.message_callback_add(
     'house/balkoni/temperature', on_message_from_temperature)
 
 client.message_callback_add(
-    'house/balkoni/presure', on_message_from_presure)
+    'house/balkoni/humidity', on_message_from_humidity)
 
 client.loop_forever()

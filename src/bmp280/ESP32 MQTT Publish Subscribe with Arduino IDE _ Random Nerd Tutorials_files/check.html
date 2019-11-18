@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!-- saved from url=(0038)https://biddr.brealtime.com/check.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>EMX Digital</title>
+</head>
+<body marginwidth="0" marginheight="0">
+<script type="text/javascript" src="https://e1.emxdgt.com/hb_sync/"></script><script>
+        (function () {
+            function sync() {
+                if (navigator.cookieEnabled) {
+                    for (var b = document.cookie.split(";"), d = !1, c = new Date, a = 0; a < b.length; ++a)
+                        if (-1 !== b[a].indexOf("dt=")) {
+                            if ((new Date(b[a].substr(3)))
+                                .toDateString() == c.toDateString()) return;
+                            document.cookie = "dt=" + c.toDateString();
+                            d = !0;
+                            break
+                        }
+                    if (!d && (document.cookie = "dt=" + c.toISOString(), -1 == document.cookie.indexOf("dt="))) return;
+                }
+
+                var script = document.getElementsByTagName("script")[0];
+                var pix = document.createElement("script");
+                pix.type = "text/javascript";
+                pix.src = '//e1.emxdgt.com/hb_sync/';
+                script.parentNode.insertBefore(pix, script);
+
+            }
+            sync();
+        })();
+    </script>
+
+</body></html>

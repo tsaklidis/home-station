@@ -1,0 +1,274 @@
+/*
+ Theme Name:   GeneratePress Child
+ Theme URI:    https://generatepress.com
+ Description:  Default GeneratePress child theme
+ Author:       Tom Usborne
+ Author URI:   https://tomusborne.com
+ Template:     generatepress
+ Version:      0.1
+*/
+
+/* GeneratePress Site CSS */
+.inside-article,
+.sidebar .widget,
+.comments-area {
+	border: 1px solid rgba(232, 234, 237, 1);
+	box-shadow: 0 0 10px rgba(232, 234, 237, 0.5);
+}
+
+/* Featured widget */
+.sidebar .widget li {
+	margin-bottom: 15px;
+}
+
+.button.light {
+	background: #fff;
+	color: #000;
+}
+
+.button.light:hover {
+	background: #fafafa;
+	color: #222;
+}
+
+.separate-containers .page-header {
+	background: transparent;
+	padding: 20px 0;
+}
+
+.page-header h1 {
+	font-size: 30px;
+}
+
+@media (min-width: 769px) {
+	.post-image-aligned-left .post-image img {
+		max-width: 300px;
+	}
+} /* End GeneratePress Site CSS */
+
+.rntwhite, .rntwhite:hover {
+	background: #f5f2f0;
+	padding: 6px;
+	color: #3a3a3a !important;
+	border: #ebebeb 2px solid;
+	text-decoration:none;
+}
+
+.button.rntyellow{
+	padding: 18px 20px;
+	background: #E9CF31 !important;
+  color: #000 !important;
+	border: #d1b510 2px solid !important;
+	font-weight: bold;
+	font-family: Arial, sans-serif;
+	font-size: 1.15em;
+}
+
+.button.rntyellow:hover{
+	background: #ffe338 !important;
+	border: #d1b510 2px solid !important;
+	text-decoration: none !important;
+}
+
+.rntsm, .button.rntyellow.rntsm {
+	padding: 6px;
+	font-weight: normal;
+}
+
+.nav-links .page-numbers {
+    background-color: #2f4468;
+	padding: 8px;
+    color: #fff;
+}
+
+.nav-links .page-numbers:hover {
+    background-color: #0c2c68;
+    color: #fff;
+}
+
+.wp-block-column.blockhl {
+	border: #ebebeb 2px solid;
+	padding: 5px;
+}
+
+.rntbox {
+  padding: 10px;
+	margin-bottom: 20px;
+	color: #fff;
+	display: block;
+}
+
+.rntbox a {
+	color: #fff;
+	text-decoration: underline;
+}
+
+.rnthl {
+	padding-left: 4px;
+	padding-right: 4px;
+	margin-left: 4px;
+	margin-right: 4px;
+	border-radius: 4px;
+	margin: 0;
+	color: #fff;
+	display: inline-block;
+}
+
+.rntliteral {
+	background: #ebebeb;
+	color: #000 !important;
+	word-break: break-all;
+	font-family: monospace;
+}
+
+.rntcred {
+	background-color: #CC3333;
+	color: #fff !important;
+}
+
+.rntcblack {
+	background-color: #333;
+}
+
+.rntcblue {
+	background-color: #0066CC;
+}
+
+.rntclblue {
+	background-color: #336699;
+	color: #fff !important;
+}
+
+.rntcgreen {
+	background-color: #009900;
+}
+
+.rntcpurple {
+	background-color: #333399;
+}
+
+.rntcyellow {
+	background-color: #ffcc00;
+}
+
+.rntcorange {
+	background-color: #FF9900;
+	color: #fff !important;
+}
+
+.rntcbrown {
+	background-color: #663300;
+}
+
+.rntclgreen {
+	background-color: #009966;
+	color: #fff !important;
+}
+
+.rntcgray {
+	background-color: #666666;
+}
+
+.rntbox.rntclgray a {
+	color: #000;
+	text-decoration: underline;
+}
+
+.rntclgray {
+	background-color: #eeeeee;
+	color: #000 !important;
+}
+
+.entry-content h2 {
+	position: relative;
+}
+.entry-content h2::before {
+	content: '';
+	width: 100%;
+	height: 3px;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	background-color: #f5f5f5;
+}
+
+.entry-content h2::after {
+	content: '';
+	width: 10%;
+	height: 3px;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	background-color: #2f4468;
+}
+
+.category-product h1{
+	text-align: center;
+	font-size: 36px;
+}
+
+.no-sidebar.single .inside-article > *, .no-sidebar.page .inside-article > * {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.no-sidebar.single-post #primary-menu, .no-sidebar.single-post #site-navigation > div > button, .no-sidebar.single-post #site-navigation > div > div.mobile-bar-items, .no-sidebar.single-post #sticky-navigation > div > button, .no-sidebar.single-post #sticky-navigation > div > div.mobile-bar-items {
+	display:none;
+}
+
+.entry-content ul{ list-style: square; }
+
+@media (max-width: 450px) { ul, ol {
+	margin: 0 0 1.5em 1.5em;
+}}
+
+@media (max-width: 768px) { h3 {
+	font-size: 25px;
+}}
+
+.bulletnospace {
+	margin: 0;
+
+}
+
+ul.bulletnospace > li {
+  padding-bottom: 10px;
+}
+
+pre {
+	font-family: Consolas,Monaco,'Andale Mono','Ubuntu Mono', Monospace;
+}
+
+@media (min-width: 768px) { .entry-content > h2, h3 {
+	margin-top: 34px;
+}}
+
+.page-content, .entry-content, .entry-summary {
+	    margin: 1.1em 0 0;
+}
+
+blockquote {
+	font-size: 0.9em;
+}
+
+@media (min-width: 769px) {
+  .sidebar.grid-25 {
+    width: 314px;
+  }
+
+  .content-area.grid-75 {
+    width: calc(100% - 314px);
+  }
+}
+
+.rnt-responsive-table {
+	overflow: hidden;
+	overflow-x: scroll;
+	display:block;
+}
+
+.rnt-table-small {
+	font-size: 15px;
+}
+
