@@ -35,39 +35,57 @@ def on_disconnect(client, userdata, rc):
     print("Client Got Disconnected, reason:{}".format(rc_map[rc]))
 
 
-def on_message_from_temperature(client, userdata, message):
+def on_message_from_pack(client, userdata, message):
     # print("house/balkoni/temperature: " + message.payload.decode())
+    # Example data is:
+    # data = {
+    #   "BATTERY": 100,
+    #   "DS18B20": 22.9375,
+    #   "DHTXX": 62,
+    #   "WIFI": -64
+    # }
     try:
         data = json.loads(message.payload.decode())
     except KeyError:
-        data = {'value': 999, 'volt': 999}
+        data = None
 
-    DS18B20 = {
-        "space_uuid": balkoni['space'],
-        "sensor_uuid": balkoni['DS18B20'],
-        "value": data['value'],
-        "volt": data['volt']
-    }
-    pack = [DS18B20, ]
+    # DS18B20 = {
+    #     "space_uuid": balkoni['space'],
+    #     "sensor_uuid": balkoni['DS18B20'],
+    #     "value": data['value'],
+    #     "volt": data['volt']
+    # }
+    if data:
+        pack = []
+        for sensor, value in data.items():
+            tmp = {
+                "space_uuid": balkoni['space'],
+                "sensor_uuid": balkoni[sensor],
+                "value": value,
+            }
+            pack.append(tmp)
 
-    esp32.send_packet(pack)
-
-
-def on_message_from_humidity(client, userdata, message):
-    # print("house/balkoni/presure: " + message.payload.decode())
-
-    DHT11 = {
-        "space_uuid": balkoni['space'],
-        "sensor_uuid": balkoni['DHT11'],
-        "value": message.payload.decode()
-    }
-    pack = [DHT11, ]
-
-    esp32.send_packet(pack)
+        esp32.send_packet(pack)
+    else:
+        print("Wrong data:")
+        print(message.payload.decode())
 
 
-def on_message(client, userdata, message):
-    print("Message Recieved from Others: " + message.payload.decode())
+# def on_message_from_humidity(client, userdata, message):
+#     # print("house/balkoni/presure: " + message.payload.decode())
+
+#     DHT11 = {
+#         "space_uuid": balkoni['space'],
+#         "sensor_uuid": balkoni['DHT11'],
+#         "value": message.payload.decode()
+#     }
+#     pack = [DHT11, ]
+
+#     esp32.send_packet(pack)
+
+
+# def on_message(client, userdata, message):
+#     print("Message Recieved from Others: " + message.payload.decode())
 
 
 broker_url = "192.168.1.251"
@@ -95,16 +113,17 @@ client.connect(broker_url, broker_port)
 # to publish use:
 # client.publish(topic="house/balkoni", payload="TestingPayload", qos=0, retain=False) # noqa
 
-# subscribe to single topic:
-# client.subscribe('house/balkoni/temperature', qos=1)
 
-topics = [('house/balkoni/temperature', 1), ('house/balkoni/humidity', 1)]
-client.subscribe(topics)
+# subscribe to multiple topics:
+# topics = [('house/balkoni/pack', 1), ('house/balkoni/humidity', 1)]
+# client.subscribe(topics)
 
-client.message_callback_add(
-    'house/balkoni/temperature', on_message_from_temperature)
+client.subscribe('house/balkoni/pack', qos=1)
 
 client.message_callback_add(
-    'house/balkoni/humidity', on_message_from_humidity)
+    'house/balkoni/pack', on_message_from_pack)
+
+# client.message_callback_add(
+#     'house/balkoni/humidity', on_message_from_humidity)
 
 client.loop_forever()
