@@ -61,7 +61,7 @@ def on_message_from_pack(client, userdata, message):
             tmp = {
                 "space_uuid": balkoni['space'],
                 "sensor_uuid": balkoni[sensor],
-                "value": value,
+                "value": round(value, 2),
             }
             pack.append(tmp)
 
