@@ -97,7 +97,7 @@ client.username_pw_set(mosq['username'], mosq['password'])
 
 client.on_connect = on_connect
 client.on_disconnect = on_disconnect
-client.on_message = on_message
+# client.on_message = on_message
 
 
 client.connect(broker_url, broker_port)
