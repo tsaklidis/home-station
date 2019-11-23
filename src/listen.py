@@ -58,12 +58,19 @@ def on_message_from_pack(client, userdata, message):
     if data:
         pack = []
         for sensor, value in data.items():
-            tmp = {
-                "space_uuid": balkoni['space'],
-                "sensor_uuid": balkoni[sensor],
-                "value": round(float(value), 2),
-            }
-            pack.append(tmp)
+            try:
+                tmp = {
+                    "space_uuid": balkoni['space'],
+                    "sensor_uuid": balkoni[sensor],
+                    "value": round(float(value), 2),
+                }
+                pack.append(tmp)
+            except TypeError:
+                tmp = {
+                    "space_uuid": balkoni['space'],
+                    "sensor_uuid": balkoni[sensor],
+                    "value": -1
+                }
 
         esp32.send_packet(pack)
     else:
