@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<!-- saved from url=(0114)https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test -->
+<html lang="en-US" prefix="og: http://ogp.me/ns#" class="js-ready"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<link rel="mask-icon" href="https://learn.adafruit.com/assets/adafruit_favicon-d77f206e6cc65b40101b6e5b8987f7c35cb6a283ea73c0adad50c37f7347c61a.svg" color="#000000">
+<link rel="shortcut icon" type="image/x-icon" href="https://learn.adafruit.com/assets/favicon-0c79bd4bc582e6d4cf3afe417bd1e28120527c09d92c08a6464690c5bf6b85f4.ico">
+<title>Python &amp; CircuitPython Test | Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout | Adafruit Learning System</title>
+<meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="zitZgmNrj85mQk8oE4pw7TxbiDs9o/zOnAgVBk/XmKajbsQKX5khkqxZW8+LXcTqXC44KBwRY/LRrpTpkBMh5Q==">
+<link rel="alternate" type="application/atom+xml" title="ATOM" href="https://learn.adafruit.com/feed">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="https://learn.adafruit.com/feed.rss">
+<link rel="stylesheet" media="screen" href="./Python &amp; CircuitPython Test _ Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout _ Adafruit Learning System_files/application-7ff0464081ce8d585e9e28d42156eafc5de43f9c05cbbe8a464310a1e9ad3826.css" data-turbolinks-track="reload">
+<script src="https://js-agent.newrelic.com/nr-1153.min.js"></script><script src="https://www.googletagmanager.com/gtag/js?id=GTM-TSRGT6T"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<meta name="turbolinks-cache-control" content="no-cache">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<script>window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","errorBeacon":"bam.nr-data.net","licenseKey":"308175db61","applicationID":"54271218","transactionName":"cVZXRUFeWghRShtEVlVcSh5AWVkT","queueTime":1,"applicationTime":75,"agent":""}</script>
+<script>(window.NREUM||(NREUM={})).loader_config={licenseKey:"308175db61",applicationID:"54271218"};window.NREUM||(NREUM={}),__nr_require=function(n,e,t){function r(t){if(!e[t]){var i=e[t]={exports:{}};n[t][0].call(i.exports,function(e){var i=n[t][1][e];return r(i||e)},i,i.exports)}return e[t].exports}if("function"==typeof __nr_require)return __nr_require;for(var i=0;i<t.length;i++)r(t[i]);return r}({1:[function(n,e,t){function r(){}function i(n,e,t){return function(){return o(n,[u.now()].concat(f(arguments)),e?null:this,t),e?void 0:this}}var o=n("handle"),a=n(4),f=n(5),c=n("ee").get("tracer"),u=n("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(n,e){s[e]=i(d+e,!0,"api")}),s.addPageAction=i(d+"addPageAction",!0),s.setCurrentRouteName=i(d+"routeName",!0),e.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(n,e){var t={},r=this,i="function"==typeof e;return o(l+"tracer",[u.now(),n,t],r),function(){if(c.emit((i?"":"no-")+"fn-start",[u.now(),r,i],t),i)try{return e.apply(this,arguments)}catch(n){throw c.emit("fn-err",[arguments,this,n],t),n}finally{c.emit("fn-end",[u.now()],t)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(n,e){m[e]=i(l+e)}),newrelic.noticeError=function(n,e){"string"==typeof n&&(n=new Error(n)),o("err",[n,u.now(),!1,e])}},{}],2:[function(n,e,t){function r(n,e){var t=n.getEntries();t.forEach(function(n){"first-paint"===n.name?a("timing",["fp",Math.floor(n.startTime)]):"first-contentful-paint"===n.name&&a("timing",["fcp",Math.floor(n.startTime)])})}function i(n){if(n instanceof c&&!s){var e,t=Math.round(n.timeStamp);e=t>1e12?Date.now()-t:f.now()-t,s=!0,a("timing",["fi",t,{type:n.type,fid:e}])}}if(!("init"in NREUM&&"page_view_timing"in NREUM.init&&"enabled"in NREUM.init.page_view_timing&&NREUM.init.page_view_timing.enabled===!1)){var o,a=n("handle"),f=n("loader"),c=NREUM.o.EV;if("PerformanceObserver"in window&&"function"==typeof window.PerformanceObserver){o=new PerformanceObserver(r);try{o.observe({entryTypes:["paint"]})}catch(u){}}if("addEventListener"in document){var s=!1,p=["click","keydown","mousedown","pointerdown","touchstart"];p.forEach(function(n){document.addEventListener(n,i,!1)})}}},{}],3:[function(n,e,t){function r(n,e){if(!i)return!1;if(n!==i)return!1;if(!e)return!0;if(!o)return!1;for(var t=o.split("."),r=e.split("."),a=0;a<r.length;a++)if(r[a]!==t[a])return!1;return!0}var i=null,o=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var f=navigator.userAgent,c=f.match(a);c&&f.indexOf("Chrome")===-1&&f.indexOf("Chromium")===-1&&(i="Safari",o=c[1])}e.exports={agent:i,version:o,match:r}},{}],4:[function(n,e,t){function r(n,e){var t=[],r="",o=0;for(r in n)i.call(n,r)&&(t[o]=e(r,n[r]),o+=1);return t}var i=Object.prototype.hasOwnProperty;e.exports=r},{}],5:[function(n,e,t){function r(n,e,t){e||(e=0),"undefined"==typeof t&&(t=n?n.length:0);for(var r=-1,i=t-e||0,o=Array(i<0?0:i);++r<i;)o[r]=n[e+r];return o}e.exports=r},{}],6:[function(n,e,t){e.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(n,e,t){function r(){}function i(n){function e(n){return n&&n instanceof r?n:n?c(n,f,o):o()}function t(t,r,i,o){if(!d.aborted||o){n&&n(t,r,i);for(var a=e(i),f=v(t),c=f.length,u=0;u<c;u++)f[u].apply(a,r);var p=s[y[t]];return p&&p.push([b,t,r,a]),a}}function l(n,e){h[n]=v(n).concat(e)}function m(n,e){var t=h[n];if(t)for(var r=0;r<t.length;r++)t[r]===e&&t.splice(r,1)}function v(n){return h[n]||[]}function g(n){return p[n]=p[n]||i(t)}function w(n,e){u(n,function(n,t){e=e||"feature",y[t]=e,e in s||(s[e]=[])})}var h={},y={},b={on:l,addEventListener:l,removeEventListener:m,emit:t,get:g,listeners:v,context:e,buffer:w,abort:a,aborted:!1};return b}function o(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var f="nr@context",c=n("gos"),u=n(4),s={},p={},d=e.exports=i();d.backlog=s},{}],gos:[function(n,e,t){function r(n,e,t){if(i.call(n,e))return n[e];var r=t();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(n,e,{value:r,writable:!0,enumerable:!1}),r}catch(o){}return n[e]=r,r}var i=Object.prototype.hasOwnProperty;e.exports=r},{}],handle:[function(n,e,t){function r(n,e,t,r){i.buffer([n],r),i.emit(n,e,t)}var i=n("ee").get("handle");e.exports=r,r.ee=i},{}],id:[function(n,e,t){function r(n){var e=typeof n;return!n||"object"!==e&&"function"!==e?-1:n===window?0:a(n,o,function(){return i++})}var i=1,o="nr@id",a=n("gos");e.exports=r},{}],loader:[function(n,e,t){function r(){if(!x++){var n=E.info=NREUM.info,e=l.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(n&&n.licenseKey&&n.applicationID&&e))return s.abort();u(y,function(e,t){n[e]||(n[e]=t)}),c("mark",["onload",a()+E.offset],null,"api");var t=l.createElement("script");t.src="https://"+n.agent,e.parentNode.insertBefore(t,e)}}function i(){"complete"===l.readyState&&o()}function o(){c("mark",["domContent",a()+E.offset],null,"api")}function a(){return O.exists&&performance.now?Math.round(performance.now()):(f=Math.max((new Date).getTime(),f))-E.offset}var f=(new Date).getTime(),c=n("handle"),u=n(4),s=n("ee"),p=n(3),d=window,l=d.document,m="addEventListener",v="attachEvent",g=d.XMLHttpRequest,w=g&&g.prototype;NREUM.o={ST:setTimeout,SI:d.setImmediate,CT:clearTimeout,XHR:g,REQ:d.Request,EV:d.Event,PR:d.Promise,MO:d.MutationObserver};var h=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1153.min.js"},b=g&&w&&w[m]&&!/CriOS/.test(navigator.userAgent),E=e.exports={offset:f,now:a,origin:h,features:{},xhrWrappable:b,userAgent:p};n(1),n(2),l[m]?(l[m]("DOMContentLoaded",o,!1),d[m]("load",r,!1)):(l[v]("onreadystatechange",i),d[v]("onload",r)),c("mark",["firstbyte",f],null,"api");var x=0,O=n(6)},{}],"wrap-function":[function(n,e,t){function r(n){return!(n&&n instanceof Function&&n.apply&&!n[a])}var i=n("ee"),o=n(5),a="nr@original",f=Object.prototype.hasOwnProperty,c=!1;e.exports=function(n,e){function t(n,e,t,i){function nrWrapper(){var r,a,f,c;try{a=this,r=o(arguments),f="function"==typeof t?t(r,a):t||{}}catch(u){d([u,"",[r,a,i],f])}s(e+"start",[r,a,i],f);try{return c=n.apply(a,r)}catch(p){throw s(e+"err",[r,a,p],f),p}finally{s(e+"end",[r,a,c],f)}}return r(n)?n:(e||(e=""),nrWrapper[a]=n,p(n,nrWrapper),nrWrapper)}function u(n,e,i,o){i||(i="");var a,f,c,u="-"===i.charAt(0);for(c=0;c<e.length;c++)f=e[c],a=n[f],r(a)||(n[f]=t(a,u?f+i:i,o,f))}function s(t,r,i){if(!c||e){var o=c;c=!0;try{n.emit(t,r,i,e)}catch(a){d([a,t,r,i])}c=o}}function p(n,e){if(Object.defineProperty&&Object.keys)try{var t=Object.keys(n);return t.forEach(function(t){Object.defineProperty(e,t,{get:function(){return n[t]},set:function(e){return n[t]=e,e}})}),e}catch(r){d([r])}for(var i in n)f.call(n,i)&&(e[i]=n[i]);return e}function d(e){try{n.emit("internal-error",e)}catch(t){}}return n||(n=i),t.inPlace=u,t.flag=a,t}},{}]},{},["loader"]);</script>
+<meta name="guide-title" content="Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@adafruit">
+<meta name="twitter:title" content="Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout">
+<meta name="twitter:description" content="Buld your next weather sensing system">
+<meta name="twitter:image:src" content="https://cdn-learn.adafruit.com/guides/images/000/001/096/medium800/thumb.jpg">
+<meta name="twitter:domain" content="https://learn.adafruit.com">
+<meta property="og:title" content="Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout">
+<meta property="og:description" content="Bosch has stepped up their game with their new BMP280 sensor, an environmental sensor with temperature and barometric pressure! This sensor is great for all sorts of weather/environmental sensing and can even be used in both I2C and SPI! ">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://cdn-learn.adafruit.com/guides/images/000/001/096/medium800/thumb.jpg">
+<meta property="og:url" content="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test">
+<meta property="og:site_name" content="Adafruit Learning System">
+<script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "WebSite",
+        "url": "https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test",
+        "name": "Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout",
+        "description": "Bosch has stepped up their game with their new BMP280 sensor, an environmental sensor with temperature and barometric pressure! This sensor is great for all sorts of weather/environmental sensing and can even be used in both I2C and SPI! ",
+        "publisher": "Adafruit",
+        "datePublished": "2015-07-31T15:34:19-04:00",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://learn.adafruit.com/search?q={search_term}",
+          "query-input": "required name=search_term"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "lady ada"
+        }
+      }
+    </script>
+<!--[if lte IE 9]>
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <![endif]-->
+<script>
+    window.rails_env = 'production';
+  </script>
+<script src="./Python &amp; CircuitPython Test _ Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout _ Adafruit Learning System_files/application-e3f47f6bd0c9db87dc9b.js" data-turbolinks-track="reload"></script>
+<script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "url": "https://learn.adafruit.com/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://learn.adafruit.com/search?q={search_term}",
+        "query-input": "required name=search_term"
+      }
+    }
+  </script>
+<style id="fit-vids-style">.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}</style></head>
+<body class="application pages show">
+<div id="outer-wrapper">
+<div id="inner-wrapper">
+<div id="messaging-wrapper" data-load="https://www.adafruit.com/api/multi_message.php"></div>
+<header id="adafruit-header">
+<div id="small-header">
+<div class="first-row">
+<div class="row-content">
+<a id="small-header-menu-button" class="menu-link" href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test#small-header-nav">
+<i class="fa fa-bars"> </i>
+</a>
+<div class="small-header-logo">
+<a href="https://learn.adafruit.com/">
+<img id="small-logo" height="50" width="50" alt="Adafruit Logo" title="Black Friday/Cyber Monday 2019" src="./Python &amp; CircuitPython Test _ Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout _ Adafruit Learning System_files/adafruit_logo_small.png">
+</a> </div>
+<a class="small-header-cart" href="https://www.adafruit.com/shopping_cart">
+<span class="small-cart-count">0</span>
+<i class="fa fa-shopping-cart"></i>
+</a> </div>
+</div>
+<div class="second-row">
+<div id="small-search-wrapper">
+<div id="small-search-inner-wrapper">
+<form action="https://learn.adafruit.com/search" method="get">
+<label for="mobile-search" style="display:none;">Search</label>
+<input id="mobile-search" type="text" name="q" placeholder="Search Adafruit">
+<i class="fa fa-search"></i>
+</form>
+</div>
+</div>
+</div>
+<nav id="small-header-nav">
+<div class="block">
+<ul>
+<li>
+<a href="https://www.adafruit.com/categories">SHOP</a>
+</li>
+<li>
+<a href="https://learn.adafruit.com/">LEARN</a>
+</li>
+<li>
+<a href="https://blog.adafruit.com/">BLOG</a>
+</li>
+<li>
+<a href="https://forums.adafruit.com/">FORUMS</a>
+</li>
+<li>
+<a href="https://www.youtube.com/adafruit">VIDEOS</a>
+</li>
+<li>
+<a href="https://io.adafruit.com/">IO</a>
+</li>
+<li>
+<a href="https://learn.adafruit.com/users/sign_in">SIGN IN</a>
+</li>
+<li>
+<a class="close-btn" id="small-nav-close-button" href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test#top">CLOSE MENU</a>
+</li>
+</ul>
+</div>
+</nav>
+</div>
+<div id="large-header">
+<div class="first-row">
+<div class="row-content">
+<ul class="application-links">
+<li><a href="https://www.adafruit.com/">Shop</a></li>
+<li class="selected"><a href="https://learn.adafruit.com/">Learn</a></li>
+<li><a href="https://blog.adafruit.com/">Blog</a></li>
+<li><a href="https://forums.adafruit.com/">Forums</a></li>
+<li><a href="https://www.youtube.com/adafruit">Videos</a></li>
+<li><a href="https://www.adabox.com/">Adabox</a></li>
+<li><a href="https://io.adafruit.com/">IO</a></li>
+</ul>
+<div id="account">
+<span class="sign-out"><a href="https://learn.adafruit.com/users/sign_in">Sign In</a></span>
+<div class="cart">
+<a href="https://www.adafruit.com/shopping_cart">
+<i class="fa fa-shopping-cart"></i> 0
+</a> </div>
+</div>
+</div>
+</div>
+<div class="second-row">
+<div class="row-content">
+<div class="left-content">
+<div id="logo">
+<a href="https://learn.adafruit.com/">
+<img id="logo" alt="Adafruit Logo" title="Black Friday/Cyber Monday 2019" src="./Python &amp; CircuitPython Test _ Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout _ Adafruit Learning System_files/logo_2x.png">
+</a> </div>
+<ul class="main-nav-links">
+<li class="dropdown with-overlay">
+<div class="dropdown-label">Explore &amp; Learn</div>
+<div class="dropdown-container">
+<div class="dropdown-content">
+<div class="flyout">
+<div class="three-panels">
+<div class="first-column">
+<div class="content-header">
+<span class="title">Learn Categories</span><a class="view-all-count" href="https://learn.adafruit.com/search">view all</a>
+</div>
+<div class="categories">
+<ul>
+<li><a href="https://learn.adafruit.com/category/adabox">AdaBox</a></li>
+<li><a href="https://learn.adafruit.com/category/adafruit-products">Adafruit Products</a></li>
+<li><a href="https://learn.adafruit.com/category/arduino">Arduino Compatibles</a></li>
+<li><a href="https://learn.adafruit.com/category/breakout-boards">Breakout Boards</a></li>
+<li><a href="https://learn.adafruit.com/category/circuit-playground">Circuit Playground</a></li>
+<li><a href="https://learn.adafruit.com/category/circuitpython">CircuitPython</a></li>
+<li><a href="https://learn.adafruit.com/category/collins-lab">Collin's Lab</a></li>
+<li><a href="https://learn.adafruit.com/category/components">Components</a></li>
+<li><a href="https://learn.adafruit.com/category/community-support">Community Support</a></li>
+<li><a href="https://learn.adafruit.com/category/customer-projects">Customer &amp; Partner Projects</a></li>
+<li><a href="https://learn.adafruit.com/category/development-boards">Development Boards</a></li>
+<li><a href="https://learn.adafruit.com/category/educators">Educators</a></li>
+<li><a href="https://learn.adafruit.com/category/el">EL Wire/Tape/Panel</a></li>
+<li><a href="https://learn.adafruit.com/category/feather">Feather</a></li>
+<li><a href="https://learn.adafruit.com/category/hacks">Hacks</a></li>
+<li><a href="https://learn.adafruit.com/category/internet-of-things-iot">Internet of Things - IOT</a></li>
+<li><a href="https://learn.adafruit.com/category/lcds-and-displays">LCDs &amp; Displays</a></li>
+</ul>
+<ul>
+<li><a href="https://learn.adafruit.com/category/leds">LEDs</a></li>
+<li><a href="https://learn.adafruit.com/category/maker-business">Maker Business</a></li>
+<li><a href="https://learn.adafruit.com/category/micro-bit">micro:bit</a></li>
+<li><a href="https://learn.adafruit.com/category/microcontrollers">Microcontrollers</a></li>
+<li><a href="https://learn.adafruit.com/category/programming">Programming</a></li>
+<li><a href="https://learn.adafruit.com/category/projects">Projects</a></li>
+<li><a href="https://learn.adafruit.com/category/raspberry-pi">Raspberry Pi</a></li>
+<li><a href="https://learn.adafruit.com/category/robotics">Robotics &amp; CNC</a></li>
+<li><a href="https://learn.adafruit.com/category/sensors">Sensors</a></li>
+<li><a href="https://learn.adafruit.com/category/tools">Tools</a></li>
+<li><a href="https://learn.adafruit.com/category/wearables">Wearables</a></li>
+<li><a href="https://learn.adafruit.com/category/3d-printing">3D Printing</a></li>
+<li><a href="https://learn.adafruit.com/category/crickit">Crickit</a></li>
+<li><a href="https://learn.adafruit.com/category/makecode">MakeCode</a></li>
+<li><a href="https://learn.adafruit.com/category/trellis">Trellis</a></li>
+<li><a href="https://learn.adafruit.com/category/machine-learning">Machine Learning</a></li>
+</ul>
+</div>
+</div>
+<div class="middle-column">
+<div class="content-header">
+<span class="title">Series</span><a class="view-all-count" href="https://learn.adafruit.com/groups">view all</a>
+</div>
+<ul class="links">
+<li>
+<a href="https://learn.adafruit.com/series/circuit-playground">Circuit Playground</a>
+</li>
+<li>
+<a href="https://learn.adafruit.com/series/adafruit-io-basics">Adafruit IO Basics</a>
+</li>
+</ul>
+</div>
+<div class="last-column hide-md">
+<div class="group-headline">
+<a href="https://learn.adafruit.com/tags/stemma">
+<img class="lazy" src="./Python &amp; CircuitPython Test _ Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout _ Adafruit Learning System_files/stemma-ef66e02164d57776f3c6e36b958d49e60e4697687c622dbe925c112939a8961b.jpg" style="">
+<div class="text">
+<div class="tagline">
+Plug-n-play components
+</div>
+<div class="main">
+STEMMA
+</div>
+</div>
+<div class="button">
+<div>Get connected</div>
+</div>
+</a> </div>
+</div>
+</div>
+</div>
+</div>
+ </div>
+</li>
+<li class="dropdown with-overlay">
+<div class="dropdown-label">New Guides</div>
+<div class="dropdown-container">
+<div class="dropdown-content">
+<div class="flyout">
+<div class="guide-group-preview">
+<div class="group-preview-header">
+<div>
+Latest Guides
+</div>
+<a class="view-all" href="https://learn.adafruit.com/guides/latest">View All</a>
+</div>
+<div class="guide-group">
+<a href="https://learn.adafruit.com/understanding-usb-type-c-cable-types-pitfalls-and-more">
+<div class="guide-preview">
+<div class="preview-content">
+<div class="image-container">
+<img class="image-preview lazy" src="./Python &amp; CircuitPython Test _ Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout _ Adafruit Learning System_files/usb_c.jpg" style="">
+<div class="overlay">
+<div class="tagline">
+Get in the weeds with USB C, let's untangle!
+</div>
+</div>
+</div>
+<div class="bottom-section">
+<div class="title">
+Understanding USB Type C: Cable Types, Pitfalls and More.
+</div>
+<div class="badges">
+<div class="badge skill-level-icons" title="Beginner">
+Beginner
+</div>
+</div>
+</div>
+</div>
+</div>
+</a><a href="https://learn.adafruit.com/cyberpunk-santa-eye">
+<div class="guide-preview">
+<div class="preview-content">
+<div class="image-container">
+<video class="video-preview lazy" preload="auto" muted="muted" loop="loop" autoplay="autoplay" playsinline="" data-error="/assets/missing%2Fmissing.png">
+<source src="https://cdn-learn.adafruit.com/guides/cropped_images/000/002/815/medium640mp4/IMG_9682.mp4?1574447651">
+<source src="https://cdn-learn.adafruit.com/guides/cropped_images/000/002/815/medium640webm/IMG_9682.webm?1574447651" type="video/webm; codecs=vp8,vorbis">
+Your browser does not support the video tag.
+</video>
+<div class="overlay">
+<div class="tagline">
+Make a mad-looking cyborg eyeball for your Santa cosplay!
+</div>
+</div>
+</div>
+<div class="bottom-section">
+<div class="title">
+Cyberpunk Santa Eye
+</div>
+<div class="badges">
+<div class="badge skill-level-icons" title="Beginner">
+Beginner
+</div>
+</div>
+</div>
+</div>
+</div>
+</a><a href="https://learn.adafruit.com/bluefruit-luminary-lanterns-with-capacitive-touch">
+<div class="guide-preview">
+<div class="preview-content">
+<div class="image-container">
+<video class="video-preview lazy" preload="auto" muted="muted" loop="loop" autoplay="autoplay" playsinline="" data-error="/assets/missing%2Fmissing.png">
+<source src="https://cdn-learn.adafruit.com/guides/cropped_images/000/002/809/medium640mp4/luminaries.mp4?1574279911">
+<source src="https://cdn-learn.adafruit.com/guides/cropped_images/000/002/809/medium640webm/luminaries.webm?1574279911" type="video/webm; codecs=vp8,vorbis">
+Your browser does not support the video tag.
+</video>
+<div class="overlay">
+<div class="tagline">
+Fill Your Home with Magically Controlled Lights
+</div>
+</div>
+</div>
+<div class="bottom-section">
+<div class="title">
+Bluefruit Luminary Lanterns with Capacitive Touch
+</div>
+<div class="badges">
+<div class="badge skill-level-icons" title="Intermediate">
+Intermediate
+</div>
+</div>
+</div>
+</div>
+</div>
+</a><a href="https://learn.adafruit.com/snow-globe-bluefruit-cpb">
+<div class="guide-preview">
+<div class="preview-content">
+<div class="image-container">
+<video class="video-preview lazy" preload="auto" muted="muted" loop="loop" autoplay="autoplay" playsinline="" data-error="/assets/missing%2Fmissing.png">
+<source src="https://cdn-learn.adafruit.com/guides/cropped_images/000/002/808/medium640mp4/reddemo.mp4?1573921956">
+<source src="https://cdn-learn.adafruit.com/guides/cropped_images/000/002/808/medium640webm/reddemo.webm?1573921956" type="video/webm; codecs=vp8,vorbis">
+Your browser does not support the video tag.
+</video>
+<div class="overlay">
+<div class="tagline">
+Make your own festive (or creatively odd!) snow globe with custom lighting effects and Bluetooth control.
+</div>
+</div>
+</div>
+<div class="bottom-section">
+<div class="title">
+Snow Globe with Circuit Playground Bluefruit
+</div>
+<div class="badges">
+<div class="badge skill-level-icons" title="Beginner">
+Beginner
+</div>
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="right-content">
+<div class="search-wrapper">
+<form action="https://learn.adafruit.com/search" method="get">
+<label for="search" style="display:none;">Search</label>
+<input id="search" type="text" name="q" autocomplete="off" data-page="" data-app-id="W9DMM4OTH0" data-app-key="e613bcda3453b9ef887e2724362f9e57" data-app-index="learn_guides_production" data-app-uri="https://learn.adafruit.com">
+<i class="fa fa-search"></i>
+<input type="submit" style="visibility: hidden; position: fixed;">
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<div id="main-content">
+<div id="main-content-container">
+<div id="page-wrapper" class="">
+<article id="content-wrapper" class="double-sidebar-layout" data-page-id="10835" data-guide-id="1096">
+<div class="content">
+<div class="sidebar-left-wrapper">
+<div class="sidebar-left-content" data-clampedwidth=".sidebar-left-wrapper">
+<nav class="sidebar-left">
+<div class="title-bar">
+<div class="image-container">
+<img class="image-preview lazy" src="./Python &amp; CircuitPython Test _ Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout _ Adafruit Learning System_files/thumb.jpg" style="">
+</div>
+<div class="title">
+<h1><a href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/overview">Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout</a></h1>
+<span class="page-tagline"><a href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/overview">Buld your next weather sensing system</a></span>
+</div>
+</div>
+<ul class="page-parent nav">
+<li class="parent  ">
+<a class="published" href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/overview">Overview</a>
+</li>
+<li class="parent  ">
+<a class="published" href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/pinouts">Pinouts</a>
+</li>
+<li class="parent  ">
+<a class="published" href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/assembly">Assembly</a>
+</li>
+<li class="parent  ">
+<a class="published" href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/arduino-test">Arduino Test</a>
+</li>
+<li class="parent  active">
+<a data-toggle="collapse" class="collapsed-icon " href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test#page-10835-children"></a>
+<a class="published" href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test">Python &amp; CircuitPython Test</a>
+<ul id="page-10835-children" class="collapse in page-child nav">
+<li class="published ">
+<a href="https://circuitpython.readthedocs.io/projects/bmp280/en/latest/" class="published">Python Docs <i class="fa fa-external-link"></i></a>
+</li>
+</ul></li>
+<li class="parent  ">
+<a class="published" href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/f-a-q">F.A.Q.</a>
+</li>
+<li class="parent  ">
+<a class="published" href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/downloads">Downloads</a>
+</li>
+<li class="single-page-spacer"></li>
+<li class="single-page-link ">
+<a href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/featured_products">Featured Products</a>
+</li>
+<li class="single-page-link"><a href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout?view=all">Single Page</a></li>
+<li><a href="https://cdn-learn.adafruit.com/downloads/pdf/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout.pdf?timestamp=1575094003">Download PDF</a></li>
+</ul>
+</nav>
+<header class="sidebar-meta hidden-xs">
+<h4>Contributors</h4>
+<div><a href="https://learn.adafruit.com/users/adafruit2">lady ada</a></div>
+<div><a href="https://learn.adafruit.com/users/tdicola">Tony DiCola</a></div>
+<div><a href="https://learn.adafruit.com/users/bpb">Brennen Bearnes</a></div>
+</header>
+<header class="sidebar-meta hidden-xs">
+<a class="feedback-link" title="Feedback? Corrections?" rel="nofollow" data-remote="true" data-method="get" href="https://learn.adafruit.com/feedback/new?page_id=10835">
+Feedback? Corrections?
+</a> </header>
+</div>
+</div>
+<div class="main-content">
+<div id="categories">
+<span class="category ">
+<a href="https://learn.adafruit.com/category/adafruit-products">ADAFRUIT PRODUCTS</a>
+</span>
+<span class="category child-category">
+<a href="https://learn.adafruit.com/category/sensors">SENSORS</a>
+<span class="category-link-spacer">/</span>
+<a href="https://learn.adafruit.com/category/temperature">TEMPERATURE &amp; HUMIDITY</a>
+</span>
+<span class="category child-category">
+<a href="https://learn.adafruit.com/category/sensors">SENSORS</a>
+<span class="category-link-spacer">/</span>
+<a href="https://learn.adafruit.com/category/weather">WEATHER</a>
+</span>
+<span id="guide-favorite">
+<a class="favorites-link category right red" title="" data-toggle="tooltip" data-placement="left" data-remote="true" rel="nofollow" data-method="post" href="https://learn.adafruit.com/guides/1096/favorites.js" data-original-title="Favorite this guide?">
+<i class="fa fa-heart-o"></i>
+</a></span>
+</div>
+<div class="page-title-wrapper">
+<h1 class="headline">
+<span id="circuitpython-test">Python &amp; CircuitPython Test</span>
+</h1>
+<div class="author">
+by <a href="https://learn.adafruit.com/users/tdicola">
+<span class="name">Tony DiCola</span>
+</a> </div>
+</div>
+<div class="page-content">
+<div class="">
+<div class="row-fluid build-text">
+<p>It's easy to use the BMP280 sensor with CircuitPython and the&nbsp;<a href="https://github.com/adafruit/Adafruit_CircuitPython_BMP280">Adafruit CircuitPython BMP280</a>&nbsp;module.&nbsp; This module allows you to easily write Python code that reads the temperature and pressure from the sensor.</p>
+<p>You can use this sensor with any CircuitPython microcontroller board or with a computer that has GPIO and Python&nbsp;<a href="https://learn.adafruit.com/circuitpython-on-raspberrypi-linux">thanks to Adafruit_Blinka, our CircuitPython-for-Python compatibility library</a>.</p>
+</div>
+<div class="row-fluid build-text">
+<h1>
+<div class="anchor-anchor">
+<a href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test#circuitpython-microcontroller-wiring-5-2" class="anchor-link"><span class="fa fa-link"></span></a><span id="circuitpython-microcontroller-wiring-5-2" class="anchor-link-target"></span><span id="circuitpython-microcontroller-wiring-5-2" class="anchor-link-target"></span>
+</div>CircuitPython Microcontroller Wiring</h1>
+</div>
+<div class="row-fluid build-text">
+<p>First wire up a BMP280 to your board exactly as shown on the previous pages for Arduino.&nbsp; You can use either I2C or SPI wiring, although it's recommended to use I2C for simplicity.&nbsp; Here's an example of wiring a Feather M0 to the sensor with I2C:</p>
+</div>
+<table class="build-table">
+<tbody><tr class="build-row">
+<td class="side-images">
+<div class="anchor-anchor">
+<a href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test#step-2997177" class="anchor-link"><span class="fa fa-link"></span></a>
+</div>
+<span id="step-2997177" class="anchor-link-target"></span>
+<ul>
+<li class="medium-side">
+<a class="large-side-image-link" href="https://learn.adafruit.com/assets/58628">
+<img class="58628-asset medium-side-image img-responsive" src="./Python &amp; CircuitPython Test _ Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout _ Adafruit Learning System_files/adafruit_products_m0_bmp280_i2c_bb.png" alt="adafruit_products_m0_bmp280_i2c_bb.png">
+</a></li>
+</ul>
+</td>
+<td class="side-text"><div class="text"><ul>
+<li>
+<strong>Board 3V</strong>&nbsp;to&nbsp;<strong>sensor VIN</strong>
+</li>
+<li>
+<strong>Board GND</strong>&nbsp;to&nbsp;<strong>sensor GND</strong>
+</li>
+<li>
+<strong>Board SCL</strong>&nbsp;to&nbsp;<strong>sensor SCK</strong>
+</li>
+<li>
+<strong>Board SDA</strong>&nbsp;to&nbsp;<strong>sensor SDI</strong>
+</li>
+</ul></div></td>
+</tr>
+</tbody></table>
+<div class="row-fluid build-text">
+<p>And an example of a Feather M0 wired with hardware SPI:</p>
+</div>
+<table class="build-table">
+<tbody><tr class="build-row">
+<td class="side-images">
+<div class="anchor-anchor">
+<a href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test#step-2997178" class="anchor-link"><span class="fa fa-link"></span></a>
+</div>
+<span id="step-2997178" class="anchor-link-target"></span>
+<ul>
+<li class="medium-side">
+<a class="large-side-image-link" href="https://learn.adafruit.com/assets/58629">
+<img class="58629-asset medium-side-image img-responsive" src="./Python &amp; CircuitPython Test _ Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout _ Adafruit Learning System_files/adafruit_products_m0_bmp280_spi_bb.png" alt="adafruit_products_m0_bmp280_spi_bb.png">
+</a></li>
+</ul>
+</td>
+<td class="side-text"><div class="text"><ul>
+<li>
+<strong>Board 3V</strong>&nbsp;to&nbsp;<strong>sensor VIN</strong>
+</li>
+<li>
+<strong>Board GND</strong>&nbsp;to&nbsp;<strong>sensor GND</strong>
+</li>
+<li>
+<strong>Board SCK</strong>&nbsp;to&nbsp;<strong>sensor SCK</strong>
+</li>
+<li>
+<strong>Board&nbsp;MOSI&nbsp;</strong>to&nbsp;<strong>sensor SDI</strong>
+</li>
+<li>
+<strong>Board MISO</strong>&nbsp;to&nbsp;<strong>sensor SDO</strong>
+</li>
+<li>
+<strong>Board D5</strong>&nbsp;to&nbsp;<strong>sensor CS</strong>&nbsp;(or use any other free digital I/O pin)</li>
+</ul></div></td>
+</tr>
+</tbody></table>
+<div class="row-fluid build-text">
+<h1>
+<div class="anchor-anchor">
+<a href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test#python-computer-wiring-5-7" class="anchor-link"><span class="fa fa-link"></span></a><span id="python-computer-wiring-5-7" class="anchor-link-target"></span><span id="python-computer-wiring-5-7" class="anchor-link-target"></span>
+</div>Python Computer Wiring</h1>
+</div>
+<div class="row-fluid build-text">
+<p>Since there's&nbsp;<em>dozens</em>&nbsp;of Linux computers/boards you can use we will show wiring for Raspberry Pi. For other platforms,&nbsp;<a href="https://learn.adafruit.com/circuitpython-on-raspberrypi-linux">please visit the guide for CircuitPython on Linux to see whether your platform is supported</a>.&nbsp;</p>
+<p>Here's the Raspberry Pi wired with I2C:</p>
+</div>
+<table class="build-table">
+<tbody><tr class="build-row">
+<td class="side-images">
+<div class="anchor-anchor">
+<a href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test#step-2997150" class="anchor-link"><span class="fa fa-link"></span></a>
+</div>
+<span id="step-2997150" class="anchor-link-target"></span>
+<ul>
+<li class="medium-side">
+<a class="large-side-image-link" href="https://learn.adafruit.com/assets/58619">
+<img class="58619-asset medium-side-image img-responsive" src="./Python &amp; CircuitPython Test _ Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout _ Adafruit Learning System_files/adafruit_products_raspi_bmp280_i2c_bb.png" alt="adafruit_products_raspi_bmp280_i2c_bb.png">
+</a></li>
+</ul>
+</td>
+<td class="side-text"><div class="text"><ul>
+<li>
+<strong>Pi 3V3</strong>&nbsp;to&nbsp;<strong>sensor VIN</strong>
+</li>
+<li>
+<strong>Pi GND</strong>&nbsp;to&nbsp;<strong>sensor GND</strong>
+</li>
+<li>
+<strong>Pi SCL</strong>&nbsp;to&nbsp;<strong>sensor SCK</strong>
+</li>
+<li>
+<strong>Pi SDA</strong>&nbsp;to&nbsp;<strong>sensor SDI</strong>
+</li>
+</ul></div></td>
+</tr>
+</tbody></table>
+<div class="row-fluid build-text">
+<p>And an example on the Raspberry Pi 3 Model B wired with SPI:</p>
+</div>
+<table class="build-table">
+<tbody><tr class="build-row">
+<td class="side-images">
+<div class="anchor-anchor">
+<a href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test#step-2997156" class="anchor-link"><span class="fa fa-link"></span></a>
+</div>
+<span id="step-2997156" class="anchor-link-target"></span>
+<ul>
+<li class="medium-side">
+<a class="large-side-image-link" href="https://learn.adafruit.com/assets/58620">
+<img class="58620-asset medium-side-image img-responsive" src="./Python &amp; CircuitPython Test _ Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout _ Adafruit Learning System_files/adafruit_products_raspi_bme280_spi_bb.png" alt="adafruit_products_raspi_bme280_spi_bb.png">
+</a></li>
+</ul>
+</td>
+<td class="side-text"><div class="text"><ul>
+<li>
+<strong>Pi 3V3</strong>&nbsp;to&nbsp;<strong>sensor VIN</strong>
+</li>
+<li>
+<strong>Pi GND</strong>&nbsp;to&nbsp;<strong>sensor GND</strong>
+</li>
+<li>
+<strong>Pi MOSI&nbsp;</strong>to&nbsp;<strong>sensor SDI</strong>
+</li>
+<li>
+<strong>Pi MISO</strong>&nbsp;to&nbsp;<strong>sensor SDO</strong>
+</li>
+<li>
+<strong>Pi SCLK</strong>&nbsp;to&nbsp;<strong>sensor SCK</strong>
+</li>
+<li>
+<strong>Pi #5</strong>&nbsp;to&nbsp;<strong>sensor CS</strong>&nbsp;(or use any other free GPIO pin)</li>
+</ul></div></td>
+</tr>
+</tbody></table>
+<div class="row-fluid build-text">
+<h1>
+<div class="anchor-anchor">
+<a href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test#circuitpython-installation-of-bmp280-library-5-12" class="anchor-link"><span class="fa fa-link"></span></a><span id="circuitpython-installation-of-bmp280-library-5-12" class="anchor-link-target"></span><span id="circuitpython-installation-of-bmp280-library-5-12" class="anchor-link-target"></span>
+</div>CircuitPython Installation of BMP280 Library</h1>
+</div>
+<div class="row-fluid build-text">
+<p>You'll need to install the&nbsp;<a href="https://github.com/adafruit/Adafruit_CircuitPython_BMP280">Adafruit CircuitPython BMP280</a>&nbsp;library on your CircuitPython board.</p>
+<p>First make sure you are running the&nbsp;<a href="https://learn.adafruit.com/welcome-to-circuitpython/installing-circuitpython">latest version of Adafruit CircuitPython</a>&nbsp;for your board.</p>
+<p>Next you'll need to install the necessary libraries&nbsp;to use the hardware--carefully follow the steps to find and install these libraries from&nbsp;<a href="https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases">Adafruit's CircuitPython library bundle</a>.&nbsp; Our CircuitPython starter guide has <a href="https://learn.adafruit.com/welcome-to-circuitpython/circuitpython-libraries">a great page on how to install the library bundle</a>.</p>
+<p>For non-express boards like the Trinket M0 or Gemma M0, you'll need to manually install the necessary libraries from the bundle:</p>
+<ul>
+<li><strong>adafruit_bmp280.mpy</strong></li>
+<li><strong>adafruit_bus_device</strong></li>
+</ul>
+<p>Before continuing make sure your board's lib folder or root filesystem has the&nbsp;<strong>adafruit_bmp280.mpy, </strong>and<strong> adafruit_bus_device</strong><strong>&nbsp;</strong>files and folders<strong>&nbsp;</strong>copied over.</p>
+<p>Next&nbsp;<a href="https://learn.adafruit.com/welcome-to-circuitpython/the-repl">connect to the board's serial REPL&nbsp;</a>so you are at the CircuitPython&nbsp;<strong>&gt;&gt;&gt;</strong>&nbsp;prompt.</p>
+</div>
+<div class="row-fluid build-text">
+<h1>
+<div class="anchor-anchor">
+<a href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test#python-installation-of-bmp280-library-5-14" class="anchor-link"><span class="fa fa-link"></span></a><span id="python-installation-of-bmp280-library-5-14" class="anchor-link-target"></span><span id="python-installation-of-bmp280-library-5-14" class="anchor-link-target"></span>
+</div>Python Installation of BMP280 Library</h1>
+</div>
+<div class="row-fluid build-text">
+<p>You'll need to install the Adafruit_Blinka library that provides the CircuitPython support in Python. This may also require enabling I2C on your platform and verifying you are running Python 3.&nbsp;<a href="https://learn.adafruit.com/circuitpython-on-raspberrypi-linux">Since each platform is a little different, and Linux changes often, please visit the CircuitPython on Linux guide to get your computer ready</a>!</p>
+<p>Once that's done, from your command line run the following command:</p>
+<ul>
+<li><code>sudo pip3 install adafruit-circuitpython-bmp280</code></li>
+</ul>
+<p>If your default Python is version 3 you may need to run 'pip' instead. Just make sure you aren't trying to use CircuitPython on Python 2.x, it isn't supported!</p>
+</div>
+<div class="row-fluid build-text">
+<h1>
+<div class="anchor-anchor">
+<a href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test#circuitpython-and-python-usage-5-16" class="anchor-link"><span class="fa fa-link"></span></a><span id="circuitpython-and-python-usage-5-16" class="anchor-link-target"></span><span id="circuitpython-and-python-usage-5-16" class="anchor-link-target"></span>
+</div>CircuitPython &amp; Python Usage</h1>
+<p>To demonstrate the usage of the sensor we'll initialize it and read the temperature, humidity, and more from the board's Python REPL.</p>
+<p>If you're using an I2C connection run the following code to import the necessary modules and initialize the I2C connection with the sensor:</p>
+</div>
+<div class="build-code code-element">
+<div class="download-code">
+<i class="fa fa-cloud-download"></i> Download:
+<a data-turbolinks="false" href="https://learn.adafruit.com/pages/10835/elements/2961106/download">
+file
+</a> <div class="code-copy-container">
+<a href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test#" class="code-copy-button hidden-xs">Copy Code</a>
+</div>
+</div>
+<pre class="code-text-only" style="display: none;">import board
+import busio
+import adafruit_bmp280
+i2c = busio.I2C(board.SCL, board.SDA)
+sensor = adafruit_bmp280.Adafruit_BMP280_I2C(i2c)</pre>
+<pre class="prettyprint
+              
+              linenums
+               prettyprinted" style=""><ol class="linenums"><li class="L0"><span class="kwd">import</span><span class="pln"> board</span></li><li class="L1"><span class="kwd">import</span><span class="pln"> busio</span></li><li class="L2"><span class="kwd">import</span><span class="pln"> adafruit_bmp280</span></li><li class="L3"><span class="pln">i2c </span><span class="pun">=</span><span class="pln"> busio</span><span class="pun">.</span><span class="pln">I2C</span><span class="pun">(</span><span class="pln">board</span><span class="pun">.</span><span class="pln">SCL</span><span class="pun">,</span><span class="pln"> board</span><span class="pun">.</span><span class="pln">SDA</span><span class="pun">)</span></li><li class="L4"><span class="pln">sensor </span><span class="pun">=</span><span class="pln"> adafruit_bmp280</span><span class="pun">.</span><span class="typ">Adafruit_BMP280_I2C</span><span class="pun">(</span><span class="pln">i2c</span><span class="pun">)</span></li></ol></pre>
+</div>
+<div class="row-fluid build-text">
+<p>Or if you're using a SPI connection run this code instead to setup the SPI connection and sensor:</p>
+</div>
+<div class="build-code code-element">
+<div class="download-code">
+<i class="fa fa-cloud-download"></i> Download:
+<a data-turbolinks="false" href="https://learn.adafruit.com/pages/10835/elements/2961110/download">
+file
+</a> <div class="code-copy-container">
+<a href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test#" class="code-copy-button hidden-xs">Copy Code</a>
+</div>
+</div>
+<pre class="code-text-only" style="display: none;">import board
+import busio
+import digitalio
+import adafruit_bmp280
+spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
+cs = digitalio.DigitalInOut(board.D5)
+sensor = adafruit_bmp280.Adafruit_BMP280_SPI(spi, cs)</pre>
+<pre class="prettyprint
+              
+              linenums
+               prettyprinted" style=""><ol class="linenums"><li class="L0"><span class="kwd">import</span><span class="pln"> board</span></li><li class="L1"><span class="kwd">import</span><span class="pln"> busio</span></li><li class="L2"><span class="kwd">import</span><span class="pln"> digitalio</span></li><li class="L3"><span class="kwd">import</span><span class="pln"> adafruit_bmp280</span></li><li class="L4"><span class="pln">spi </span><span class="pun">=</span><span class="pln"> busio</span><span class="pun">.</span><span class="pln">SPI</span><span class="pun">(</span><span class="pln">board</span><span class="pun">.</span><span class="pln">SCK</span><span class="pun">,</span><span class="pln"> MOSI</span><span class="pun">=</span><span class="pln">board</span><span class="pun">.</span><span class="pln">MOSI</span><span class="pun">,</span><span class="pln"> MISO</span><span class="pun">=</span><span class="pln">board</span><span class="pun">.</span><span class="pln">MISO</span><span class="pun">)</span></li><li class="L5"><span class="pln">cs </span><span class="pun">=</span><span class="pln"> digitalio</span><span class="pun">.</span><span class="typ">DigitalInOut</span><span class="pun">(</span><span class="pln">board</span><span class="pun">.</span><span class="pln">D5</span><span class="pun">)</span></li><li class="L6"><span class="pln">sensor </span><span class="pun">=</span><span class="pln"> adafruit_bmp280</span><span class="pun">.</span><span class="typ">Adafruit_BMP280_SPI</span><span class="pun">(</span><span class="pln">spi</span><span class="pun">,</span><span class="pln"> cs</span><span class="pun">)</span></li></ol></pre>
+</div>
+<div class="row-fluid build-text">
+<p>Now you're ready to read values from the sensor using any of these properties:</p>
+<ul>
+<li>
+<strong>temperature</strong>&nbsp;- The sensor temperature in degrees Celsius.</li>
+<li>
+<strong>pressure</strong>&nbsp;- The pressure in hPa.</li>
+<li>
+<strong>altitude</strong>&nbsp;- The altitude in meters.</li>
+</ul>
+</div>
+<div class="row-fluid build-text">
+<p>For example to print temperature and pressure:</p>
+</div>
+<div class="build-code code-element">
+<div class="download-code">
+<i class="fa fa-cloud-download"></i> Download:
+<a data-turbolinks="false" href="https://learn.adafruit.com/pages/10835/elements/2983029/download">
+file
+</a> <div class="code-copy-container">
+<a href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test#" class="code-copy-button hidden-xs">Copy Code</a>
+</div>
+</div>
+<pre class="code-text-only" style="display: none;">print('Temperature: {} degrees C'.format(sensor.temperature)) 
+print('Pressure: {}hPa'.format(sensor.pressure))</pre>
+<pre class="prettyprint
+              
+              linenums
+               prettyprinted" style=""><ol class="linenums"><li class="L0"><span class="kwd">print</span><span class="pun">(</span><span class="str">'Temperature: {} degrees C'</span><span class="pun">.</span><span class="pln">format</span><span class="pun">(</span><span class="pln">sensor</span><span class="pun">.</span><span class="pln">temperature</span><span class="pun">))</span><span class="pln"> </span></li><li class="L1"><span class="kwd">print</span><span class="pun">(</span><span class="str">'Pressure: {}hPa'</span><span class="pun">.</span><span class="pln">format</span><span class="pun">(</span><span class="pln">sensor</span><span class="pun">.</span><span class="pln">pressure</span><span class="pun">))</span></li></ol></pre>
+</div>
+<div class="row-fluid build-image">
+<a href="https://learn.adafruit.com/assets/48109">
+<img class="48109-asset img-responsive lazy" srcset="https://cdn-learn.adafruit.com/assets/assets/000/048/109/medium260/adafruit_products_Screen_Shot_2017-11-10_at_3.33.47_PM.png?1510356841 260w,
+               https://cdn-learn.adafruit.com/assets/assets/000/048/109/medium640/adafruit_products_Screen_Shot_2017-11-10_at_3.33.47_PM.png?1510356841 640w,
+               https://cdn-learn.adafruit.com/assets/assets/000/048/109/medium800/adafruit_products_Screen_Shot_2017-11-10_at_3.33.47_PM.png?1510356841 800w,
+               https://cdn-learn.adafruit.com/assets/assets/000/048/109/large1024/adafruit_products_Screen_Shot_2017-11-10_at_3.33.47_PM.png?1510356841 1024w" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 65vw, (max-width: 1365px) 47vw, 750px" alt="adafruit_products_Screen_Shot_2017-11-10_at_3.33.47_PM.png" src="./Python &amp; CircuitPython Test _ Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout _ Adafruit Learning System_files/adafruit_products_Screen_Shot_2017-11-10_at_3.33.47_PM.png" style="">
+<span class="image-expand"><i class="fa fa-search-plus"></i></span>
+</a> </div>
+<div class="row-fluid build-text">
+<p>For altitude you'll want to set the pressure at sea level for your location to get the most accurate measure (remember these sensors can only infer altitude based on pressure and need a set calibration point).&nbsp; Look at your local weather report for a pressure at sea level reading and set the&nbsp;<strong>seaLevelhPA</strong>&nbsp;property:</p>
+</div>
+<div class="build-code code-element">
+<div class="download-code">
+<i class="fa fa-cloud-download"></i> Download:
+<a data-turbolinks="false" href="https://learn.adafruit.com/pages/10835/elements/2961116/download">
+file
+</a> <div class="code-copy-container">
+<a href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test#" class="code-copy-button hidden-xs">Copy Code</a>
+</div>
+</div>
+<pre class="code-text-only" style="display: none;">sensor.sea_level_pressure = 1013.25</pre>
+<pre class="prettyprint
+              
+              linenums
+               prettyprinted" style=""><ol class="linenums"><li class="L0"><span class="pln">sensor</span><span class="pun">.</span><span class="pln">sea_level_pressure </span><span class="pun">=</span><span class="pln"> </span><span class="lit">1013.25</span></li></ol></pre>
+</div>
+<div class="row-fluid build-text">
+<p>Then read the altitude property for a more accurate altitude reading (but remember this altitude will fluctuate based on atmospheric pressure changes!):</p>
+</div>
+<div class="build-code code-element">
+<div class="download-code">
+<i class="fa fa-cloud-download"></i> Download:
+<a data-turbolinks="false" href="https://learn.adafruit.com/pages/10835/elements/2961118/download">
+file
+</a> <div class="code-copy-container">
+<a href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test#" class="code-copy-button hidden-xs">Copy Code</a>
+</div>
+</div>
+<pre class="code-text-only" style="display: none;">print('Altitude: {} meters'.format(sensor.altitude))</pre>
+<pre class="prettyprint
+              
+              linenums
+               prettyprinted" style=""><ol class="linenums"><li class="L0"><span class="kwd">print</span><span class="pun">(</span><span class="str">'Altitude: {} meters'</span><span class="pun">.</span><span class="pln">format</span><span class="pun">(</span><span class="pln">sensor</span><span class="pun">.</span><span class="pln">altitude</span><span class="pun">))</span></li></ol></pre>
+</div>
+<div class="row-fluid build-image">
+<a href="https://learn.adafruit.com/assets/49064">
+<img class="49064-asset img-responsive lazy" srcset="https://cdn-learn.adafruit.com/assets/assets/000/049/064/medium260/adafruit_products_alti.png?1512842866 260w,
+               https://cdn-learn.adafruit.com/assets/assets/000/049/064/medium640/adafruit_products_alti.png?1512842866 640w,
+               https://cdn-learn.adafruit.com/assets/assets/000/049/064/medium800/adafruit_products_alti.png?1512842866 800w,
+               https://cdn-learn.adafruit.com/assets/assets/000/049/064/large1024/adafruit_products_alti.png?1512842866 1024w" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 65vw, (max-width: 1365px) 47vw, 750px" alt="adafruit_products_alti.png" src="./Python &amp; CircuitPython Test _ Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout _ Adafruit Learning System_files/adafruit_products_alti.png" style="">
+<span class="image-expand"><i class="fa fa-search-plus"></i></span>
+</a> </div>
+<div class="row-fluid build-text">
+<p>That's all there is to using the BMP280 sensor with CircuitPython!</p>
+<p>Here's a starting example that will print out the temperature, pressure and altitude every 2 seconds:</p>
+</div>
+<div class="build-code code-element">
+<div class="download-code">
+<i class="fa fa-cloud-download"></i> Download:
+<a data-turbolinks="false" href="https://learn.adafruit.com/pages/10835/elements/2977466/download?type=zip">
+Project Zip
+</a> <span class="divider">or</span>
+<a data-turbolinks="false" href="https://learn.adafruit.com/pages/10835/elements/2977466/download">
+bmp280_simpletest.py
+</a> <span class="divider visible-lg-inline">|</span>
+<a target="_blank" class="visible-lg-inline" href="https://github.com/adafruit/Adafruit_CircuitPython_BMP280/blob/master/examples/bmp280_simpletest.py">
+<i class="fa fa-github"></i>
+View on Github
+</a> <div class="code-copy-container">
+<a href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test#" class="code-copy-button hidden-xs">Copy Code</a>
+</div>
+</div>
+<pre class="code-text-only" style="display: none;">import time
+
+import board
+# import digitalio # For use with SPI
+import busio
+
+import adafruit_bmp280
+
+# Create library object using our Bus I2C port
+i2c = busio.I2C(board.SCL, board.SDA)
+bmp280 = adafruit_bmp280.Adafruit_BMP280_I2C(i2c)
+
+# OR create library object using our Bus SPI port
+#spi = busio.SPI(board.SCK, board.MOSI, board.MISO)
+#bmp_cs = digitalio.DigitalInOut(board.D10)
+#bmp280 = adafruit_bmp280.Adafruit_BMP280_SPI(spi, bmp_cs)
+
+# change this to match the location's pressure (hPa) at sea level
+bmp280.sea_level_pressure = 1013.25
+
+while True:
+    print("\nTemperature: %0.1f C" % bmp280.temperature)
+    print("Pressure: %0.1f hPa" % bmp280.pressure)
+    print("Altitude = %0.2f meters" % bmp280.altitude)
+    time.sleep(2)
+</pre>
+<pre class="prettyprint
+              
+              linenums
+               prettyprinted" style=""><ol class="linenums"><li class="L0"><span class="kwd">import</span><span class="pln"> time</span></li><li class="L1"><span class="pln">&nbsp;</span></li><li class="L2"><span class="kwd">import</span><span class="pln"> board</span></li><li class="L3"><span class="com"># import digitalio # For use with SPI</span></li><li class="L4"><span class="kwd">import</span><span class="pln"> busio</span></li><li class="L5"><span class="pln">&nbsp;</span></li><li class="L6"><span class="kwd">import</span><span class="pln"> adafruit_bmp280</span></li><li class="L7"><span class="pln">&nbsp;</span></li><li class="L8"><span class="com"># Create library object using our Bus I2C port</span></li><li class="L9"><span class="pln">i2c </span><span class="pun">=</span><span class="pln"> busio</span><span class="pun">.</span><span class="pln">I2C</span><span class="pun">(</span><span class="pln">board</span><span class="pun">.</span><span class="pln">SCL</span><span class="pun">,</span><span class="pln"> board</span><span class="pun">.</span><span class="pln">SDA</span><span class="pun">)</span></li><li class="L0"><span class="pln">bmp280 </span><span class="pun">=</span><span class="pln"> adafruit_bmp280</span><span class="pun">.</span><span class="typ">Adafruit_BMP280_I2C</span><span class="pun">(</span><span class="pln">i2c</span><span class="pun">)</span></li><li class="L1"><span class="pln">&nbsp;</span></li><li class="L2"><span class="com"># OR create library object using our Bus SPI port</span></li><li class="L3"><span class="com">#spi = busio.SPI(board.SCK, board.MOSI, board.MISO)</span></li><li class="L4"><span class="com">#bmp_cs = digitalio.DigitalInOut(board.D10)</span></li><li class="L5"><span class="com">#bmp280 = adafruit_bmp280.Adafruit_BMP280_SPI(spi, bmp_cs)</span></li><li class="L6"><span class="pln">&nbsp;</span></li><li class="L7"><span class="com"># change this to match the location's pressure (hPa) at sea level</span></li><li class="L8"><span class="pln">bmp280</span><span class="pun">.</span><span class="pln">sea_level_pressure </span><span class="pun">=</span><span class="pln"> </span><span class="lit">1013.25</span></li><li class="L9"><span class="pln">&nbsp;</span></li><li class="L0"><span class="kwd">while</span><span class="pln"> </span><span class="kwd">True</span><span class="pun">:</span></li><li class="L1"><span class="pln">    </span><span class="kwd">print</span><span class="pun">(</span><span class="str">"\nTemperature: %0.1f C"</span><span class="pln"> </span><span class="pun">%</span><span class="pln"> bmp280</span><span class="pun">.</span><span class="pln">temperature</span><span class="pun">)</span></li><li class="L2"><span class="pln">    </span><span class="kwd">print</span><span class="pun">(</span><span class="str">"Pressure: %0.1f hPa"</span><span class="pln"> </span><span class="pun">%</span><span class="pln"> bmp280</span><span class="pun">.</span><span class="pln">pressure</span><span class="pun">)</span></li><li class="L3"><span class="pln">    </span><span class="kwd">print</span><span class="pun">(</span><span class="str">"Altitude = %0.2f meters"</span><span class="pln"> </span><span class="pun">%</span><span class="pln"> bmp280</span><span class="pun">.</span><span class="pln">altitude</span><span class="pun">)</span></li><li class="L4"><span class="pln">    time</span><span class="pun">.</span><span class="pln">sleep</span><span class="pun">(</span><span class="lit">2</span><span class="pun">)</span></li></ol></pre>
+</div>
+</div>
+<div class="page-navigation">
+<a class="previous-page" href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/arduino-test">
+<i class="fa fa-chevron-left"></i>ARDUINO TEST
+</a> <a class="next-page" href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/f-a-q">
+F.A.Q.<i class="fa fa-chevron-right"></i>
+</a> <div class="clear"></div>
+</div>
+<span class="page-last-updated">
+This guide was first published on Jul 31, 2015. It was last
+updated on Jul 31, 2015.
+</span>
+<span class="page-last-updated">
+This page (Python &amp; CircuitPython Test) was last updated on Nov 29, 2019.
+</span>
+</div>
+</div>
+<div class="sidebar-right-wrapper">
+<div class="sidebar-right-content">
+<div class="featured-products">
+<div class="product-wrapper">
+<a href="https://www.adafruit.com/product/2651">
+<div class="product-image">
+<img alt="" height="233" class="lazy" data-error="/assets/missing%2Fmissing.png" src="./Python &amp; CircuitPython Test _ Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout _ Adafruit Learning System_files/2651-00.jpg" style="">
+</div>
+<div class="product-details">
+<div class="product-title">Adafruit BMP280 I2C or SPI Barometric Pressure &amp; Altitude Sensor</div>
+<span class="product-price hide-xs">$9.95</span>
+</div>
+</a> <div class="product-purchase-link hide-xs">
+<a id="2651-product" class="product-buy btn-primary " data-pid="2651" data-qty="1" data-name="Adafruit BMP280 I2C or SPI Barometric Pressure &amp; Altitude Sensor" target="_blank" href="https://www.adafruit.com/product/2651">Add to Cart</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<div class="related-guides-wrapper">
+<div class="guide-group-preview">
+<div class="group-preview-header">
+<div>
+Related Guides
+</div>
+</div>
+<div class="guide-group">
+<a href="https://learn.adafruit.com/i2c-addresses">
+<div class="guide-preview">
+<div class="preview-content">
+<div class="image-container">
+<img class="image-preview lazy" src="./Python &amp; CircuitPython Test _ Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout _ Adafruit Learning System_files/PhotoFunia-1501383296.jpg" style="">
+<div class="overlay">
+<div class="tagline">
+I2C addresses from 0x00 to 0x7F (inclusive)
+</div>
+</div>
+</div>
+<div class="bottom-section">
+<div class="title">
+I2C addresses!
+</div>
+<div class="badges">
+<div class="badge favorites " title="Favorites">
+59
+</div>
+<div class="badge skill-level-icons" title="Beginner">
+Beginner
+</div>
+</div>
+</div>
+</div>
+</div>
+</a><a href="https://learn.adafruit.com/ttl-serial-camera">
+<div class="guide-preview">
+<div class="preview-content">
+<div class="image-container">
+<img class="image-preview lazy" src="./Python &amp; CircuitPython Test _ Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout _ Adafruit Learning System_files/397.jpg" style="">
+<div class="overlay">
+<div class="tagline">
+Snap, Snap!
+</div>
+</div>
+</div>
+<div class="bottom-section">
+<div class="title">
+TTL Serial Camera
+</div>
+<div class="badges">
+<div class="badge favorites " title="Favorites">
+81
+</div>
+<div class="badge skill-level-icons" title="Beginner">
+Beginner
+</div>
+</div>
+</div>
+</div>
+</div>
+</a><a href="https://learn.adafruit.com/el-wire">
+<div class="guide-preview">
+<div class="preview-content">
+<div class="image-container">
+<img class="image-preview lazy" src="./Python &amp; CircuitPython Test _ Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout _ Adafruit Learning System_files/EL_Wire.jpg" style="">
+<div class="overlay">
+<div class="tagline">
+Working with Electroluminescent Wire
+</div>
+</div>
+</div>
+<div class="bottom-section">
+<div class="title">
+EL Wire
+</div>
+<div class="badges">
+<div class="badge favorites " title="Favorites">
+65
+</div>
+<div class="badge skill-level-icons" title="Beginner">
+Beginner
+</div>
+</div>
+</div>
+</div>
+</div>
+</a><a href="https://learn.adafruit.com/hacking-the-kinect">
+<div class="guide-preview">
+<div class="preview-content">
+<div class="image-container">
+<img class="image-preview lazy" src="./Python &amp; CircuitPython Test _ Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout _ Adafruit Learning System_files/04a1fe47-8b58-41e9-a486-65456d2bf6ce_1.7d6bbbf694215ef00e24e2f11adddb89.jpeg" style="">
+<div class="overlay">
+<div class="tagline">
+Reverse engineering the Microsoft Kinect
+</div>
+</div>
+</div>
+<div class="bottom-section">
+<div class="title">
+Hacking the Kinect
+</div>
+<div class="badges">
+<div class="badge favorites " title="Favorites">
+71
+</div>
+<div class="badge skill-level-icons" title="Intermediate">
+Intermediate
+</div>
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+</div>
+<div class="footer-spacer"></div>
+</div>
+<div class="modal fade" id="notify-modal">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<a href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test#" class="close" data-dismiss="modal">×</a>
+<h5>OUT OF STOCK NOTIFICATION</h5>
+</div>
+<div class="modal-body">
+<p class="notify-modal-form-header"></p>
+<div class="notify-modal-products"></div>
+<form id="notify-modal-form" name="back_in_stock_notification">
+<p class="notify-modal-form-notice"></p>
+<div class="notify-modal-break"></div>
+<div class="form-group">
+<label class="inputLabel" for="name">YOUR NAME</label>
+<input type="text" size="25" maxlength="64" name="name" value="">
+</div>
+ <div class="form-group">
+<label class="inputLabel" for="email">YOUR EMAIL</label>
+<input type="email" size="25" maxlength="96" name="email" value="">
+</div>
+<input type="hidden" name="notify_me" value="true">
+</form>
+<div id="notify-modal-success" style="display:none">
+<p>You have been successfully subscribed to the Notification List for this product and will therefore receive an e-mail from us when it is back in stock!</p>
+<p>For security reasons, an e-mail has been sent to you acknowledging your subscription. Please remember that this subscription will not result in you receiving any e-mail from us about anything other than the restocking of this item.</p>
+<p>If, for any reason, you would like to unsubscribe from the Notification List for this product you will find details of how to do so in the e-mail that has just been sent to you!</p>
+</div>
+</div>
+<div class="modal-footer">
+<a href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test#" id="close-notify" style="display: none" data-dismiss="modal" data-target="#notify-modal">CLOSE</a>
+<a href="https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout/circuitpython-test#" id="submit-notify" rel="nofollow" class="blue-button">NOTIFY ME</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="search-container">
+</div>
+<div id="remote-modal"></div>
+</div>
+<footer id="adafruit-footer">
+<div id="footer-content">
+<div class="row">
+<div class=" col-lg-6 col-md-6 col-sm-4 col-xs-12">
+<nav>
+<ul>
+<li><a href="https://www.adafruit.com/contact_us">CONTACT</a></li>
+<li><a href="https://www.adafruit.com/support">SUPPORT</a>
+</li><li><a href="https://www.adafruit.com/distributors">DISTRIBUTORS</a></li>
+<li><a href="https://www.adafruit.com/educators">EDUCATORS</a></li>
+<li><a href="https://jobs.adafruit.com/">JOBS</a></li>
+<li><a href="https://www.adafruit.com/faq">FAQ</a></li>
+<li><a href="https://www.adafruit.com/shippinginfo/">SHIPPING &amp; RETURNS</a></li>
+<li><a href="https://www.adafruit.com/terms_of_service/">TERMS OF SERVICE</a></li>
+<li><a href="https://www.adafruit.com/privacy">PRIVACY &amp; LEGAL</a></li>
+<li><a href="https://www.adafruit.com/about">ABOUT US</a></li>
+</ul>
+</nav>
+<div id="footer-copyright">
+<a href="http://nytm.org/made-in-nyc/">ENGINEERED IN NYC</a> <span>Adafruit&nbsp;®</span>
+</div>
+</div>
+<div class="col-lg-6 col-md-6 col-sm-8 hidden-xs">
+<div id="footer-quote" class="long-quote">
+"This good fun, explore, explore, explore, that's what science is, exploration, finding out new things, so have a good time with it"
+<span class="quote-author">- <a href="http://en.wikipedia.org/wiki/Charles_H._Townes">Charles Townes</a></span>
+</div>
+</div>
+<div id="footer-seals">
+<img class="img-responsive" src="./Python &amp; CircuitPython Test _ Adafruit BMP280 Barometric Pressure + Temperature Sensor Breakout _ Adafruit Learning System_files/seals_2x.jpg">
+</div>
+</div>
+</div>
+</footer>
+</div>
+</div>
+
+
+</body></html>
