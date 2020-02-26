@@ -2,6 +2,7 @@ import json
 import led
 import os
 import requests
+from requests.exceptions import ConnectionError
 
 try:
     from credentials import auth
@@ -35,7 +36,10 @@ class RemoteApi:
     def _request(self, link, dt, hdrs):
         # This function helps us to blink the led and make some logs
         led.on()
-        ans = requests.post(link, data=dt, headers=hdrs)
+        try:
+            ans = requests.post(link, data=dt, headers=hdrs)
+        except ConnectionError as e:
+            self._log({"error": e}, file='requests.log')
         led.off()
         if 'token' not in ans.json():  # Prevent saving token to logs
             ans_pack = {}
