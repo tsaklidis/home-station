@@ -43,7 +43,7 @@ class RemoteApi:
             self._log({"error": e}, file='requests.log')
             return False
         led.off()
-        if ans.status_code == 200:
+        if ans.status_code == 201:
             if 'token' not in ans.json():  # Prevent saving token to logs
                 ans_pack = {}
                 ans_pack['response'] = ans.json()
