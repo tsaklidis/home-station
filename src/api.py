@@ -43,12 +43,15 @@ class RemoteApi:
             self._log({"error": e}, file='requests.log')
             return False
         led.off()
-        if 'token' not in ans.json():  # Prevent saving token to logs
-            ans_pack = {}
-            ans_pack['response'] = ans.json()
-            ans_pack['url'] = link
-            # ans_pack['data'] = dt
-            self._log(ans_pack, file='requests.log')
+        if ans.status_code == 200:
+            if 'token' not in ans.json():  # Prevent saving token to logs
+                ans_pack = {}
+                ans_pack['response'] = ans.json()
+                ans_pack['url'] = link
+                # ans_pack['data'] = dt
+                self._log(ans_pack, file='requests.log')
+            return ans
+        self._log({"error": ans.content}, file='errors.log')
         return ans
 
     def _log(self, er, file=None):
