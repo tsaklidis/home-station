@@ -53,9 +53,9 @@ class RemoteApi:
 
     def _log(self, er, file=None):
         if file:
-            the_file = the_path + '../logs/' + file
+            the_file = the_path + '/logs/' + file
         else:
-            the_file = the_path + '../logs/errors.log'
+            the_file = the_path + '/logs/errors.log'
         with open(the_file, 'a+') as outfile:
             log_time = datetime.datetime.now()
             outfile.write(log_time.strftime('%Y-%m-%d %H:%M:%S'))
