@@ -2,6 +2,7 @@ import api
 import BMP280
 import DHT22
 import DS18B20
+from BMP280 import get_temp as bmp_tmp
 
 try:
     from credentials import UUIDS
@@ -20,7 +21,7 @@ DHT22_tmpr = {
 DHT22_hum = {
     "space_uuid": UUIDS['space'],
     "sensor_uuid": UUIDS['DHT22_hum'],
-    "value": DHT22.read_humidity()
+    "value": DHT22.read_humidity(),
 }
 DS18B20 = {
     "space_uuid": UUIDS['space'],
@@ -33,7 +34,13 @@ BMP280 = {
     "sensor_uuid": UUIDS['BMP280'],
     "value": BMP280.get_presure()
 }
+
+BMP280_TMP = {
+    "space_uuid": UUIDS['space'],
+    "sensor_uuid": UUIDS['BMP280_TMP'],
+    "value": bmp_tmp(rnd=2),
+}
 # Each value overwrites the imports
-pack = [DHT22_tmpr, DHT22_hum, DS18B20, BMP280]
+pack = [DHT22_tmpr, DHT22_hum, DS18B20, BMP280, BMP280_TMP]
 
 station.send_packet(pack)

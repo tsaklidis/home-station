@@ -103,9 +103,11 @@ def get_presure():
     return round(pressure, 2)
 
 
-def get_temp(F):
+def get_temp(F=None, rnd=None):
     if F:
         return fTemp
+    if rnd:
+        return round(cTemp, rnd)
     return cTemp
 
 
