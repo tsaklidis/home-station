@@ -1,3 +1,4 @@
+import datetime
 import json
 import led
 import os
@@ -40,6 +41,7 @@ class RemoteApi:
             ans = requests.post(link, data=dt, headers=hdrs)
         except ConnectionError as e:
             self._log({"error": e}, file='requests.log')
+            return False
         led.off()
         if 'token' not in ans.json():  # Prevent saving token to logs
             ans_pack = {}
@@ -49,12 +51,15 @@ class RemoteApi:
             self._log(ans_pack, file='requests.log')
         return ans
 
-    def _log(self, er, file=False):
+    def _log(self, er, file=None):
         if file:
-            the_file = the_path + '/logs/' + file
+            the_file = the_path + '../logs/' + file
         else:
-            the_file = the_path + '/logs/errors.log'
+            the_file = the_path + '../logs/errors.log'
         with open(the_file, 'a+') as outfile:
+            log_time = datetime.datetime.now()
+            outfile.write(log_time.strftime('%Y-%m-%d %H:%M:%S'))
+            outfile.write('\n')
             json.dump(er, outfile)
             outfile.write('\n\n')
 
