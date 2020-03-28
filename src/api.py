@@ -54,7 +54,7 @@ class RemoteApi:
                 return ans
         except Exception as e:
             # Something else happened, eg network error
-            self._log({"error": e}, file='requests.log')
+            self._log({"error": e.message}, file='requests.log')
             return False
 
     def _log(self, er, file=None):
