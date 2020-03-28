@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RIGHT_NOW=$(date +"%F_%R")
+RIGHT_NOW=(date +"%F_%R")
 
 if [ "`systemctl show -p ActiveState --value listen`" = "active" ]
 then
