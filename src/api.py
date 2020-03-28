@@ -36,23 +36,26 @@ class RemoteApi:
 
     def _request(self, link, dt, hdrs):
         # This function helps us to blink the led and make some logs
-        led.on()
         try:
+            led.on()
             ans = requests.post(link, data=dt, headers=hdrs)
-        except ConnectionError as e:
+            led.off()
+            if ans.status_code in [201, 200]:
+                if 'token' not in ans.json():  # Prevent saving token to logs
+                    ans_pack = {}
+                    ans_pack['response'] = ans.json()
+                    ans_pack['url'] = link
+                    # ans_pack['data'] = dt
+                    self._log(ans_pack, file='requests.log')
+                return ans
+            else:
+                # Server returned other status code
+                self._log({"error": ans.content}, file='errors.log')
+                return ans
+        except Exception as e:
+            # Something else happened, eg network error
             self._log({"error": e}, file='requests.log')
             return False
-        led.off()
-        if ans.status_code in [201, 200]:
-            if 'token' not in ans.json():  # Prevent saving token to logs
-                ans_pack = {}
-                ans_pack['response'] = ans.json()
-                ans_pack['url'] = link
-                # ans_pack['data'] = dt
-                self._log(ans_pack, file='requests.log')
-            return ans
-        self._log({"error": ans.content}, file='errors.log')
-        return ans
 
     def _log(self, er, file=None):
         if file:

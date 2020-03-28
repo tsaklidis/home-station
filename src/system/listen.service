@@ -9,5 +9,8 @@ User=pi
 ExecStartPre=/bin/sleep 10 
 ExecStart=/usr/bin/python /home/pi/Desktop/home-station/src/listen.py
 
+# Logging the prints/errors
+# ExecStart=/usr/bin/python the/path/listen.py >> the/logs/path/listen.log 2>&1
+
 [Install]
 WantedBy=multi-user.target
