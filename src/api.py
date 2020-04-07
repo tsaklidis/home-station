@@ -51,12 +51,12 @@ class RemoteApi:
             else:
                 # Server returned other status code
                 self._log(
-                    {"error": '{}'.format(ans.content)}, file='errors.log')
+                    {"error": '{}'.format(ans.content)}, file='requests.log')
                 return ans
         except Exception as e:
             # Something else happened, eg network error
-            self._log({"error": '{}'.format(e.message)}, file='requests.log')
-            return False
+            self._log({"error": '{}'.format(e.message)}, file='errors.log')
+            raise ValueError(e.message)
 
     def _log(self, er, file=None):
         if file:
