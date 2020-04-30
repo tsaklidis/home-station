@@ -3,6 +3,9 @@ import json
 import paho.mqtt.client as mqtt
 from credentials import mosq
 
+import datetime
+import os
+
 # runing from /etc/systemd/system/listen.service
 # sudo service listen stop | start | status
 
@@ -13,6 +16,19 @@ except ImportError, exc:
                       exc.args[0]])
     raise exc
 
+
+def _log(er, file=None):
+    the_path = os.path.dirname(os.path.abspath(__file__))
+    if file:
+        the_file = the_path + '/logs/' + file
+    else:
+        the_file = the_path + '/logs/errors.log'
+    with open(the_file, 'a+') as outfile:
+        log_time = datetime.datetime.now()
+        outfile.write(log_time.strftime('%Y-%m-%d %H:%M:%S'))
+        outfile.write('\n')
+        json.dump(er, outfile)
+        outfile.write('\n\n')
 
 rc_map = {
     "0": "Connection successful",
@@ -65,12 +81,8 @@ def on_message_from_pack(client, userdata, message):
                     "value": round(float(value), 2),
                 }
                 pack.append(tmp)
-            except TypeError:
-                tmp = {
-                    "space_uuid": balkoni['space'],
-                    "sensor_uuid": balkoni[sensor],
-                    "value": -1
-                }
+            except Exception as e:
+                _log({"listen_error": '{}'.format(e.message)}, file='errors.log')
 
         esp32.send_packet(pack)
     else:
