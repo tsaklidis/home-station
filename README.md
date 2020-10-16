@@ -22,7 +22,7 @@ And run the script every 5 minutes
 */5 * * * * python ~/send_data.py >> ~/info.log 2>&1
 ```
 
-In order to run the fan.py script on each system start, add the file located at src/system/fan.service  to the lib folder
+In order to run the fan.py script on each system start, add the file located at <a href="src/system/fan.service">src/system/fan.service</a>  to the lib folder
 ```shell
 # nano /lib/systemd/system/fan.service
 
