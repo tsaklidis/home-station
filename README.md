@@ -22,33 +22,12 @@ And run the script every 5 minutes
 */5 * * * * python ~/send_data.py >> ~/info.log 2>&1
 ```
 
-In order to run the fan.py script on each system start, add the file
+In order to run the fan.py script on each system start, add the file located at src/system/fan.service  to the lib folder
 ```shell
 # nano /lib/systemd/system/fan.service
 
 ```
 
-In the file add:
-```shell
-[Unit]
-Description=run fan when cpu temp high
-After=meadiacenter.service
-
-[Service]
-# If User and Group are not specified, then by default systemd ExecStart runs as root
-User=root
-Group=root
-Type=simple
-ExecStart=/usr/bin/python /home/pi/fan.py
-# write to journal or within script to separate log file
-#StandardOutput=/home/pi/fan.log
-#StandardError=/home/pi/fan_error.log
-Restart=Always
-
-[Install]
-WantedBy=multi-user.target
-
-```
 
 The flow is:
 ```mermaid
