@@ -30,6 +30,7 @@ def _log(er, file=None):
         json.dump(er, outfile)
         outfile.write('\n\n')
 
+
 rc_map = {
     "0": "Connection successful",
     "1": "Connection refused - incorrect protocol version",
@@ -75,10 +76,11 @@ def on_message_from_pack(client, userdata, message):
         pack = []
         for sensor, value in data.items():
             try:
+                _log({"data: ": '{}'.format(value)}, file='errors.log')
                 tmp = {
                     "space_uuid": balkoni['space'],
                     "sensor_uuid": balkoni[sensor],
-                    "value": round(float(value), 2),
+                    "value": round(float(value), 2) if value else 0,
                 }
                 pack.append(tmp)
             except Exception as e:
