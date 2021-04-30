@@ -1,0 +1,84 @@
+/*
+Theme Name: Smart Mag Child
+Theme URI: http://theme-sphere.com/
+Description: A child theme of SmartMag
+Author: ThemeSphere
+Author URI: http://theme-sphere.com
+Template: smart-mag
+Version: 3.2.0
+*/
+
+@import url("../smart-mag/style.css");
+
+/* Make social media icons a bit bigger on mobile */
+@media only screen and (max-width: 799px){
+.social-icons .icon {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 22px;
+}
+}
+
+.post-content p, .post-content > ul, .post-content > div, .post-content > dl, .post-content blockquote, .post-content ol {
+		margin-bottom: 1.2em; /* adjust to parent font-size */
+	}
+
+/* Tweak quoted code */
+pre {
+  padding-left:1em;
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  margin-top: 0em;
+  margin-bottom: 1.2em;
+  border:0px;
+  font-family: "Lucida Console", Monaco, monospace;
+}
+
+.wp-block-code {
+  background: #1d1d1d;
+}
+
+.wp-block-code code {
+  margin: 0px;
+  padding:0px;
+  border: 0px;
+  color: #efefef;
+  background: #1d1d1d;	
+}
+
+/* Make blockquoted text italic */
+blockquote {font-style: italic;}
+
+/* Tweak table spacing */
+table {
+margin-top: 0.5em;
+margin-bottom: 1.0em;
+}
+
+/* Vertically align table cell contents */
+td {vertical-align:middle;}
+
+/* Correctly scale EasyAzon images */
+.easyazon-block-information-image {
+width:100% !important;
+height:100% !important;
+}
+
+/* Custom border for some images */
+.lightborder {border:1px solid #aaaaaa;}
+.imgborder {border:1px solid #888888;}
+
+/* Centre the footer/copyright content */
+.lower-foot .textwidget {
+  float: none;
+}
+
+/* Correct floating of featured posts with different title lengths */
+/* where icons with 2-line titles appear next to an icon with a */
+/* 1-line title. It can break the grid. */
+.related-posts ul li:nth-child(3n+1) {
+clear:both;
+content: " ";
+display: block;
+}

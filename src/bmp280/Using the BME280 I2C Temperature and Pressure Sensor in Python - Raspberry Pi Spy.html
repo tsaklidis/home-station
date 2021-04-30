@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html
+class="ie ie8" lang=en-GB> <![endif]-->
+<!--[if IE 9]><html
+class="ie ie9" lang=en-GB> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html lang="en-GB"><!--<![endif]--><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><link rel="stylesheet" href="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/e1095.css" media="all"><meta charset="UTF-8"><title>Using the BME280 I2C Temperature and Pressure Sensor in Python - Raspberry Pi Spy</title><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="X-UA-Compatible" content="IE=edge"><link rel="pingback" href="https://www.raspberrypi-spy.co.uk/xmlrpc.php"><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><meta name="description" content="Raspberry Pi tutorials and guides to help you learn and build awesome projects. Sensors, displays, screens, motors, servos, lights, LEDs and more!"><link rel="canonical" href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/"><meta property="og:locale" content="en_GB"><meta property="og:type" content="article"><meta property="og:title" content="Using the BME280 I2C Temperature and Pressure Sensor in Python - Raspberry Pi Spy"><meta property="og:description" content="Raspberry Pi tutorials and guides to help you learn and build awesome projects. Sensors, displays, screens, motors, servos, lights, LEDs and more!"><meta property="og:url" content="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/"><meta property="og:site_name" content="Raspberry Pi Spy"><meta property="article:publisher" content="https://www.facebook.com/rpispy/"><meta property="article:published_time" content="2016-07-21T20:10:16+00:00"><meta property="article:modified_time" content="2016-07-29T09:07:33+00:00"><meta property="og:image" content="https://www.raspberrypi-spy.co.uk/wp-content/uploads/2016/07/bme280_temp_sensor.jpg"><meta property="og:image:width" content="1500"><meta property="og:image:height" content="1000"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:creator" content="@rpispy"><meta name="twitter:site" content="@rpispy"><meta name="twitter:label1" content="Written by"><meta name="twitter:data1" content="Matt"><meta name="twitter:label2" content="Estimated reading time"><meta name="twitter:data2" content="4 minutes"> <script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.raspberrypi-spy.co.uk/#organization","name":"RPiSpy","url":"https://www.raspberrypi-spy.co.uk/","sameAs":["https://www.facebook.com/rpispy/","https://www.instagram.com/rpispy/","https://www.youtube.com/user/rpispy/","https://www.pinterest.com/rpispy/","https://twitter.com/rpispy"],"logo":{"@type":"ImageObject","@id":"https://www.raspberrypi-spy.co.uk/#logo","inLanguage":"en-GB","url":"https://www.raspberrypi-spy.co.uk/wp-content/uploads/2015/05/Raspberry-Pi-Spy-Logo-280x280-Outline.png","contentUrl":"https://www.raspberrypi-spy.co.uk/wp-content/uploads/2015/05/Raspberry-Pi-Spy-Logo-280x280-Outline.png","width":280,"height":280,"caption":"RPiSpy"},"image":{"@id":"https://www.raspberrypi-spy.co.uk/#logo"}},{"@type":"WebSite","@id":"https://www.raspberrypi-spy.co.uk/#website","url":"https://www.raspberrypi-spy.co.uk/","name":"Raspberry Pi Spy","description":"Unofficial Raspberry Pi tutorials, guides, scripts, help and news","publisher":{"@id":"https://www.raspberrypi-spy.co.uk/#organization"},"potentialAction":[{"@type":"SearchAction","target":"https://www.raspberrypi-spy.co.uk/?s={search_term_string}","query-input":"required name=search_term_string"}],"inLanguage":"en-GB"},{"@type":"ImageObject","@id":"https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#primaryimage","inLanguage":"en-GB","url":"https://www.raspberrypi-spy.co.uk/wp-content/uploads/2016/07/bme280_temp_sensor.jpg","contentUrl":"https://www.raspberrypi-spy.co.uk/wp-content/uploads/2016/07/bme280_temp_sensor.jpg","width":1500,"height":1000,"caption":"BME280 Temperature Sensor"},{"@type":"WebPage","@id":"https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#webpage","url":"https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/","name":"Using the BME280 I2C Temperature and Pressure Sensor in Python - Raspberry Pi Spy","isPartOf":{"@id":"https://www.raspberrypi-spy.co.uk/#website"},"primaryImageOfPage":{"@id":"https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#primaryimage"},"datePublished":"2016-07-21T20:10:16+00:00","dateModified":"2016-07-29T09:07:33+00:00","description":"Raspberry Pi tutorials and guides to help you learn and build awesome projects. Sensors, displays, screens, motors, servos, lights, LEDs and more!","breadcrumb":{"@id":"https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#breadcrumb"},"inLanguage":"en-GB","potentialAction":[{"@type":"ReadAction","target":["https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/"]}]},{"@type":"BreadcrumbList","@id":"https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"WebPage","@id":"https://www.raspberrypi-spy.co.uk/","url":"https://www.raspberrypi-spy.co.uk/","name":"Home"}},{"@type":"ListItem","position":2,"item":{"@type":"WebPage","@id":"https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/","url":"https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/","name":"Using the BME280 I2C Temperature and Pressure Sensor in Python"}}]},{"@type":"Article","@id":"https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#article","isPartOf":{"@id":"https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#webpage"},"author":{"@id":"https://www.raspberrypi-spy.co.uk/#/schema/person/fb6f857889cd55035d877a4b66d9ee38"},"headline":"Using the BME280 I2C Temperature and Pressure Sensor in Python","datePublished":"2016-07-21T20:10:16+00:00","dateModified":"2016-07-29T09:07:33+00:00","mainEntityOfPage":{"@id":"https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#webpage"},"commentCount":43,"publisher":{"@id":"https://www.raspberrypi-spy.co.uk/#organization"},"image":{"@id":"https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#primaryimage"},"keywords":"I2C,Pressure,temperature","articleSection":"I2C,Sensors,Tutorials &amp; Help","inLanguage":"en-GB","potentialAction":[{"@type":"CommentAction","name":"Comment","target":["https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#respond"]}]},{"@type":"Person","@id":"https://www.raspberrypi-spy.co.uk/#/schema/person/fb6f857889cd55035d877a4b66d9ee38","name":"Matt","image":{"@type":"ImageObject","@id":"https://www.raspberrypi-spy.co.uk/#personlogo","inLanguage":"en-GB","url":"https://secure.gravatar.com/avatar/49044c5831a18ae589a1fcdd87644a6d?s=96&r=g","contentUrl":"https://secure.gravatar.com/avatar/49044c5831a18ae589a1fcdd87644a6d?s=96&r=g","caption":"Matt"}}]}</script> <link rel="dns-prefetch" href="https://fonts.googleapis.com/"><link rel="dns-prefetch" href="https://s.w.org/"><link rel="alternate" type="application/rss+xml" title="Raspberry Pi Spy » Feed" href="https://www.raspberrypi-spy.co.uk/feed/"><link rel="alternate" type="application/rss+xml" title="Raspberry Pi Spy » Comments Feed" href="https://www.raspberrypi-spy.co.uk/comments/feed/"><link rel="alternate" type="application/rss+xml" title="Raspberry Pi Spy » Using the BME280 I2C Temperature and Pressure Sensor in Python Comments Feed" href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/feed/"> <script>window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.0.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.0.1\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.raspberrypi-spy.co.uk\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.7.1"}};
+			!function(e,a,t){var n,r,o,i=a.createElement("canvas"),p=i.getContext&&i.getContext("2d");function s(e,t){var a=String.fromCharCode;p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,e),0,0);e=i.toDataURL();return p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,t),0,0),e===i.toDataURL()}function c(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(o=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},r=0;r<o.length;r++)t.supports[o[r]]=function(e){if(!p||!p.fillText)return!1;switch(p.textBaseline="top",p.font="600 32px Arial",e){case"flag":return s([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])?!1:!s([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!s([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]);case"emoji":return!s([55357,56424,8205,55356,57212],[55357,56424,8203,55356,57212])}return!1}(o[r]),t.supports.everything=t.supports.everything&&t.supports[o[r]],"flag"!==o[r]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[o[r]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(n=t.source||{}).concatemoji?c(n.concatemoji):n.wpemoji&&n.twemoji&&(c(n.twemoji),c(n.wpemoji)))}(window,document,window._wpemojiSettings);</script><script src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/wp-emoji-release.js" type="text/javascript" defer="defer"></script> <style>img.wp-smiley,img.emoji{display:inline !important;border:none !important;box-shadow:none !important;height:1em !important;width:1em !important;margin:0
+.07em !important;vertical-align:-0.1em !important;background:none !important;padding:0
+!important}</style><link rel="stylesheet" id="wp-block-library-css" href="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/style_002.css" type="text/css" media="all"><link rel="stylesheet" id="easyazonpro-bootstrap-popovers-css" href="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/bootstrap.css" type="text/css" media="all"><link rel="stylesheet" id="easyazonpro-popovers-css" href="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/popovers.css" type="text/css" media="all"><link rel="stylesheet" id="smartmag-fonts-css" href="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/css.css" type="text/css" media="all"><link rel="stylesheet" id="smartmag-core-css" href="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/style.css" type="text/css" media="all"><link rel="stylesheet" id="smartmag-responsive-css" href="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/responsive.css" type="text/css" media="all"><link rel="stylesheet" id="pretty-photo-css" href="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/prettyPhoto.css" type="text/css" media="all"><link rel="stylesheet" id="smartmag-font-awesome-css" href="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/font-awesome.css" type="text/css" media="all"><style id="smartmag-font-awesome-inline-css">.main-head{background-image:url('/wp-content/uploads/2015/05/rpispy_header.jpg');background-repeat:no-repeat}</style> <script src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/jquery_004.js" id="jquery-core-js"></script> <script src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/jquery-migrate.js" id="jquery-migrate-js"></script> <script src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/jquery_002.js" id="pretty-photo-smartmag-js"></script> <link rel="https://api.w.org/" href="https://www.raspberrypi-spy.co.uk/wp-json/"><link rel="alternate" type="application/json" href="https://www.raspberrypi-spy.co.uk/wp-json/wp/v2/posts/5965"><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.raspberrypi-spy.co.uk/xmlrpc.php?rsd"><link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.raspberrypi-spy.co.uk/wp-includes/wlwmanifest.xml"><meta name="generator" content="WordPress 5.7.1"><link rel="shortlink" href="https://www.raspberrypi-spy.co.uk/?p=5965"><link rel="alternate" type="application/json+oembed" href="https://www.raspberrypi-spy.co.uk/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.raspberrypi-spy.co.uk%2F2016%2F07%2Fusing-bme280-i2c-temperature-pressure-sensor-in-python%2F"><link rel="alternate" type="text/xml+oembed" href="https://www.raspberrypi-spy.co.uk/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.raspberrypi-spy.co.uk%2F2016%2F07%2Fusing-bme280-i2c-temperature-pressure-sensor-in-python%2F&amp;format=xml"><link rel="apple-touch-icon" sizes="180x180" href="https://www.raspberrypi-spy.co.uk/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://www.raspberrypi-spy.co.uk/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://www.raspberrypi-spy.co.uk/favicon-16x16.png"><link rel="manifest" href="https://www.raspberrypi-spy.co.uk/site.webmanifest"><link rel="mask-icon" href="https://www.raspberrypi-spy.co.uk/safari-pinned-tab.svg" color="#5bbad5"><meta name="msapplication-TileColor" content="#b91d47"><meta name="theme-color" content="#ffffff"><meta name="google-site-verification" content="WuI0jtCd6OdGZimt3i6bu2Gid83yBYqEM3VcsLelip4">
+ <script async="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/js"></script> <script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-3716000-12');</script> <!--[if lt IE 9]> <script src=https://www.raspberrypi-spy.co.uk/wp-content/themes/smart-mag/js/html5.js></script> <![endif]--> <script>document.querySelector('head').innerHTML += '<style class=bunyad-img-effects-css>.main img, .main-footer
+img{opacity:0}</style>';</script> <link rel="stylesheet" type="text/css" href="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/shCore.css"><link rel="stylesheet" type="text/css" href="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/shThemeDefault.css"><link rel="stylesheet" type="text/css" href="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/dark-floating.css"><style id="fit-vids-style">.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}</style></head><body class="post-template-default single single-post postid-5965 single-format-standard page-builder right-sidebar boxed img-effects has-nav-dark has-head-default"><div class="cc_banner-wrapper "><div class="cc_banner cc_container cc_container--open"><a href="#null" data-cc-event="click:dismiss" target="_blank" class="cc_btn cc_btn_accept_all">Got it!</a><p class="cc_message">This website uses cookies to ensure you get the best experience on our website </p><a class="cc_logo" target="_blank" href="http://silktide.com/cookieconsent">Cookie Consent plugin for the EU cookie law</a></div></div><div class="main-wrap"><div class="top-bar"><div class="wrap"><section class="top-bar-content cf"><div class="trending-ticker">
+<span class="heading">Trending</span><ul>
+<li class="" style="display: none;"><a href="https://www.raspberrypi-spy.co.uk/2020/11/raspberry-pi-400-launched/" title="Raspberry Pi 400 Launched">Raspberry Pi 400 Launched</a></li>
+<li class="" style="display: none;"><a href="https://www.raspberrypi-spy.co.uk/2012/03/welcome/" title="Welcome">Welcome</a></li>
+<li class="" style="display: none;"><a href="https://www.raspberrypi-spy.co.uk/2021/01/pi-pico-pinout-and-power-pins/" title="Pi Pico Pinout and Power Pins">Pi Pico Pinout and Power Pins</a></li>
+<li class="" style="display: none;"><a href="https://www.raspberrypi-spy.co.uk/2020/12/install-arduino-ide-on-raspberry-pi/" title="Install Arduino IDE on Raspberry Pi">Install Arduino IDE on Raspberry Pi</a></li>
+<li class="" style="display: none;"><a href="https://www.raspberrypi-spy.co.uk/2020/12/raspberry-pi-400-ssd-upgrade/" title="Raspberry Pi 400 SSD Upgrade">Raspberry Pi 400 SSD Upgrade</a></li>
+<li class="" style="display: none;"><a href="https://www.raspberrypi-spy.co.uk/2020/11/raspberry-pi-temperature-monitoring/" title="Raspberry Pi Temperature Monitoring">Raspberry Pi Temperature Monitoring</a></li>
+<li class="" style="display: none;"><a href="https://www.raspberrypi-spy.co.uk/2020/11/overclocking-the-raspberry-pi-400/" title="Overclocking the Raspberry Pi 400">Overclocking the Raspberry Pi 400</a></li>
+<li class="active" style="display: list-item;"><a href="https://www.raspberrypi-spy.co.uk/2020/08/crowpi2-raspberry-pi-laptop-and-learning-platform/" title="CrowPi2 Raspberry Pi Laptop and Learning Platform">CrowPi2 Raspberry Pi Laptop and Learning Platform</a></li>
+<li class="" style="display: none;"><a href="https://www.raspberrypi-spy.co.uk/2020/06/raspberry-pi-vpn-setup-guide/" title="Raspberry Pi VPN Setup Guide">Raspberry Pi VPN Setup Guide</a></li></ul></div><div class="search"><form role="search" action="https://www.raspberrypi-spy.co.uk/" method="get">
+<input type="text" name="s" class="query live-search-query" placeholder="Search..." autocomplete="off">
+<button class="search-button" type="submit"><i class="fa fa-search"></i></button></form></div><div class="textwidget custom-html-widget"><ul class="social-icons cf">
+<li><a href="https://www.raspberrypi-spy.co.uk/?feed=rss2" class="icon fa fa-rss" title="RSS"><span class="visuallyhidden">RSS</span></a></li>
+<li><a href="https://twitter.com/rpispy" class="icon fa fa-twitter" title="Twitter"><span class="visuallyhidden">Twitter</span></a></li>
+<li><a href="https://plus.google.com/+RaspberryPi-SpyCoUK" class="icon fa fa-google-plus" title="Google+"><span class="visuallyhidden">Google+</span></a></li>
+<li><a href="https://facebook.com/rpispy" class="icon fa fa-facebook" title="Facebook"><span class="visuallyhidden">Facebook</span></a></li>
+<li><a href="https://www.youtube.com/user/rpispy" class="icon fa fa-youtube" title="YouTube"><span class="visuallyhidden">YouTube</span></a></li>
+<li><a href="https://www.instagram.com/rpispy/" class="icon fa fa-instagram" title="Instagram"><span class="visuallyhidden">Instagram</span></a></li>
+<li><a href="https://www.pinterest.com/rpispy/" class="icon fa fa-pinterest" title="Pinterest"><span class="visuallyhidden">Pinterest</span></a></li>
+<li><a href="https://www.tumblr.com/blog/rpispy" class="icon fa fa-tumblr" title="Tumblr"><span class="visuallyhidden">Tumblr</span></a></li></ul></div></section></div></div><div id="main-head" class="main-head"><div class="wrap"><header class="default"><div class="title">
+<a href="https://www.raspberrypi-spy.co.uk/" title="Raspberry Pi Spy" rel="home">
+<img src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/Raspberry-Pi-Spy-Logo-140x140-Outline.png" class="logo-image" alt="Raspberry Pi Spy" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/Raspberry-Pi-Spy-Logo-140x140-Outline.png 1x, Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/Raspberry-Pi-Spy-Logo-280x280-Outline.png 2x">
+</a></div><div class="right"><div class="a-widget"> <script async="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/adsbygoogle.js"></script> 
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5084177467956694" data-ad-slot="6800448931" data-ad-format="auto"><iframe id="aswift_1" style="height: 1px !important; max-height: 1px !important; max-width: 1px !important; width: 1px !important;"><iframe id="google_ads_frame0"></iframe></iframe></ins> <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> </div></div></header><div class="main-nav"><div class="navigation-wrap cf"><nav class="navigation cf nav-dark"><div class=""><div class="mobile" data-type="off-canvas" data-search="1">
+<a href="#" class="selected">
+<span class="text">Navigate</span><span class="current"></span> <i class="hamburger fa fa-bars"></i>
+</a></div><div class="menu-menu-1-container"><ul id="menu-menu-1" class="menu"><li id="menu-item-3147" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3147"><a href="https://www.raspberrypi-spy.co.uk/">Home</a></li>
+<li id="menu-item-4895" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4895"><a href="https://www.raspberrypi-spy.co.uk/categories/">Categories</a><ul class="sub-menu">
+<li id="menu-item-4896" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-cat-4 menu-item-4896"><a href="https://www.raspberrypi-spy.co.uk/category/general/">General</a></li>
+<li id="menu-item-4897" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor menu-cat-7 menu-item-4897"><a href="https://www.raspberrypi-spy.co.uk/category/hardware/">Hardware</a></li>
+<li id="menu-item-4898" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-cat-145 menu-item-4898"><a href="https://www.raspberrypi-spy.co.uk/category/programming-2/">Programming</a></li>
+<li id="menu-item-4899" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-cat-10 menu-item-4899"><a href="https://www.raspberrypi-spy.co.uk/category/python/">Python</a></li>
+<li id="menu-item-4900" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-cat-8 menu-item-4900"><a href="https://www.raspberrypi-spy.co.uk/category/software/">Software</a></li>
+<li id="menu-item-4901" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-cat-9 menu-item-4901"><a href="https://www.raspberrypi-spy.co.uk/category/tutorials-help/">Tutorials &amp; Help</a></li></ul>
+</li>
+<li id="menu-item-3148" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-3148"><a href="https://www.raspberrypi-spy.co.uk/berryclip-6-led-add-on-board/">BerryClip</a><ul class="sub-menu">
+<li id="menu-item-3149" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3149"><a href="https://www.raspberrypi-spy.co.uk/berryclip-6-led-add-on-board/berryclip-6-led-add-on-board-instructions/">BerryClip Instructions</a></li>
+<li id="menu-item-3150" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3150"><a href="https://www.raspberrypi-spy.co.uk/berryclip-6-led-add-on-board/berryclip-plus-instructions/">BerryClip Plus Instructions</a></li>
+<li id="menu-item-3161" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3161"><a href="https://www.raspberrypi-spy.co.uk/2014/04/berryclip-assembly-articles-videos-and-reviews/">Videos &amp; Reviews</a></li></ul>
+</li>
+<li id="menu-item-4894" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4894"><a href="https://www.raspberrypi-spy.co.uk/buy/">Buy</a><ul class="sub-menu">
+<li id="menu-item-3151" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3151"><a href="https://www.raspberrypi-spy.co.uk/buy/buy-a-pi-2/">Buy Pi</a></li>
+<li id="menu-item-3152" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3152"><a href="https://www.raspberrypi-spy.co.uk/buy/buy-pi-accessories/">Buy Pi Accessories</a></li>
+<li id="menu-item-3153" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3153"><a href="https://www.raspberrypi-spy.co.uk/buy/buy-books/">Buy Books</a></li></ul>
+</li>
+<li id="menu-item-3154" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-3154"><a href="https://www.raspberrypi-spy.co.uk/tools/">Tools</a><ul class="sub-menu">
+<li id="menu-item-7783" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-7783"><a href="https://www.raspberrypi-spy.co.uk/2018/01/ultimate-alexa-skill-for-your-raspberry-pi/">Ultimate Raspberry Pi Alexa Skill</a></li>
+<li id="menu-item-3853" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3853"><a href="https://www.raspberrypi-spy.co.uk/tools/pi-power-estimator-app/">Pi Power Estimator App</a></li>
+<li id="menu-item-3155" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3155"><a href="https://www.raspberrypi-spy.co.uk/tools/pi-lite-14x9-led-matrix-sprite-editor/">Pi-Lite 14×9 LED Matrix Sprite Editor</a></li>
+<li id="menu-item-3807" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3807"><a href="https://www.raspberrypi-spy.co.uk/tools/rpiref-raspberry-pi-pin-out-reference-app/">RPiREF Pin-out Reference App</a></li>
+<li id="menu-item-3156" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3156"><a href="https://www.raspberrypi-spy.co.uk/tools/simple-ohms-law-calculator/">Simple Ohm’s Law Calculator</a></li>
+<li id="menu-item-3158" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3158"><a href="https://www.raspberrypi-spy.co.uk/resources/web-sites-links/">Web Sites &amp; Links</a></li></ul>
+</li>
+<li id="menu-item-5015" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-cat-9 menu-item-5015"><a href="https://www.raspberrypi-spy.co.uk/category/tutorials-help/">Tutorials &amp; Help</a></li>
+<li id="menu-item-3159" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3159"><a href="https://www.raspberrypi-spy.co.uk/contact-us/">Contact Us</a></li>
+<li id="menu-item-4987" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4987"><a href="https://www.raspberrypi-spy.co.uk/site-map/">Site Map</a></li></ul></div></div></nav></div></div></div></div><div class="breadcrumbs-wrap"><div class="wrap"><nav class="breadcrumbs ts-contain" id="breadcrumb"><div class="inner" breadcrumbs="" ts-contain=""><span class="location">You are at:</span><span><a href="https://www.raspberrypi-spy.co.uk/"><span>Home</span></a></span><span class="delim">»</span><span><a href="https://www.raspberrypi-spy.co.uk/category/hardware/"><span>Hardware</span></a></span><span class="delim">»</span><span><a href="https://www.raspberrypi-spy.co.uk/category/hardware/interfaces/"><span>Interfaces</span></a></span><span class="delim">»</span><span><a href="https://www.raspberrypi-spy.co.uk/category/hardware/interfaces/i2c/"><span>I2C</span></a></span><span class="delim">»</span><span class="current">Using the BME280 I2C Temperature and Pressure Sensor in Python</span></div></nav></div></div><div class="main wrap cf"><div class="row"><div class="col-8 main-content"><article id="post-5965" class="post-5965 post type-post status-publish format-standard has-post-thumbnail category-i2c category-sensors category-tutorials-help tag-i2c tag-pressure tag-temperature title-above"><header class="post-header cf"><div class="heading cf"><h1 class="post-title item fn">
+Using the BME280 I2C Temperature and Pressure Sensor in Python</h1>
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comments" class="comments"><i class="fa fa-comments-o"></i> 43</a></div><div class="post-meta cf">
+<span class="posted-by">By
+<span class="reviewer"><a href="https://www.raspberrypi-spy.co.uk/author/matt/" title="Posts by Matt" rel="author">Matt</a></span>
+</span>
+<span class="posted-on">on	<span class="dtreviewed">
+<time class="value-title" datetime="2016-07-21T21:10:16+01:00" title="2016-07-21">July 21, 2016</time>
+</span>
+</span>
+<span class="cats"><a href="https://www.raspberrypi-spy.co.uk/category/hardware/interfaces/i2c/" rel="category tag">I2C</a>, <a href="https://www.raspberrypi-spy.co.uk/category/hardware/sensors/" rel="category tag">Sensors</a>, <a href="https://www.raspberrypi-spy.co.uk/category/tutorials-help/" rel="category tag">Tutorials &amp; Help</a></span></div><div class="featured">
+<a href="https://www.raspberrypi-spy.co.uk/wp-content/uploads/2016/07/bme280_temp_sensor.jpg" title="Using the BME280 I2C Temperature and Pressure Sensor in Python" rel="prettyPhoto">
+<img src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/bme280_temp_sensor-702x336.jpg" class="attachment-main-featured size-main-featured wp-post-image no-display appear" alt="BME280 Temperature Sensor" loading="lazy" title="Using the BME280 I2C Temperature and Pressure Sensor in Python" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/bme280_temp_sensor-702x336.jpg 702w, Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/bme280_temp_sensor-1078x516.jpg 1078w" sizes="(max-width: 702px) 100vw, 702px" width="702" height="336">
+</a></div></header><div class="post-container cf"><div class="post-content-right"><div class="post-content description "><p>The
+ BME280 device is a digital barometric pressure sensor and is a slightly
+ upgraded version of the BMP180. This is available on a small module 
+which provides access to the sensor via the I2C interface. This allows 
+us to easily connect it to the Raspberry Pi and read the data using 
+Python. The BME280 provides temperature, pressure and humidity.<br>
+<span id="more-5965"></span><br>
+<img loading="lazy" class="alignright wp-image-5977 size-thumbnail no-display appear" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/bme280_temp_sensor_small-150x150.jpg" alt="BME280 Temperature Pressure Sensor" width="150" height="150">The BME280 is made by Bosch and the <a href="https://www.bosch-sensortec.com/bst/products/all_products/bme280">official BME280&nbsp;datasheet</a>
+ includes all the technical details. Their device can offer both SPI and
+ I2C interfaces so you need to make sure your module provides the 
+interface you prefer.</p><p>My module is a small pcb measuring 14x10mm 
+with a 4 pin I2C header. The order of the pins may vary on other modules
+ so keep an eye on the labels so you connect up the correct wires from 
+the Pi.</p><h2>Configure I2C Interface</h2><p>In order to use this 
+module you must enable the I2C interface on the Raspberry Pi as it is 
+not enabled by default. This is a fairly easy process and is described 
+in my <a title="Enabling The I2C Interface On The Raspberry Pi" href="https://www.raspberrypi-spy.co.uk/2014/11/enabling-the-i2c-interface-on-the-raspberry-pi/">Enabling The I2C Interface On The Raspberry Pi</a> tutorial.</p><h2>Connecting Hardware</h2><p>The&nbsp;table below&nbsp;shows how the module is connected to the Raspberyr&nbsp;Pi’s GPIO header (P1). Please refer to my <a title="Simple Guide to the RPi GPIO Header and Pins" href="https://www.raspberrypi-spy.co.uk/2012/06/simple-guide-to-the-rpi-gpio-header-and-pins/">GPIO header guide</a> for a diagram.</p><table><tbody><tr><th>Module PCB</th><th>Desc</th><th>GPIO Header Pins</th></tr><tr><td>VCC</td><td>3.3V</td><td>P1-01</td></tr><tr><td>GND</td><td>Ground</td><td>P1-06</td></tr><tr><td>SCL</td><td>I2C SCL</td><td>P1-05</td></tr><tr><td>SDA</td><td>I2C SDA</td><td>P1-03</td></tr></tbody></table><p>Here
+ is a diagram of a breadboard setup. If you are connecting the module’s 
+four pins directly to the Pi you only need four female-female wires.</p><p><img loading="lazy" class="aligncenter size-full wp-image-5966 no-display appear" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/BME280-Module-Setup.png" alt="BME280 Module Setup" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/BME280-Module-Setup.png 923w, Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/BME280-Module-Setup-300x287.png 300w" sizes="(max-width: 923px) 100vw, 923px" width="923" height="882"></p><p>Other
+ modules are available which have different pin arrangements so make 
+sure you are connecting the correct pins to the Pi if yours is different
+ to the one shown in this tutorial.</p><p>With the device connected and the Pi powered up the “i2cdetect” command should show the device with address 0x76 or 0x77.</p><h2>Download BME280 Script</h2><p>To download the BME280 Python script from my Bitbucket repository you can use :</p><pre>wget&nbsp;-O bme280.py http://bit.ly/bme280py</pre><p>or</p><pre>wget&nbsp;https://bitbucket.org/MattHawkinsUK/rpispy-misc/raw/master/python/bme280.py</pre><p>or right-click on <a href="https://bitbucket.org/MattHawkinsUK/rpispy-misc/raw/master/python/bme280.py" target="_blank">this link</a> in your browser and save locally.</p><h2>Run the Script</h2><p>Before
+ running the script you should check that your device is connected. If 
+you installed the i2c-tools package as part of the i2c setup you should 
+use the i2cdetect command to check it returns an address for your 
+device. The script assumes the address is 0x76. You can change that by 
+editing the DEVICE variable in bme280,py using your favourite text 
+editor.</p><p>Run the script using :</p><pre>python bme280.py</pre><p>Here is the output I see on my Pi :</p><p><img loading="lazy" class="aligncenter size-full wp-image-5973 no-display appear" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/bme280_setup.png" alt="BME280 Sensor Setup" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/bme280_setup.png 440w, Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/bme280_setup-300x177.png 300w" sizes="(max-width: 440px) 100vw, 440px" width="440" height="260"></p><h2>Script Breakdown</h2><p>The
+ script is fairly straight forward but has some scary looking maths in 
+it. This is defined in the datasheet and you will be forgiven for not 
+worrying too much how it works! I rough summary of the script is given 
+below if you want to follow it through in a bit more detail :</p><ul>
+<li>imports some libraries</li>
+<li>defines some functions</li>
+<li>function main uses the&nbsp;readBME280ID function to get the ID of the device</li>
+<li>function main then calls&nbsp;readBME280All which …<ul>
+<li>sets the oversampling and mode</li>
+<li>reads calibration data from the device that was preset in the factory</li>
+<li>reads the raw temperature, pressure and humidity data</li>
+<li>refines the data using the maths from the datasheet</li>
+<li>returns the values to main()</li></ul>
+</li></ul><h2>Include In Your Own Script</h2><p>You could just modify 
+the main function in my script but you may want to include the 
+functionality in your own. To do this you can&nbsp;import my script and 
+then reference the&nbsp;readBME280ID and&nbsp;readBME280All functions as
+ in the example below :</p><div><div id="highlighter_985724" class="syntaxhighlighter  python"><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="python keyword">import</code> <code class="python plain">bme280</code></div><div class="line number2 index1 alt1">&nbsp;</div><div class="line number3 index2 alt2"><code class="python plain">(chip_id, chip_version) </code><code class="python keyword">=</code> <code class="python plain">bme280.readBME280ID()</code></div><div class="line number4 index3 alt1"><code class="python functions">print</code> <code class="python string">"Chip ID :"</code><code class="python plain">, chip_id</code></div><div class="line number5 index4 alt2"><code class="python functions">print</code> <code class="python string">"Version :"</code><code class="python plain">, chip_version</code></div><div class="line number6 index5 alt1">&nbsp;</div><div class="line number7 index6 alt2"><code class="python plain">temperature,pressure,humidity </code><code class="python keyword">=</code> <code class="python plain">bme280.readBME280All()</code></div><div class="line number8 index7 alt1">&nbsp;</div><div class="line number9 index8 alt2"><code class="python functions">print</code> <code class="python string">"Temperature : "</code><code class="python plain">, temperature, </code><code class="python string">"C"</code></div><div class="line number10 index9 alt1"><code class="python functions">print</code> <code class="python string">"Pressure : "</code><code class="python plain">, pressure, </code><code class="python string">"hPa"</code></div><div class="line number11 index10 alt2"><code class="python functions">print</code> <code class="python string">"Humidity : "</code><code class="python plain">, humidity, </code><code class="python string">"%"</code></div></div></td></tr></tbody></table></div></div><p>The rest is down to your imagination.</p><h2>Troubleshooting</h2><ul>
+<li>If the i2cdetect command results in an error you have either not installed i2c-tools or you need to use 0 rather than 1</li>
+<li>If your device is not detected and you don’t see the address you 
+have either not connected the device properly or have not correctly 
+enabled the i2c interface</li>
+<li>Double check your wiring and reboot the Pi</li></ul><p>In most cases i2c experiments fail to work because :</p><ul>
+<li>i2c is not enabled</li>
+<li>The device is not connected properly</li>
+<li>i2c-tools has not been installed so the i2cdetect command is not available</li></ul><p>In rare cases your device may be faulty but it is far more likely to be one of the above issues.</p><hr><p>The module is available from <a class="easyazon-link" data-cart="n" data-cloak="n" data-keywords="BME280 sensor" data-locale="UK" data-localize="y" data-popups="y" data-tag="raspberrypispy-21" href="http://www.amazon.co.uk/s/?field-keywords=BME280%20sensor&amp;tag=raspberrypispy-21" rel="nofollow" target="_blank">Amazon</a> and many other online electronics shops. You can also find <script>document.write('<scr'+'ipt src="http://rover.ebay.com/ar/1/55242/1?lt=9&#038;adtype=3&#038;pubid=5575206015&#038;toolid=10001&#038;campid=5337928941&#038;customid=&#038;uq=bme280&#038;sellerId=&#038;ex_kw=&#038;sortBy=12&#038;catId=&#038;minPrice=&#038;maxPrice=&#038;laction=_blank&#038;ltext=BME280+Sensors+on+eBay&#038;n3y=1&#038;v1e=1&#038;u7v=1&#038;a3h=1&#038;def=u7v&#038;ig=1&#038;mpt='+Math.floor(Math.random()*999999999)+'"></scr'+'ipt>');</script><script src="http://rover.ebay.com/ar/1/55242/1?lt=9&amp;adtype=3&amp;pubid=5575206015&amp;toolid=10001&amp;campid=5337928941&amp;customid=&amp;uq=bme280&amp;sellerId=&amp;ex_kw=&amp;sortBy=12&amp;catId=&amp;minPrice=&amp;maxPrice=&amp;laction=_blank&amp;ltext=BME280+Sensors+on+eBay&amp;n3y=1&amp;v1e=1&amp;u7v=1&amp;a3h=1&amp;def=u7v&amp;ig=1&amp;mpt=286128179"></script><noscript><a
+target=_blank href="http://rover.ebay.com/rover/1/710-53481-19255-0/1?icep_ff3=9&#038;pub=5575206015&#038;toolid=10001&#038;campid=5337928941&#038;customid=&#038;icep_uq=bme280&#038;icep_sellerId=&#038;icep_ex_kw=&#038;icep_sortBy=12&#038;icep_catId=&#038;icep_minPrice=&#038;icep_maxPrice=&#038;ipn=psmain&#038;icep_vectorid=229508&#038;kwid=902099&#038;mtid=824&#038;kw=lg">BME280 Sensors on eBay</a><img
+style=text-decoration:none;border:0;padding:0;margin:0; src="http://rover.ebay.com/roverimp/1/710-53481-19255-0/1?ff3=9&#038;pub=5575206015&#038;toolid=10001&#038;campid=5337928941&#038;customid=&#038;uq=bme280&#038;mpt=[CACHEBUSTER]"></noscript>.</p></div></div></div><div class="post-share">
+<span class="text">Share.</span>
+<span class="share-links"><a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fwww.raspberrypi-spy.co.uk%2F2016%2F07%2Fusing-bme280-i2c-temperature-pressure-sensor-in-python%2F&amp;text=Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python" class="fa fa-twitter" target="_blank" data-original-title="Tweet It">
+<span class="visuallyhidden">Twitter</span></a>
+<a href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Fwww.raspberrypi-spy.co.uk%2F2016%2F07%2Fusing-bme280-i2c-temperature-pressure-sensor-in-python%2F" class="fa fa-facebook fbc-has-badge fbc-UID_1" target="_blank" data-original-title="Share on Facebook">
+<span class="visuallyhidden">Facebook</span></a>
+<a href="http://pinterest.com/pin/create/button/?url=https%3A%2F%2Fwww.raspberrypi-spy.co.uk%2F2016%2F07%2Fusing-bme280-i2c-temperature-pressure-sensor-in-python%2F&amp;media=https%3A%2F%2Fwww.raspberrypi-spy.co.uk%2Fwp-content%2Fuploads%2F2016%2F07%2Fbme280_temp_sensor.jpg" class="fa fa-pinterest" target="_blank" data-original-title="Share on Pinterest">
+<span class="visuallyhidden">Pinterest</span></a>
+<a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fwww.raspberrypi-spy.co.uk%2F2016%2F07%2Fusing-bme280-i2c-temperature-pressure-sensor-in-python%2F" class="fa fa-linkedin" target="_blank" data-original-title="Share on LinkedIn">
+<span class="visuallyhidden">LinkedIn</span></a>
+<a href="http://www.tumblr.com/share/link?url=https%3A%2F%2Fwww.raspberrypi-spy.co.uk%2F2016%2F07%2Fusing-bme280-i2c-temperature-pressure-sensor-in-python%2F&amp;name=Using+the+BME280+I2C+Temperature+and+Pressure+Sensor+in+Python" class="fa fa-tumblr" target="_blank" data-original-title="Share on Tumblr">
+<span class="visuallyhidden">Tumblr</span></a>
+<a href="mailto:?subject=Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python&amp;body=https%3A%2F%2Fwww.raspberrypi-spy.co.uk%2F2016%2F07%2Fusing-bme280-i2c-temperature-pressure-sensor-in-python%2F" class="fa fa-envelope-o" data-original-title="Share via Email">
+<span class="visuallyhidden">Email</span></a>
+</span></div></article><section class="navigate-posts"><div class="previous"><span class="main-color title"><i class="fa fa-chevron-left"></i> Previous Article</span><span class="link"><a href="https://www.raspberrypi-spy.co.uk/2016/07/12-inch-gpio-zero-ruler-from-raspi-tv/" rel="prev">12 inch GPIO Zero Ruler from RasPi.TV</a></span></div><div class="next"><span class="main-color title">Next Article <i class="fa fa-chevron-right"></i></span><span class="link"><a href="https://www.raspberrypi-spy.co.uk/2016/08/mini-nes-classic-raspberry-pi-games-console/" rel="next">Mini NES Classic Raspberry Pi Games Console</a></span></div></section><section class="related-posts"><h3 class="section-head"><span class="color">Related</span> Posts</h3><ul class="highlights-box three-col related-posts">
+<li class="highlights column one-third"><article>
+<a href="https://www.raspberrypi-spy.co.uk/2020/11/raspberry-pi-temperature-monitoring/" title="Raspberry Pi Temperature Monitoring" class="image-link">
+<img src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/temperature-monitoring-214x140.jpg" class="image wp-post-image no-display appear" alt="" loading="lazy" title="Raspberry Pi Temperature Monitoring" width="214" height="140">
+</a><div class="cf listing-meta meta above">
+<time datetime="2020-11-09T00:00:49+00:00" class="meta-item">November 9, 2020</time><span class="meta-item comments"><a href="https://www.raspberrypi-spy.co.uk/2020/11/raspberry-pi-temperature-monitoring/#respond"><i class="fa fa-comments-o"></i> 0</a></span></div><h2><a href="https://www.raspberrypi-spy.co.uk/2020/11/raspberry-pi-temperature-monitoring/" title="Raspberry Pi Temperature Monitoring">Raspberry Pi Temperature Monitoring</a></h2></article>
+</li>
+<li class="highlights column one-third"><article>
+<a href="https://www.raspberrypi-spy.co.uk/2020/11/overclocking-the-raspberry-pi-400/" title="Overclocking the Raspberry Pi 400" class="image-link">
+<img src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/pi_400_overclock_featured-214x140.jpg" class="image wp-post-image no-display appear" alt="Pi 400 Overclock" loading="lazy" title="Overclocking the Raspberry Pi 400" width="214" height="140">
+</a><div class="cf listing-meta meta above">
+<time datetime="2020-11-04T12:08:33+00:00" class="meta-item">November 4, 2020</time><span class="meta-item comments"><a href="https://www.raspberrypi-spy.co.uk/2020/11/overclocking-the-raspberry-pi-400/#comments"><i class="fa fa-comments-o"></i> 2</a></span></div><h2><a href="https://www.raspberrypi-spy.co.uk/2020/11/overclocking-the-raspberry-pi-400/" title="Overclocking the Raspberry Pi 400">Overclocking the Raspberry Pi 400</a></h2></article>
+</li>
+<li class="highlights column one-third"><article>
+<a href="https://www.raspberrypi-spy.co.uk/2020/06/raspberry-pi-vpn-setup-guide/" title="Raspberry Pi VPN Setup Guide" class="image-link">
+<img src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/raspberry_pi_pia_vpn_setup-214x140.jpg" class="image wp-post-image no-display appear" alt="Raspberry Pi VPN Setup Guide" loading="lazy" title="Raspberry Pi VPN Setup Guide" width="214" height="140">
+</a><div class="cf listing-meta meta above">
+<time datetime="2020-06-18T12:18:20+01:00" class="meta-item">June 18, 2020</time><span class="meta-item comments"><a href="https://www.raspberrypi-spy.co.uk/2020/06/raspberry-pi-vpn-setup-guide/#comments"><i class="fa fa-comments-o"></i> 4</a></span></div><h2><a href="https://www.raspberrypi-spy.co.uk/2020/06/raspberry-pi-vpn-setup-guide/" title="Raspberry Pi VPN Setup Guide">Raspberry Pi VPN Setup Guide</a></h2></article>
+</li>
+<li class="highlights column one-third"><article>
+<a href="https://www.raspberrypi-spy.co.uk/2020/05/adding-ethernet-to-a-pi-zero/" title="Adding Ethernet to a Pi Zero" class="image-link">
+<img src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/enc28j60_ethernet_module_03-214x140.jpg" class="image wp-post-image no-display appear" alt="" loading="lazy" title="Adding Ethernet to a Pi Zero" width="214" height="140">
+</a><div class="cf listing-meta meta above">
+<time datetime="2020-05-20T11:15:31+01:00" class="meta-item">May 20, 2020</time><span class="meta-item comments"><a href="https://www.raspberrypi-spy.co.uk/2020/05/adding-ethernet-to-a-pi-zero/#comments"><i class="fa fa-comments-o"></i> 7</a></span></div><h2><a href="https://www.raspberrypi-spy.co.uk/2020/05/adding-ethernet-to-a-pi-zero/" title="Adding Ethernet to a Pi Zero">Adding Ethernet to a Pi Zero</a></h2></article>
+</li>
+<li class="highlights column one-third"><article>
+<a href="https://www.raspberrypi-spy.co.uk/2019/10/pi-hole-oled-status-screen/" title="Pi-Hole OLED Status Screen" class="image-link">
+<img src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/pi-hole-oled-screen-switch_03-214x140.jpg" class="image wp-post-image no-display appear" alt="Pi-Hole with OLED Screen" loading="lazy" title="Pi-Hole OLED Status Screen" width="214" height="140">
+</a><div class="cf listing-meta meta above">
+<time datetime="2019-10-21T12:15:10+01:00" class="meta-item">October 21, 2019</time><span class="meta-item comments"><a href="https://www.raspberrypi-spy.co.uk/2019/10/pi-hole-oled-status-screen/#comments"><i class="fa fa-comments-o"></i> 10</a></span></div><h2><a href="https://www.raspberrypi-spy.co.uk/2019/10/pi-hole-oled-status-screen/" title="Pi-Hole OLED Status Screen">Pi-Hole OLED Status Screen</a></h2></article>
+</li>
+<li class="highlights column one-third"><article>
+<a href="https://www.raspberrypi-spy.co.uk/2019/06/using-a-usb-audio-device-with-the-raspberry-pi/" title="Using a USB Audio Device with the Raspberry Pi" class="image-link">
+<img src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/pi_usb_sound_05-214x140.jpg" class="image wp-post-image no-display appear" alt="USB Audio Device and Pi" loading="lazy" title="Using a USB Audio Device with the Raspberry Pi" width="214" height="140">
+</a><div class="cf listing-meta meta above">
+<time datetime="2019-06-04T11:35:32+01:00" class="meta-item">June 4, 2019</time><span class="meta-item comments"><a href="https://www.raspberrypi-spy.co.uk/2019/06/using-a-usb-audio-device-with-the-raspberry-pi/#comments"><i class="fa fa-comments-o"></i> 8</a></span></div><h2><a href="https://www.raspberrypi-spy.co.uk/2019/06/using-a-usb-audio-device-with-the-raspberry-pi/" title="Using a USB Audio Device with the Raspberry Pi">Using a USB Audio Device with the Raspberry Pi</a></h2></article>
+</li>
+<li class="highlights column one-third"><article>
+<a href="https://www.raspberrypi-spy.co.uk/2019/02/setting-up-ssh-keys-on-the-raspberry-pi/" title="Setting up SSH Keys on the Raspberry Pi" class="image-link">
+<img src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/ssh_keys_featured-214x140.jpg" class="image wp-post-image no-display appear" alt="Raspberry Pi SSH Keys" loading="lazy" title="Setting up SSH Keys on the Raspberry Pi" width="214" height="140">
+</a><div class="cf listing-meta meta above">
+<time datetime="2019-02-05T11:01:45+00:00" class="meta-item">February 5, 2019</time><span class="meta-item comments"><a href="https://www.raspberrypi-spy.co.uk/2019/02/setting-up-ssh-keys-on-the-raspberry-pi/#comments"><i class="fa fa-comments-o"></i> 1</a></span></div><h2><a href="https://www.raspberrypi-spy.co.uk/2019/02/setting-up-ssh-keys-on-the-raspberry-pi/" title="Setting up SSH Keys on the Raspberry Pi">Setting up SSH Keys on the Raspberry Pi</a></h2></article>
+</li>
+<li class="highlights column one-third"><article>
+<a href="https://www.raspberrypi-spy.co.uk/2018/12/running-flask-under-nginx-raspberry-pi/" title="Running Flask under NGINX on the Raspberry Pi" class="image-link">
+<img src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/flask_nginx_tutorial-214x140.jpg" class="image wp-post-image no-display appear" alt="Flask NGINX tutorial" loading="lazy" title="Running Flask under NGINX on the Raspberry Pi" width="214" height="140">
+</a><div class="cf listing-meta meta above">
+<time datetime="2018-12-15T23:24:06+00:00" class="meta-item">December 15, 2018</time><span class="meta-item comments"><a href="https://www.raspberrypi-spy.co.uk/2018/12/running-flask-under-nginx-raspberry-pi/#comments"><i class="fa fa-comments-o"></i> 9</a></span></div><h2><a href="https://www.raspberrypi-spy.co.uk/2018/12/running-flask-under-nginx-raspberry-pi/" title="Running Flask under NGINX on the Raspberry Pi">Running Flask under NGINX on the Raspberry Pi</a></h2></article>
+</li>
+<li class="highlights column one-third"><article>
+<a href="https://www.raspberrypi-spy.co.uk/2018/12/remote-access-pi-using-mobaxterm/" title="Remote Access to a Raspberry Pi using MobaXterm" class="image-link">
+<img src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/mobaxterm_pi_featured-214x140.jpg" class="image wp-post-image no-display appear" alt="MobaXterm Raspberry Pi Remote Connection" loading="lazy" title="Remote Access to a Raspberry Pi using MobaXterm" width="214" height="140">
+</a><div class="cf listing-meta meta above">
+<time datetime="2018-12-08T17:06:31+00:00" class="meta-item">December 8, 2018</time><span class="meta-item comments"><a href="https://www.raspberrypi-spy.co.uk/2018/12/remote-access-pi-using-mobaxterm/#comments"><i class="fa fa-comments-o"></i> 3</a></span></div><h2><a href="https://www.raspberrypi-spy.co.uk/2018/12/remote-access-pi-using-mobaxterm/" title="Remote Access to a Raspberry Pi using MobaXterm">Remote Access to a Raspberry Pi using MobaXterm</a></h2></article>
+</li></ul></section><div class="comments"><div id="comments"><h3 class="section-head">
+43 Comments</h3><ol class="comments-list">
+<li class="comment even thread-even depth-1" id="li-comment-190912"><article id="comment-190912" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/e90fe7bb2cd53bd41fc4f6f7dfd1369e.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/e90fe7bb2cd53bd41fc4f6f7dfd1369e_002.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">willie</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-190912" class="comment-time" title="August 8, 2016 at 8:36 pm">
+<time pubdate="" datetime="2016-08-08T20:36:59+01:00">August 8, 2016 8:36 pm</time>
+</a></div><div class="comment-content"><p>thank you! the script works 
+great and i used your example as a ‘library’ – all i needed to do was 
+import one function and i had a working display showing ambient 
+conditions! great work!</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-190912" data-commentid="190912" data-postid="5965" data-belowelement="comment-190912" data-respondelement="respond" data-replyto="Reply to willie" aria-label="Reply to willie">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li>
+<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-191835"><article id="comment-191835" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/fae760c9b3eb75750f7354e6204d2653_002.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/fae760c9b3eb75750f7354e6204d2653.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Phil</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-191835" class="comment-time" title="August 31, 2016 at 10:10 am">
+<time pubdate="" datetime="2016-08-31T10:10:42+01:00">August 31, 2016 10:10 am</time>
+</a></div><div class="comment-content"><p>Hi, will this also work with the BMP280 which appears to have an extra pin? Thank you.</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-191835" data-commentid="191835" data-postid="5965" data-belowelement="comment-191835" data-respondelement="respond" data-replyto="Reply to Phil" aria-label="Reply to Phil">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li>
+<li class="comment even thread-even depth-1" id="li-comment-192193"><article id="comment-192193" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/fdfa9dd3939a4acee4c54e4d16fda366.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/fdfa9dd3939a4acee4c54e4d16fda366_002.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">TheoryX</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-192193" class="comment-time" title="September 7, 2016 at 8:43 am">
+<time pubdate="" datetime="2016-09-07T08:43:22+01:00">September 7, 2016 8:43 am</time>
+</a></div><div class="comment-content"><p>Hey. What is the wire length 
+limit for BME280 because of the I2C? I’ve read some time ago that I2C 
+has aproblem with long wires, do you know anything about this?</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-192193" data-commentid="192193" data-postid="5965" data-belowelement="comment-192193" data-respondelement="respond" data-replyto="Reply to TheoryX" aria-label="Reply to TheoryX">Reply <i class="fa fa-angle-right"></i></a></div></div></article><ul class="children">
+<li class="comment byuser comment-author-matt bypostauthor odd alt depth-2" id="li-comment-192614"><article id="comment-192614" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/49044c5831a18ae589a1fcdd87644a6d.png" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/49044c5831a18ae589a1fcdd87644a6d_002.png 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Matt</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-192614" class="comment-time" title="September 15, 2016 at 4:53 pm">
+<time pubdate="" datetime="2016-09-15T16:53:51+01:00">September 15, 2016 4:53 pm</time>
+</a></div><div class="comment-content"><p>I think the limit for i2c is a
+ few metres but it depends on a number of factors including resistance 
+and the i2c clock frequency.</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-192614" data-commentid="192614" data-postid="5965" data-belowelement="comment-192614" data-respondelement="respond" data-replyto="Reply to Matt" aria-label="Reply to Matt">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li></ul>
+</li>
+<li class="comment even thread-odd thread-alt depth-1" id="li-comment-192448"><article id="comment-192448" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/fe46d1e9aaa55f6e8e715c8e666350e0.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/fe46d1e9aaa55f6e8e715c8e666350e0_002.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author"><a href="http://newsignature.com/" rel="external nofollow ugc" class="url">Stephen</a></span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-192448" class="comment-time" title="September 12, 2016 at 4:48 pm">
+<time pubdate="" datetime="2016-09-12T16:48:26+01:00">September 12, 2016 4:48 pm</time>
+</a></div><div class="comment-content"><p>My BME280 module doesn’t have 
+an SDA connection, but has two labeled as SDI and SDO – should I be 
+using the SDO for output data? Because of this, I’m receiving I/O errors
+ (IOError: [Errno 5] Input/output error).</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-192448" data-commentid="192448" data-postid="5965" data-belowelement="comment-192448" data-respondelement="respond" data-replyto="Reply to Stephen" aria-label="Reply to Stephen">Reply <i class="fa fa-angle-right"></i></a></div></div></article><ul class="children">
+<li class="comment byuser comment-author-matt bypostauthor odd alt depth-2" id="li-comment-192613"><article id="comment-192613" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/49044c5831a18ae589a1fcdd87644a6d.png" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/49044c5831a18ae589a1fcdd87644a6d_002.png 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Matt</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-192613" class="comment-time" title="September 15, 2016 at 4:52 pm">
+<time pubdate="" datetime="2016-09-15T16:52:13+01:00">September 15, 2016 4:52 pm</time>
+</a></div><div class="comment-content"><p>Do you have a SCK pin as well? SDO/SDI is usually for an SPI interface but some modules let you do i2c using the SCK/SDI pins.</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-192613" data-commentid="192613" data-postid="5965" data-belowelement="comment-192613" data-respondelement="respond" data-replyto="Reply to Matt" aria-label="Reply to Matt">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li>
+<li class="comment even depth-2" id="li-comment-196420"><article id="comment-196420" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/417f7b10998fc756eba3955711db8f02.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/417f7b10998fc756eba3955711db8f02_002.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Scott</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-196420" class="comment-time" title="November 11, 2016 at 4:59 pm">
+<time pubdate="" datetime="2016-11-11T16:59:54+00:00">November 11, 2016 4:59 pm</time>
+</a></div><div class="comment-content"><p>I had the same problem.  Fixed it by connecting SDO to GND.</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-196420" data-commentid="196420" data-postid="5965" data-belowelement="comment-196420" data-respondelement="respond" data-replyto="Reply to Scott" aria-label="Reply to Scott">Reply <i class="fa fa-angle-right"></i></a></div></div></article><ul class="children">
+<li class="comment odd alt depth-3" id="li-comment-291001"><article id="comment-291001" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/bbb37d2474c993386a549313d10857f5.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/bbb37d2474c993386a549313d10857f5_002.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Thi Tran</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-291001" class="comment-time" title="January 30, 2021 at 5:28 am">
+<time pubdate="" datetime="2021-01-30T05:28:23+00:00">January 30, 2021 5:28 am</time>
+</a></div><div class="comment-content"><p>THANK YOU SO MUCH</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-291001" data-commentid="291001" data-postid="5965" data-belowelement="comment-291001" data-respondelement="respond" data-replyto="Reply to Thi Tran" aria-label="Reply to Thi Tran">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li></ul>
+</li></ul>
+</li>
+<li class="comment even thread-even depth-1" id="li-comment-193803"><article id="comment-193803" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/46acec3f47811cafebae7a3caf9d1b5c_002.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/46acec3f47811cafebae7a3caf9d1b5c.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">PedroKV</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-193803" class="comment-time" title="October 8, 2016 at 8:23 am">
+<time pubdate="" datetime="2016-10-08T08:23:00+01:00">October 8, 2016 8:23 am</time>
+</a></div><div class="comment-content"><p>I realized that the first reading is not accurate, only second and next.</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-193803" data-commentid="193803" data-postid="5965" data-belowelement="comment-193803" data-respondelement="respond" data-replyto="Reply to PedroKV" aria-label="Reply to PedroKV">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li>
+<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-194371"><article id="comment-194371" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/04a638ca3c19e3d154d6abd41903b189.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/04a638ca3c19e3d154d6abd41903b189_002.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Al</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-194371" class="comment-time" title="October 16, 2016 at 12:06 pm">
+<time pubdate="" datetime="2016-10-16T12:06:53+01:00">October 16, 2016 12:06 pm</time>
+</a></div><div class="comment-content"><p>Hi,</p><p>Working fine for now.</p><p>Next steps to be:<br>
+1. Log details to file so I can export manual to excel<br>
+2. Future export auto to exel and make graph’s for it<br>
+3. Getting the BME280 working in OpenPlotter</p><p>But as greenhorn in Python I want to do step by step so I also will get some understanding about Python.</p><p>Can someone point me in good direction for next step, the logging script?</p><p>Thanks<br>
+Al</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-194371" data-commentid="194371" data-postid="5965" data-belowelement="comment-194371" data-respondelement="respond" data-replyto="Reply to Al" aria-label="Reply to Al">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li>
+<li class="comment even thread-even depth-1" id="li-comment-194468"><article id="comment-194468" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/b364353fda33b02df185ba9405238448_002.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/b364353fda33b02df185ba9405238448.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author"><a href="http://none/" rel="external nofollow ugc" class="url">James</a></span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-194468" class="comment-time" title="October 17, 2016 at 9:58 pm">
+<time pubdate="" datetime="2016-10-17T21:58:33+01:00">October 17, 2016 9:58 pm</time>
+</a></div><div class="comment-content"><p>Thank you, Matt.  I struggled to find information about how to use this module before finding your blog post.</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-194468" data-commentid="194468" data-postid="5965" data-belowelement="comment-194468" data-respondelement="respond" data-replyto="Reply to James" aria-label="Reply to James">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li>
+<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-195943"><article id="comment-195943" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/c3d03283e57462a79dd999b927438827.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/c3d03283e57462a79dd999b927438827_002.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Paul</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-195943" class="comment-time" title="November 5, 2016 at 2:09 pm">
+<time pubdate="" datetime="2016-11-05T14:09:01+00:00">November 5, 2016 2:09 pm</time>
+</a></div><div class="comment-content"><p>Hi, great site, noticed a 
+problem in this BME280 code in that you are not configuring the 
+oversample mode for the humidity so does not read accurately.  I added 
+the following 3 lines to your code before the write of the BMP180 
+(REG_CONTROL) register,</p><p> # add configuration of humidity register<br>
+OVERSAMPLE_HUM = 2<br>
+REG_CONTROL_HUM = 0xF2<br>
+bus.write_byte_data(addr, BME280_REG_CONTROL_HUM, OVERSAMPLE_HUM)</p><p>also
+ need to add a delay after the write of read command, adafruit did it 
+like this where self._mode is the oversampling mode of each unit 
+humid,temp,pressure, or the first reading will be duff.</p><p> sleep_time = 0.00125 + 0.0023 * (1 &lt;&lt; self._mode)<br>
+sleep_time = sleep_time + 0.0023 * (1 &lt;&lt; self._mode) + 0.000575<br>
+sleep_time = sleep_time + 0.0023 * (1 &lt;&lt; self._mode) + 0.000575<br>
+time.sleep(sleep_time)  # Wait the required time</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-195943" data-commentid="195943" data-postid="5965" data-belowelement="comment-195943" data-respondelement="respond" data-replyto="Reply to Paul" aria-label="Reply to Paul">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li>
+<li class="comment even thread-even depth-1" id="li-comment-196538"><article id="comment-196538" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/fd3b9b3c0e4e0dd6b9e4d2cc1128a7ad_002.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/fd3b9b3c0e4e0dd6b9e4d2cc1128a7ad.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author"><a href="http://www.rigacci.org/" rel="external nofollow ugc" class="url">Niccolo Rigacci</a></span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-196538" class="comment-time" title="November 13, 2016 at 5:46 pm">
+<time pubdate="" datetime="2016-11-13T17:46:21+00:00">November 13, 2016 5:46 pm</time>
+</a></div><div class="comment-content"><p>Hello!<br>
+I was comparing the code with the datasheet and I wonder if there is a 
+typo at line 140: may be the 16384.8 should be 16384.0 instead?</p><p>I’m
+ also a bit confused because the refine calculation uses different 
+formulas than the ones in the datasheet. I’m investigating about 
+humidity and I get different values (about 0.001 on the final % value). 
+May be the bit shift (as per datasheet) performs round-up differently 
+than converting early to float (as your code do)?</p><p>Thank you very much for your code!</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-196538" data-commentid="196538" data-postid="5965" data-belowelement="comment-196538" data-respondelement="respond" data-replyto="Reply to Niccolo Rigacci" aria-label="Reply to Niccolo Rigacci">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li>
+<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-200731"><article id="comment-200731" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/ef2faa665f8983f96feeab43240cfa76.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/ef2faa665f8983f96feeab43240cfa76_002.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Steve</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-200731" class="comment-time" title="December 19, 2016 at 10:57 am">
+<time pubdate="" datetime="2016-12-19T10:57:14+00:00">December 19, 2016 10:57 am</time>
+</a></div><div class="comment-content"><p>I was puzzled by the humidity 
+data coming out of my BME280 using this code, as the values were 
+constantly in the 72% area. Investigation showed that you are not 
+initialising register 0xF2 wich sets the humidity oversampling. When I 
+added a couple of lines to correct this, I started receiving values that
+ matched an HTU21D.</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-200731" data-commentid="200731" data-postid="5965" data-belowelement="comment-200731" data-respondelement="respond" data-replyto="Reply to Steve" aria-label="Reply to Steve">Reply <i class="fa fa-angle-right"></i></a></div></div></article><ul class="children">
+<li class="comment even depth-2" id="li-comment-202235"><article id="comment-202235" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/163aac1b8b7528f63772895362f6b799_002.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/163aac1b8b7528f63772895362f6b799.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Chris</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-202235" class="comment-time" title="January 2, 2017 at 10:26 pm">
+<time pubdate="" datetime="2017-01-02T22:26:21+00:00">January 2, 2017 10:26 pm</time>
+</a></div><div class="comment-content"><p>Steve</p><p>I am new at all this and very confused.<br>
+can you be more specific about the lines you added to correct this please.</p><p>Thanks</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-202235" data-commentid="202235" data-postid="5965" data-belowelement="comment-202235" data-respondelement="respond" data-replyto="Reply to Chris" aria-label="Reply to Chris">Reply <i class="fa fa-angle-right"></i></a></div></div></article><ul class="children">
+<li class="comment byuser comment-author-matt bypostauthor odd alt depth-3" id="li-comment-202322"><article id="comment-202322" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/49044c5831a18ae589a1fcdd87644a6d.png" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/49044c5831a18ae589a1fcdd87644a6d_002.png 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Matt</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-202322" class="comment-time" title="January 3, 2017 at 11:39 pm">
+<time pubdate="" datetime="2017-01-03T23:39:20+00:00">January 3, 2017 11:39 pm</time>
+</a></div><div class="comment-content"><p>The script has already been 
+updated. The two lines after “# Oversample setting for humidity register
+ – page 26” initialise the humidity register.</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-202322" data-commentid="202322" data-postid="5965" data-belowelement="comment-202322" data-respondelement="respond" data-replyto="Reply to Matt" aria-label="Reply to Matt">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li></ul>
+</li></ul>
+</li>
+<li class="comment even thread-even depth-1" id="li-comment-202769"><article id="comment-202769" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/1d45b0bfa6a6ac06a7ce1ff29e5dd2f7.png" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/1d45b0bfa6a6ac06a7ce1ff29e5dd2f7_002.png 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Simon Maddox</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-202769" class="comment-time" title="January 13, 2017 at 1:16 pm">
+<time pubdate="" datetime="2017-01-13T13:16:35+00:00">January 13, 2017 1:16 pm</time>
+</a></div><div class="comment-content"><p>I am having difficulties with 
+this script. I made 2 changes in order to round the pressure value and 
+to output the raw_hum value (for debug). The Humidity is always 0.0% and
+ raw_hum never changes from 35152. Has anyone else had this issue, or is
+ it a problem with my sensor?</p><p>pi@raspberrypi:~ $ python bme280.py<br>
+Chip ID     : 88<br>
+Version     : 0<br>
+Temperature :  27.38 C<br>
+Pressure :  997.71 mbar<br>
+Humidity :  0.0 %<br>
+Raw Humidity :  35152</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-202769" data-commentid="202769" data-postid="5965" data-belowelement="comment-202769" data-respondelement="respond" data-replyto="Reply to Simon Maddox" aria-label="Reply to Simon Maddox">Reply <i class="fa fa-angle-right"></i></a></div></div></article><ul class="children">
+<li class="comment byuser comment-author-matt bypostauthor odd alt depth-2" id="li-comment-202837"><article id="comment-202837" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/49044c5831a18ae589a1fcdd87644a6d.png" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/49044c5831a18ae589a1fcdd87644a6d_002.png 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Matt</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-202837" class="comment-time" title="January 14, 2017 at 7:17 pm">
+<time pubdate="" datetime="2017-01-14T19:17:37+00:00">January 14, 2017 7:17 pm</time>
+</a></div><div class="comment-content"><p>Are you definitely using a BME280? Lots of people who have trouble with humidity are using a BMP280 which doesn’t support it.</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-202837" data-commentid="202837" data-postid="5965" data-belowelement="comment-202837" data-respondelement="respond" data-replyto="Reply to Matt" aria-label="Reply to Matt">Reply <i class="fa fa-angle-right"></i></a></div></div></article><ul class="children">
+<li class="comment even depth-3" id="li-comment-226738"><article id="comment-226738" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/1eff7faab35f2a94baa70fa84c8017fe_002.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/1eff7faab35f2a94baa70fa84c8017fe.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Stephen Lovatt</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-226738" class="comment-time" title="October 23, 2018 at 12:43 pm">
+<time pubdate="" datetime="2018-10-23T12:43:39+01:00">October 23, 2018 12:43 pm</time>
+</a></div><div class="comment-content"><p>I had exactly this problem. I only just noticed that I had the BMP20 not the BME280.</p><p>!!! BOTHER !!!</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-226738" data-commentid="226738" data-postid="5965" data-belowelement="comment-226738" data-respondelement="respond" data-replyto="Reply to Stephen Lovatt" aria-label="Reply to Stephen Lovatt">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li></ul>
+</li></ul>
+</li>
+<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-203233"><article id="comment-203233" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/fd3b9b3c0e4e0dd6b9e4d2cc1128a7ad_002.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/fd3b9b3c0e4e0dd6b9e4d2cc1128a7ad.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author"><a href="http://www.rigacci.org/" rel="external nofollow ugc" class="url">Niccolo Rigacci</a></span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-203233" class="comment-time" title="January 22, 2017 at 7:26 pm">
+<time pubdate="" datetime="2017-01-22T19:26:25+00:00">January 22, 2017 7:26 pm</time>
+</a></div><div class="comment-content"><p>After many weeks of data 
+acquisition with BME280 sensor, I confirmed that Matt’s software has a 
+problem with humidity reading. Strangely, the graph of temperature and 
+humidity have the same identical shape. The problem was solved when I 
+installed the Adafruit library. Having checked the source code, it seems
+ that the only difference is in the pause that the Adafruit library 
+performs between writing to the registry and reading the humidity value,
+ where the Matt’s code does not pause at all. From BME datasheet, 
+Appendix B “Measurement time and current calculation” it seems indeed 
+that a pause is required.</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-203233" data-commentid="203233" data-postid="5965" data-belowelement="comment-203233" data-respondelement="respond" data-replyto="Reply to Niccolo Rigacci" aria-label="Reply to Niccolo Rigacci">Reply <i class="fa fa-angle-right"></i></a></div></div></article><ul class="children">
+<li class="comment byuser comment-author-matt bypostauthor even depth-2" id="li-comment-203505"><article id="comment-203505" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/49044c5831a18ae589a1fcdd87644a6d.png" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/49044c5831a18ae589a1fcdd87644a6d_002.png 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Matt</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-203505" class="comment-time" title="January 29, 2017 at 12:16 pm">
+<time pubdate="" datetime="2017-01-29T12:16:56+00:00">January 29, 2017 12:16 pm</time>
+</a></div><div class="comment-content"><p>Thanks Niccolo. You are 
+correct. I’ve added the wait just before the “read” based on the 
+equation given in the datasheet under “Appendix B: Measurement time and 
+current calculation”.</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-203505" data-commentid="203505" data-postid="5965" data-belowelement="comment-203505" data-respondelement="respond" data-replyto="Reply to Matt" aria-label="Reply to Matt">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li></ul>
+</li>
+<li class="comment odd alt thread-even depth-1" id="li-comment-206142"><article id="comment-206142" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/89662e7c8159c1926d43d99003245439_002.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/89662e7c8159c1926d43d99003245439.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Alain Gioanni</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-206142" class="comment-time" title="March 20, 2017 at 3:29 pm">
+<time pubdate="" datetime="2017-03-20T15:29:01+00:00">March 20, 2017 3:29 pm</time>
+</a></div><div class="comment-content"><p>Hi</p><p>1 – I would like to adapt this script to use it on microPython MCU (Lopy), how do i deal with the ctypes library ?<br>
+2 – I need to switch to SPI because of a to too long wire cable any idea ?</p><p>Thanks for help<br>
+Alain</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-206142" data-commentid="206142" data-postid="5965" data-belowelement="comment-206142" data-respondelement="respond" data-replyto="Reply to Alain Gioanni" aria-label="Reply to Alain Gioanni">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li>
+<li class="comment even thread-odd thread-alt depth-1" id="li-comment-212526"><article id="comment-212526" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/4f46ed0651dd260a8d0bd2b0d7642d23_002.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/4f46ed0651dd260a8d0bd2b0d7642d23.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Jan</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-212526" class="comment-time" title="September 13, 2017 at 11:28 am">
+<time pubdate="" datetime="2017-09-13T11:28:48+01:00">September 13, 2017 11:28 am</time>
+</a></div><div class="comment-content"><p>HI it works fine, but since 
+yesterday it stops reading anything. After a quick check I just get this
+ message as response of the script:</p><p>Traceback (most recent call last):<br>
+File “/usr/lib/python2.7/site.py”, line 68, in<br>
+import os<br>
+File “/usr/lib/python2.7/os.py”, line 400, in<br>
+import UserDict<br>
+ValueError: bad marshal data (string ref out of range)</p><p>but I did nothing on the pi… is my device broken?</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-212526" data-commentid="212526" data-postid="5965" data-belowelement="comment-212526" data-respondelement="respond" data-replyto="Reply to Jan" aria-label="Reply to Jan">Reply <i class="fa fa-angle-right"></i></a></div></div></article><ul class="children">
+<li class="comment byuser comment-author-matt bypostauthor odd alt depth-2" id="li-comment-212558"><article id="comment-212558" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/49044c5831a18ae589a1fcdd87644a6d.png" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/49044c5831a18ae589a1fcdd87644a6d_002.png 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Matt</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-212558" class="comment-time" title="September 14, 2017 at 10:26 pm">
+<time pubdate="" datetime="2017-09-14T22:26:48+01:00">September 14, 2017 10:26 pm</time>
+</a></div><div class="comment-content"><p>Delete the .pyc files. This error can occur if they are corrupt. When you run the .py script the .pyc file will be re-created.</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-212558" data-commentid="212558" data-postid="5965" data-belowelement="comment-212558" data-respondelement="respond" data-replyto="Reply to Matt" aria-label="Reply to Matt">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li></ul>
+</li>
+<li class="comment even thread-even depth-1" id="li-comment-212583"><article id="comment-212583" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/e47348b2aa460706f41c47e72fb23692_002.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/e47348b2aa460706f41c47e72fb23692.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Glitch</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-212583" class="comment-time" title="September 16, 2017 at 9:18 pm">
+<time pubdate="" datetime="2017-09-16T21:18:18+01:00">September 16, 2017 9:18 pm</time>
+</a></div><div class="comment-content"><p>Hi Matt, would like to say thank you for your work, it made my life easy!<br>
+Im using bme280 on orange-pi-pc, and works fine as imported module /smbus0/<br>
+Really great job, im grateful!</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-212583" data-commentid="212583" data-postid="5965" data-belowelement="comment-212583" data-respondelement="respond" data-replyto="Reply to Glitch" aria-label="Reply to Glitch">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li>
+<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-212988"><article id="comment-212988" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/03756c265a3cc8611f563f15b9c6c3ba.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/03756c265a3cc8611f563f15b9c6c3ba_002.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Avioza</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-212988" class="comment-time" title="October 7, 2017 at 12:00 am">
+<time pubdate="" datetime="2017-10-07T00:00:13+01:00">October 7, 2017 12:00 am</time>
+</a></div><div class="comment-content"><p>Thank you for sharing. This worked great for me and saved a lot of time. I appreciate it!</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-212988" data-commentid="212988" data-postid="5965" data-belowelement="comment-212988" data-respondelement="respond" data-replyto="Reply to Avioza" aria-label="Reply to Avioza">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li>
+<li class="comment even thread-even depth-1" id="li-comment-214152"><article id="comment-214152" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/cfb3dca840fc37d49d209aad8ae299d7_002.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/cfb3dca840fc37d49d209aad8ae299d7.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Christian</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-214152" class="comment-time" title="November 18, 2017 at 12:25 am">
+<time pubdate="" datetime="2017-11-18T00:25:31+00:00">November 18, 2017 12:25 am</time>
+</a></div><div class="comment-content"><p>Thank you Matt! You saved me hours of work. Thank you so much!!</p><p>Matt on January 3, 2017 11:39 pm<br>
+Delete the .pyc files. This error can occur if they are corrupt. When you run the .py script the .pyc file will be re-created.</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-214152" data-commentid="214152" data-postid="5965" data-belowelement="comment-214152" data-respondelement="respond" data-replyto="Reply to Christian" aria-label="Reply to Christian">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li>
+<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-217380"><article id="comment-217380" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/01e29a19f1f1b0f8eee6d136337eac5b_002.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/01e29a19f1f1b0f8eee6d136337eac5b.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Chris Jones</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-217380" class="comment-time" title="March 1, 2018 at 1:59 pm">
+<time pubdate="" datetime="2018-03-01T13:59:31+00:00">March 1, 2018 1:59 pm</time>
+</a></div><div class="comment-content"><p>Im interested in measuring 
+outdoor humidity and temperature – could I use this outside? Would I 
+need to protect it from the elements in some way (assuming the pi itself
+ was in a waterproof box)</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-217380" data-commentid="217380" data-postid="5965" data-belowelement="comment-217380" data-respondelement="respond" data-replyto="Reply to Chris Jones" aria-label="Reply to Chris Jones">Reply <i class="fa fa-angle-right"></i></a></div></div></article><ul class="children">
+<li class="comment byuser comment-author-matt bypostauthor even depth-2" id="li-comment-217849"><article id="comment-217849" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/49044c5831a18ae589a1fcdd87644a6d.png" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/49044c5831a18ae589a1fcdd87644a6d_002.png 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Matt</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-217849" class="comment-time" title="March 13, 2018 at 7:30 pm">
+<time pubdate="" datetime="2018-03-13T19:30:09+00:00">March 13, 2018 7:30 pm</time>
+</a></div><div class="comment-content"><p>I think the pressure sensor is a tiny hole in the device. So it would need protection from rain and dust.</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-217849" data-commentid="217849" data-postid="5965" data-belowelement="comment-217849" data-respondelement="respond" data-replyto="Reply to Matt" aria-label="Reply to Matt">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li></ul>
+</li>
+<li class="comment odd alt thread-even depth-1" id="li-comment-222189"><article id="comment-222189" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/c11bb176e2c9170c213c13c68fe64b15_002.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/c11bb176e2c9170c213c13c68fe64b15.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author"><a href="http://henk.oegema.com/" rel="external nofollow ugc" class="url">Henk Oegema</a></span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-222189" class="comment-time" title="July 16, 2018 at 7:35 pm">
+<time pubdate="" datetime="2018-07-16T19:35:35+01:00">July 16, 2018 7:35 pm</time>
+</a></div><div class="comment-content"><p>I have this device:<br>
+bottum : <a href="https://i.imgur.com/epDTAf1.jpg" rel="nofollow ugc">https://i.imgur.com/epDTAf1.jpg</a><br>
+top: <a href="https://i.imgur.com/mEgQxZN.jpg" rel="nofollow ugc">https://i.imgur.com/mEgQxZN.jpg</a></p><p>Is this a BMP280 or a  BME280 ?</p><p>It doesn’t read humidity. (??)<br>
+===================================<br>
+pi@raspberrypi2:~/test $ python bme280.py<br>
+Chip ID     : 88<br>
+Version     : 1<br>
+Temperature :  26.9 C<br>
+Pressure :  1012.39631211 hPa<br>
+Humidity :  0.0 %      &lt;———-?????<br>
+=================================</p><p>Does the chip id (88) give any clarification ?</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-222189" data-commentid="222189" data-postid="5965" data-belowelement="comment-222189" data-respondelement="respond" data-replyto="Reply to Henk Oegema" aria-label="Reply to Henk Oegema">Reply <i class="fa fa-angle-right"></i></a></div></div></article><ul class="children">
+<li class="comment byuser comment-author-matt bypostauthor even depth-2" id="li-comment-222192"><article id="comment-222192" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/49044c5831a18ae589a1fcdd87644a6d.png" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/49044c5831a18ae589a1fcdd87644a6d_002.png 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Matt</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-222192" class="comment-time" title="July 16, 2018 at 8:56 pm">
+<time pubdate="" datetime="2018-07-16T20:56:51+01:00">July 16, 2018 8:56 pm</time>
+</a></div><div class="comment-content"><p>I think the BMP280 is chip ID 88 (0x58) but the BME280 is 96 (0x60). So I suspect your device is a BMP280.</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-222192" data-commentid="222192" data-postid="5965" data-belowelement="comment-222192" data-respondelement="respond" data-replyto="Reply to Matt" aria-label="Reply to Matt">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li></ul>
+</li>
+<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-227177"><article id="comment-227177" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/fd256a71fd2f4ab1d4494aaf3259dcbb_002.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/fd256a71fd2f4ab1d4494aaf3259dcbb.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Andre</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-227177" class="comment-time" title="November 1, 2018 at 2:24 pm">
+<time pubdate="" datetime="2018-11-01T14:24:22+00:00">November 1, 2018 2:24 pm</time>
+</a></div><div class="comment-content"><p>Hello,<br>
+your python script is working great !  I extended it to two sensors for 
+measurement of humidity at intake and outlet of a air-dehumidifier. I 
+would like to use it for instructional purposes in my class on applied  
+thermodynamics.  Would you allow me to use your script and to publish it
+ when I cite your reference ?</p><p>best regards,<br>
+Andre</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-227177" data-commentid="227177" data-postid="5965" data-belowelement="comment-227177" data-respondelement="respond" data-replyto="Reply to Andre" aria-label="Reply to Andre">Reply <i class="fa fa-angle-right"></i></a></div></div></article><ul class="children">
+<li class="comment byuser comment-author-matt bypostauthor even depth-2" id="li-comment-227178"><article id="comment-227178" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/49044c5831a18ae589a1fcdd87644a6d.png" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/49044c5831a18ae589a1fcdd87644a6d_002.png 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Matt</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-227178" class="comment-time" title="November 1, 2018 at 2:36 pm">
+<time pubdate="" datetime="2018-11-01T14:36:22+00:00">November 1, 2018 2:36 pm</time>
+</a></div><div class="comment-content"><p>Hi Andre, glad you found the script useful. Happy for you to use it in your class instruction material.</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-227178" data-commentid="227178" data-postid="5965" data-belowelement="comment-227178" data-respondelement="respond" data-replyto="Reply to Matt" aria-label="Reply to Matt">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li></ul>
+</li>
+<li class="comment odd alt thread-even depth-1" id="li-comment-229145"><article id="comment-229145" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/e47348b2aa460706f41c47e72fb23692_002.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/e47348b2aa460706f41c47e72fb23692.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Richie</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-229145" class="comment-time" title="December 8, 2018 at 2:04 pm">
+<time pubdate="" datetime="2018-12-08T14:04:27+00:00">December 8, 2018 2:04 pm</time>
+</a></div><div class="comment-content"><p>This is the the best way to read bme280! I tried many other options, and this works well, thank you for sharing!!!</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-229145" data-commentid="229145" data-postid="5965" data-belowelement="comment-229145" data-respondelement="respond" data-replyto="Reply to Richie" aria-label="Reply to Richie">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li>
+<li class="comment even thread-odd thread-alt depth-1" id="li-comment-230605"><article id="comment-230605" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/90b9af652292c747437c4f26f4af73b7.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/90b9af652292c747437c4f26f4af73b7_002.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Willem</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-230605" class="comment-time" title="December 30, 2018 at 3:17 pm">
+<time pubdate="" datetime="2018-12-30T15:17:51+00:00">December 30, 2018 3:17 pm</time>
+</a></div><div class="comment-content"><p>Great!   Thanks a lot. Good job.</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-230605" data-commentid="230605" data-postid="5965" data-belowelement="comment-230605" data-respondelement="respond" data-replyto="Reply to Willem" aria-label="Reply to Willem">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li>
+<li class="comment odd alt thread-even depth-1" id="li-comment-231358"><article id="comment-231358" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/7df3629d74599edd12b86b906093517b.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/7df3629d74599edd12b86b906093517b_002.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Tiziano Binda</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-231358" class="comment-time" title="January 6, 2019 at 9:51 am">
+<time pubdate="" datetime="2019-01-06T09:51:02+00:00">January 6, 2019 9:51 am</time>
+</a></div><div class="comment-content"><p>Great! Thanks a lot. Good job.<br>
+The script run out the box. I’ll make a class for my purposes.<br>
+Enjoy!</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-231358" data-commentid="231358" data-postid="5965" data-belowelement="comment-231358" data-respondelement="respond" data-replyto="Reply to Tiziano Binda" aria-label="Reply to Tiziano Binda">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li>
+<li class="comment even thread-odd thread-alt depth-1" id="li-comment-235220"><article id="comment-235220" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/53ca5ffa2a8c774a9552b085b550b0ef.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/53ca5ffa2a8c774a9552b085b550b0ef_002.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">zonediver</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-235220" class="comment-time" title="February 15, 2019 at 12:08 pm">
+<time pubdate="" datetime="2019-02-15T12:08:45+00:00">February 15, 2019 12:08 pm</time>
+</a></div><div class="comment-content"><p>I tried also many other “ways” to read this sensor, but your script is by far the best!<br>
+Thanks a lot for sharing – good work</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-235220" data-commentid="235220" data-postid="5965" data-belowelement="comment-235220" data-respondelement="respond" data-replyto="Reply to zonediver" aria-label="Reply to zonediver">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li>
+<li class="comment odd alt thread-even depth-1" id="li-comment-253184"><article id="comment-253184" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/47011c498fca7894cade1a7ee75be11a_002.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/47011c498fca7894cade1a7ee75be11a.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Maximo</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-253184" class="comment-time" title="July 5, 2019 at 10:42 pm">
+<time pubdate="" datetime="2019-07-05T22:42:44+01:00">July 5, 2019 10:42 pm</time>
+</a></div><div class="comment-content"><p>Thank you!!!!</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-253184" data-commentid="253184" data-postid="5965" data-belowelement="comment-253184" data-respondelement="respond" data-replyto="Reply to Maximo" aria-label="Reply to Maximo">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li>
+<li class="comment even thread-odd thread-alt depth-1" id="li-comment-262770"><article id="comment-262770" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/d19af28a3a817f031024138d465fd12c.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/d19af28a3a817f031024138d465fd12c_002.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">MIKE</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-262770" class="comment-time" title="November 1, 2019 at 9:03 pm">
+<time pubdate="" datetime="2019-11-01T21:03:15+00:00">November 1, 2019 9:03 pm</time>
+</a></div><div class="comment-content"><p>Worked like a charm! Thanks for this straightforward tutorial.</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-262770" data-commentid="262770" data-postid="5965" data-belowelement="comment-262770" data-respondelement="respond" data-replyto="Reply to MIKE" aria-label="Reply to MIKE">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li>
+<li class="comment odd alt thread-even depth-1" id="li-comment-263932"><article id="comment-263932" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/d42cc4629474641444959e9ba51e4865_002.png" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/d42cc4629474641444959e9ba51e4865.png 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Walter</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-263932" class="comment-time" title="November 20, 2019 at 10:50 am">
+<time pubdate="" datetime="2019-11-20T10:50:31+00:00">November 20, 2019 10:50 am</time>
+</a></div><div class="comment-content"><p>Hi Matt, great work! The 
+temperature and humidity reading is fine, but the pressure allways shows
+ around 948 – 952 hPa. Might this be a sensor problem?</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-263932" data-commentid="263932" data-postid="5965" data-belowelement="comment-263932" data-respondelement="respond" data-replyto="Reply to Walter" aria-label="Reply to Walter">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li>
+<li class="comment even thread-odd thread-alt depth-1" id="li-comment-268492"><article id="comment-268492" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/8159142b8561e7dc5b388144d5fd7bdd.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/8159142b8561e7dc5b388144d5fd7bdd_002.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Catalin</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-268492" class="comment-time" title="February 4, 2020 at 9:04 pm">
+<time pubdate="" datetime="2020-02-04T21:04:04+00:00">February 4, 2020 9:04 pm</time>
+</a></div><div class="comment-content"><p>Hi,</p><p>What to do in order to let this running into a loop?</p><p>Thank you,<br>
+Catalin</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-268492" data-commentid="268492" data-postid="5965" data-belowelement="comment-268492" data-respondelement="respond" data-replyto="Reply to Catalin" aria-label="Reply to Catalin">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li>
+<li class="comment odd alt thread-even depth-1" id="li-comment-272096"><article id="comment-272096" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/824e8e06b721a29ea072d271ec773d56_002.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/824e8e06b721a29ea072d271ec773d56.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">AG</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-272096" class="comment-time" title="March 28, 2020 at 8:20 am">
+<time pubdate="" datetime="2020-03-28T08:20:10+00:00">March 28, 2020 8:20 am</time>
+</a></div><div class="comment-content"><p>Great script! Thank you for sharing and for the step-by-step instructions.</p><p>Worked perfectly after I finally managed to connect the sensor properly.</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-272096" data-commentid="272096" data-postid="5965" data-belowelement="comment-272096" data-respondelement="respond" data-replyto="Reply to AG" aria-label="Reply to AG">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li>
+<li class="comment even thread-odd thread-alt depth-1" id="li-comment-275198"><article id="comment-275198" class="comment"><div class="comment-avatar">
+<img alt="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/82c45c0125fdce3a75c1dfe632207329_002.jpeg" srcset="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/82c45c0125fdce3a75c1dfe632207329.jpeg 2x" class="avatar avatar-40 photo no-display" loading="lazy" width="40" height="40"></div><div class="comment-meta">
+<span class="comment-author">Martin M</span> on
+<a href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#comment-275198" class="comment-time" title="May 31, 2020 at 4:03 pm">
+<time pubdate="" datetime="2020-05-31T16:03:20+01:00">May 31, 2020 4:03 pm</time>
+</a></div><div class="comment-content"><p>Hi,<br>
+Great Job!<br>
+Is there a way to add the data to Influx/Grafana?</p><div class="reply">
+<a rel="nofollow" class="comment-reply-link" href="#comment-275198" data-commentid="275198" data-postid="5965" data-belowelement="comment-275198" data-respondelement="respond" data-replyto="Reply to Martin M" aria-label="Reply to Martin M">Reply <i class="fa fa-angle-right"></i></a></div></div></article>
+</li></ol><div id="respond" class="comment-respond"><h3 id="reply-title" class="comment-reply-title"><span class="section-head">Leave A Reply</span> <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://www.raspberrypi-spy.co.uk/2016/07/using-bme280-i2c-temperature-pressure-sensor-in-python/#respond" style="display:none;">Cancel Reply</a></small></h3><form action="https://www.raspberrypi-spy.co.uk/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate=""><p><textarea name="comment" id="comment" cols="45" rows="8" aria-required="true" placeholder="Your Comment"></textarea></p><p>
+<input name="author" id="author" type="text" size="30" aria-required="true" placeholder="Your Name"></p><p>
+<input name="email" id="email" type="text" size="30" aria-required="true" placeholder="Your Email"></p><p>
+<input name="url" id="url" type="text" size="30" placeholder="Your Website"></p><p class="comment-form-cookies-consent">
+<input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes">
+<label for="wp-comment-cookies-consent">Save my name, email, and website in this browser for the next time I comment.
+</label></p><p class="form-submit"><input name="submit" type="submit" id="comment-submit" class="submit" value="Post Comment"> <input type="hidden" name="comment_post_ID" value="5965" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0"></p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="951461bb5e"></p><textarea name="ak_hp_textarea" cols="45" rows="8" maxlength="100" style="display: none !important;"></textarea><input type="hidden" id="ak_js" name="ak_js" value="1619793835409"></form></div><p class="akismet_comment_form_privacy_notice">This site uses Akismet to reduce spam. <a href="https://akismet.com/privacy/" target="_blank" rel="nofollow noopener">Learn how your comment data is processed</a>.</p></div></div></div><aside class="col-4 sidebar"><div class=""><ul>
+<li id="search-2" class="widget widget_search"><form role="search" method="get" class="search-form" action="https://www.raspberrypi-spy.co.uk/">
+<label>
+<span class="screen-reader-text">Search for:</span>
+<input type="search" class="search-field" placeholder="Search …" name="s">
+</label>
+<input type="submit" class="search-submit" value="Search"></form></li><li id="bunyad-latest-posts-widget-5" class="widget latest-posts"><h3 class="widgettitle">Recent Posts</h3><ul class="posts-list">
+<li>
+<a href="https://www.raspberrypi-spy.co.uk/2021/01/pi-pico-pinout-and-power-pins/"><img src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/raspberry_pi_pico_board_01-110x96.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image no-display appear" alt="Raspberry Pi Pico" loading="lazy" title="Pi Pico Pinout and Power Pins" width="110" height="96">
+</a><div class="content"><div class="cf listing-meta meta above">
+<time datetime="2021-01-24T00:14:57+00:00" class="meta-item">January 24, 2021</time><span class="meta-item comments"><a href="https://www.raspberrypi-spy.co.uk/2021/01/pi-pico-pinout-and-power-pins/#respond"><i class="fa fa-comments-o"></i> 0</a></span></div>
+<a href="https://www.raspberrypi-spy.co.uk/2021/01/pi-pico-pinout-and-power-pins/" title="Pi Pico Pinout and Power Pins">
+Pi Pico Pinout and Power Pins</a></div>
+</li>
+<li>
+<a href="https://www.raspberrypi-spy.co.uk/2020/12/install-arduino-ide-on-raspberry-pi/"><img src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/pi-arduino-ide-04-110x96.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image no-display appear" alt="Install Arduino IDE on Raspberry Pi" loading="lazy" title="Install Arduino IDE on Raspberry Pi" width="110" height="96">
+</a><div class="content"><div class="cf listing-meta meta above">
+<time datetime="2020-12-28T21:47:29+00:00" class="meta-item">December 28, 2020</time><span class="meta-item comments"><a href="https://www.raspberrypi-spy.co.uk/2020/12/install-arduino-ide-on-raspberry-pi/#comments"><i class="fa fa-comments-o"></i> 1</a></span></div>
+<a href="https://www.raspberrypi-spy.co.uk/2020/12/install-arduino-ide-on-raspberry-pi/" title="Install Arduino IDE on Raspberry Pi">
+Install Arduino IDE on Raspberry Pi</a></div>
+</li>
+<li>
+<a href="https://www.raspberrypi-spy.co.uk/2020/12/raspberry-pi-400-ssd-upgrade/"><img src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/pi_400_ssd_featured-110x96.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image no-display appear" alt="Pi 400 SSD Upgrade" loading="lazy" title="Raspberry Pi 400 SSD Upgrade" width="110" height="96">
+</a><div class="content"><div class="cf listing-meta meta above">
+<time datetime="2020-12-23T18:04:38+00:00" class="meta-item">December 23, 2020</time><span class="meta-item comments"><a href="https://www.raspberrypi-spy.co.uk/2020/12/raspberry-pi-400-ssd-upgrade/#comments"><i class="fa fa-comments-o"></i> 12</a></span></div>
+<a href="https://www.raspberrypi-spy.co.uk/2020/12/raspberry-pi-400-ssd-upgrade/" title="Raspberry Pi 400 SSD Upgrade">
+Raspberry Pi 400 SSD Upgrade</a></div>
+</li>
+<li>
+<a href="https://www.raspberrypi-spy.co.uk/2020/11/raspberry-pi-temperature-monitoring/"><img src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/temperature-monitoring-110x96.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image no-display appear" alt="" loading="lazy" title="Raspberry Pi Temperature Monitoring" width="110" height="96">
+</a><div class="content"><div class="cf listing-meta meta above">
+<time datetime="2020-11-09T00:00:49+00:00" class="meta-item">November 9, 2020</time><span class="meta-item comments"><a href="https://www.raspberrypi-spy.co.uk/2020/11/raspberry-pi-temperature-monitoring/#respond"><i class="fa fa-comments-o"></i> 0</a></span></div>
+<a href="https://www.raspberrypi-spy.co.uk/2020/11/raspberry-pi-temperature-monitoring/" title="Raspberry Pi Temperature Monitoring">
+Raspberry Pi Temperature Monitoring</a></div>
+</li>
+<li>
+<a href="https://www.raspberrypi-spy.co.uk/2020/11/overclocking-the-raspberry-pi-400/"><img src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/pi_400_overclock_featured-110x96.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image no-display appear" alt="Pi 400 Overclock" loading="lazy" title="Overclocking the Raspberry Pi 400" width="110" height="96">
+</a><div class="content"><div class="cf listing-meta meta above">
+<time datetime="2020-11-04T12:08:33+00:00" class="meta-item">November 4, 2020</time><span class="meta-item comments"><a href="https://www.raspberrypi-spy.co.uk/2020/11/overclocking-the-raspberry-pi-400/#comments"><i class="fa fa-comments-o"></i> 2</a></span></div>
+<a href="https://www.raspberrypi-spy.co.uk/2020/11/overclocking-the-raspberry-pi-400/" title="Overclocking the Raspberry Pi 400">
+Overclocking the Raspberry Pi 400</a></div>
+</li></ul>
+</li><li id="bunyad_ads_widget-7" class="widget code-widget"><div class="a-widget"> <script async="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/adsbygoogle.js"></script> 
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5084177467956694" data-ad-slot="6800448931" data-ad-format="auto"><iframe id="aswift_2" style="height: 1px !important; max-height: 1px !important; max-width: 1px !important; width: 1px !important;"><iframe id="google_ads_frame1"></iframe></iframe></ins> <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> </div>
+</li>
+<li id="categories-2" class="widget widget_categories"><h3 class="widgettitle">Categories</h3><ul>
+<li class="cat-item cat-item-311"><a href="https://www.raspberrypi-spy.co.uk/category/hardware/interfaces/1-wire/">1-wire</a>
+</li>
+<li class="cat-item cat-item-268"><a href="https://www.raspberrypi-spy.co.uk/category/general/3d/" title="Posts that related to 3D printing.">3D Printing</a>
+</li>
+<li class="cat-item cat-item-223"><a href="https://www.raspberrypi-spy.co.uk/category/hardware/add-ons/">Add-ons</a>
+</li>
+<li class="cat-item cat-item-276"><a href="https://www.raspberrypi-spy.co.uk/category/hardware/bbc-microbit/">BBC Micro:bit</a>
+</li>
+<li class="cat-item cat-item-82"><a href="https://www.raspberrypi-spy.co.uk/category/hardware/berryclip-hardware/">BerryClip</a>
+</li>
+<li class="cat-item cat-item-174"><a href="https://www.raspberrypi-spy.co.uk/category/general/books/">Books</a>
+</li>
+<li class="cat-item cat-item-128"><a href="https://www.raspberrypi-spy.co.uk/category/hardware/camera-module/">Camera Module</a>
+</li>
+<li class="cat-item cat-item-238"><a href="https://www.raspberrypi-spy.co.uk/category/general/cases/">Cases</a>
+</li>
+<li class="cat-item cat-item-190"><a href="https://www.raspberrypi-spy.co.uk/category/general/events/">Events</a>
+</li>
+<li class="cat-item cat-item-4"><a href="https://www.raspberrypi-spy.co.uk/category/general/">General</a>
+</li>
+<li class="cat-item cat-item-7"><a href="https://www.raspberrypi-spy.co.uk/category/hardware/">Hardware</a>
+</li>
+<li class="cat-item cat-item-254"><a href="https://www.raspberrypi-spy.co.uk/category/hardware/interfaces/i2c/" title="This is an archive of all articles that relate to the I2C (Inter-Integrated Circuit) bus found on the Raspberry Pi. This 2-wire interface is great for connecting sensors, screens, displays and various control boards.Multiple devices can be connected to the Pi's I2C interface making it a popular choice in Raspberry Pi projects.">I2C</a>
+</li>
+<li class="cat-item cat-item-235"><a href="https://www.raspberrypi-spy.co.uk/category/general/infographics/">Infographics</a>
+</li>
+<li class="cat-item cat-item-273"><a href="https://www.raspberrypi-spy.co.uk/category/hardware/interfaces/">Interfaces</a>
+</li>
+<li class="cat-item cat-item-168"><a href="https://www.raspberrypi-spy.co.uk/category/software/minecraft/">Minecraft</a>
+</li>
+<li class="cat-item cat-item-240"><a href="https://www.raspberrypi-spy.co.uk/category/hardware/model-a-hardware/">Model A+</a>
+</li>
+<li class="cat-item cat-item-228"><a href="https://www.raspberrypi-spy.co.uk/category/hardware/model-b-hardware/">Model B+</a>
+</li>
+<li class="cat-item cat-item-248"><a href="https://www.raspberrypi-spy.co.uk/category/general/news/" title="News articles that cover developments in the world of the Raspberry Pi.">News</a>
+</li>
+<li class="cat-item cat-item-253"><a href="https://www.raspberrypi-spy.co.uk/category/hardware/models/">Pi Models</a>
+</li>
+<li class="cat-item cat-item-267"><a href="https://www.raspberrypi-spy.co.uk/category/hardware/zero/">Pi Zero</a>
+</li>
+<li class="cat-item cat-item-153"><a href="https://www.raspberrypi-spy.co.uk/category/hardware/power-hardware/">Power</a>
+</li>
+<li class="cat-item cat-item-145"><a href="https://www.raspberrypi-spy.co.uk/category/programming-2/">Programming</a>
+</li>
+<li class="cat-item cat-item-10"><a href="https://www.raspberrypi-spy.co.uk/category/python/" title="Python is a popular programming language and is well supported on the Raspberry Pi. It is installed by default in the Official Raspbian image and is used in many Pi projects.You will find Python 2 and Python 3 examples&nbsp; but we try to use Python 3 wherever possible.Python is considered a good programming language for beginners but its power and flexibility make it a popular choice with experts as well.">Python</a>
+</li>
+<li class="cat-item cat-item-323"><a href="https://www.raspberrypi-spy.co.uk/category/software/raspberry-pi-os/">Raspberry Pi OS</a>
+</li>
+<li class="cat-item cat-item-52"><a href="https://www.raspberrypi-spy.co.uk/category/software/raspbian/">Raspbian</a>
+</li>
+<li class="cat-item cat-item-294"><a href="https://www.raspberrypi-spy.co.uk/category/general/retrogaming/">RetroGaming</a>
+</li>
+<li class="cat-item cat-item-189"><a href="https://www.raspberrypi-spy.co.uk/category/hardware/robotics/">Robotics</a>
+</li>
+<li class="cat-item cat-item-250"><a href="https://www.raspberrypi-spy.co.uk/category/hardware/sensors/">Sensors</a>
+</li>
+<li class="cat-item cat-item-8"><a href="https://www.raspberrypi-spy.co.uk/category/software/">Software</a>
+</li>
+<li class="cat-item cat-item-274"><a href="https://www.raspberrypi-spy.co.uk/category/hardware/interfaces/spi/" title="This is an archive of all articles that relate to the Raspberry Pi SPI (Serial Peripheral Interface) bus. This interface is great for connecting sensors, screens, displays, addons and various control boards.The interface can be enabled by following the Enable Raspberry Pi SPI Interface tutorial.The interface is available on the Pi's GPIO header :
+MOSI P1-19
+MISO P1-21
+SCLK P1-23
+CE0  P1-24
+CE1  P1-26
+GND  P1-25
+These labels will usually match the labels on the devices PCB and should be clear from any tutorial you are following.">SPI</a>
+</li>
+<li class="cat-item cat-item-9"><a href="https://www.raspberrypi-spy.co.uk/category/tutorials-help/">Tutorials &amp; Help</a>
+</li></ul></li>
+<li id="tag_cloud-3" class="widget widget_tag_cloud"><h3 class="widgettitle">Tags</h3><div class="tagcloud"><a href="https://www.raspberrypi-spy.co.uk/tag/3d-printing/" class="tag-cloud-link tag-link-208 tag-link-position-1" style="font-size: 8pt;" aria-label="3D Printing (4 items)">3D Printing</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/arduino/" class="tag-cloud-link tag-link-197 tag-link-position-2" style="font-size: 8pt;" aria-label="Arduino (4 items)">Arduino</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/audio/" class="tag-cloud-link tag-link-39 tag-link-position-3" style="font-size: 9.3023255813953pt;" aria-label="audio (5 items)">audio</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/battery/" class="tag-cloud-link tag-link-110 tag-link-position-4" style="font-size: 12.883720930233pt;" aria-label="battery (9 items)">battery</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/berryclip/" class="tag-cloud-link tag-link-79 tag-link-position-5" style="font-size: 13.53488372093pt;" aria-label="berryclip (10 items)">berryclip</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/birthday/" class="tag-cloud-link tag-link-203 tag-link-position-6" style="font-size: 9.3023255813953pt;" aria-label="Birthday (5 items)">Birthday</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/bluetooth/" class="tag-cloud-link tag-link-100 tag-link-position-7" style="font-size: 10.441860465116pt;" aria-label="bluetooth (6 items)">bluetooth</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/cambridge/" class="tag-cloud-link tag-link-164 tag-link-position-8" style="font-size: 10.441860465116pt;" aria-label="cambridge (6 items)">cambridge</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/camera/" class="tag-cloud-link tag-link-119 tag-link-position-9" style="font-size: 21.348837209302pt;" aria-label="camera (32 items)">camera</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/camjam/" class="tag-cloud-link tag-link-205 tag-link-position-10" style="font-size: 10.441860465116pt;" aria-label="CamJam (6 items)">CamJam</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/digimakers/" class="tag-cloud-link tag-link-191 tag-link-position-11" style="font-size: 10.441860465116pt;" aria-label="DigiMakers (6 items)">DigiMakers</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/display/" class="tag-cloud-link tag-link-57 tag-link-position-12" style="font-size: 10.441860465116pt;" aria-label="display (6 items)">display</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/games/" class="tag-cloud-link tag-link-171 tag-link-position-13" style="font-size: 10.441860465116pt;" aria-label="games (6 items)">games</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/gpio/" class="tag-cloud-link tag-link-14 tag-link-position-14" style="font-size: 18.418604651163pt;" aria-label="GPIO (21 items)">GPIO</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/i2c/" class="tag-cloud-link tag-link-159 tag-link-position-15" style="font-size: 16.139534883721pt;" aria-label="I2C (15 items)">I2C</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/interface/" class="tag-cloud-link tag-link-23 tag-link-position-16" style="font-size: 11.255813953488pt;" aria-label="interface (7 items)">interface</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/kickstarter/" class="tag-cloud-link tag-link-236 tag-link-position-17" style="font-size: 12.06976744186pt;" aria-label="Kickstarter (8 items)">Kickstarter</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/lcd/" class="tag-cloud-link tag-link-55 tag-link-position-18" style="font-size: 11.255813953488pt;" aria-label="LCD (7 items)">LCD</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/led/" class="tag-cloud-link tag-link-15 tag-link-position-19" style="font-size: 15.325581395349pt;" aria-label="LED (13 items)">LED</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/linux/" class="tag-cloud-link tag-link-76 tag-link-position-20" style="font-size: 9.3023255813953pt;" aria-label="Linux (5 items)">Linux</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/media/" class="tag-cloud-link tag-link-138 tag-link-position-21" style="font-size: 9.3023255813953pt;" aria-label="media (5 items)">media</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/minecraft/" class="tag-cloud-link tag-link-261 tag-link-position-22" style="font-size: 12.883720930233pt;" aria-label="Minecraft (9 items)">Minecraft</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/model-a/" class="tag-cloud-link tag-link-106 tag-link-position-23" style="font-size: 8pt;" aria-label="Model A (4 items)">Model A</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/model-b/" class="tag-cloud-link tag-link-183 tag-link-position-24" style="font-size: 8pt;" aria-label="Model B (4 items)">Model B</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/motioneyeos/" class="tag-cloud-link tag-link-290 tag-link-position-25" style="font-size: 9.3023255813953pt;" aria-label="motionEyeOS (5 items)">motionEyeOS</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/pcb/" class="tag-cloud-link tag-link-67 tag-link-position-26" style="font-size: 9.3023255813953pt;" aria-label="PCB (5 items)">PCB</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/photography/" class="tag-cloud-link tag-link-127 tag-link-position-27" style="font-size: 9.3023255813953pt;" aria-label="photography (5 items)">photography</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/photos/" class="tag-cloud-link tag-link-12 tag-link-position-28" style="font-size: 9.3023255813953pt;" aria-label="photos (5 items)">photos</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/pi-lite/" class="tag-cloud-link tag-link-166 tag-link-position-29" style="font-size: 9.3023255813953pt;" aria-label="Pi-Lite (5 items)">Pi-Lite</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/portable/" class="tag-cloud-link tag-link-147 tag-link-position-30" style="font-size: 8pt;" aria-label="portable (4 items)">portable</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/power/" class="tag-cloud-link tag-link-108 tag-link-position-31" style="font-size: 14.186046511628pt;" aria-label="power (11 items)">power</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/python-2/" class="tag-cloud-link tag-link-13 tag-link-position-32" style="font-size: 22pt;" aria-label="python (35 items)">python</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/raspberry-jam/" class="tag-cloud-link tag-link-206 tag-link-position-33" style="font-size: 8pt;" aria-label="Raspberry Jam (4 items)">Raspberry Jam</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/raspberry-pi-bootcamp/" class="tag-cloud-link tag-link-192 tag-link-position-34" style="font-size: 9.3023255813953pt;" aria-label="Raspberry Pi Bootcamp (5 items)">Raspberry Pi Bootcamp</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/raspbian-2/" class="tag-cloud-link tag-link-53 tag-link-position-35" style="font-size: 12.06976744186pt;" aria-label="raspbian (8 items)">raspbian</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/retrogaming/" class="tag-cloud-link tag-link-292 tag-link-position-36" style="font-size: 10.441860465116pt;" aria-label="Retrogaming (6 items)">Retrogaming</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/retropie/" class="tag-cloud-link tag-link-293 tag-link-position-37" style="font-size: 10.441860465116pt;" aria-label="retroPie (6 items)">retroPie</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/screen/" class="tag-cloud-link tag-link-80 tag-link-position-38" style="font-size: 9.3023255813953pt;" aria-label="screen (5 items)">screen</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/sd-card/" class="tag-cloud-link tag-link-93 tag-link-position-39" style="font-size: 12.06976744186pt;" aria-label="SD card (8 items)">SD card</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/security/" class="tag-cloud-link tag-link-75 tag-link-position-40" style="font-size: 16.139534883721pt;" aria-label="security (15 items)">security</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/sensor/" class="tag-cloud-link tag-link-59 tag-link-position-41" style="font-size: 12.883720930233pt;" aria-label="sensor (9 items)">sensor</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/spi/" class="tag-cloud-link tag-link-176 tag-link-position-42" style="font-size: 9.3023255813953pt;" aria-label="SPI (5 items)">SPI</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/temperature/" class="tag-cloud-link tag-link-117 tag-link-position-43" style="font-size: 11.255813953488pt;" aria-label="temperature (7 items)">temperature</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/ultrasonic/" class="tag-cloud-link tag-link-91 tag-link-position-44" style="font-size: 8pt;" aria-label="ultrasonic (4 items)">ultrasonic</a>
+<a href="https://www.raspberrypi-spy.co.uk/tag/video/" class="tag-cloud-link tag-link-120 tag-link-position-45" style="font-size: 9.3023255813953pt;" aria-label="video (5 items)">video</a></div>
+</li>
+<li id="linkcat-3" class="widget widget_links"><h3 class="widgettitle">Raspberry PI Related</h3><ul class="xoxo blogroll">
+<li><a href="https://blog.adafruit.com/category/raspberry-pi/" rel="acquaintance" title="Adafruit posts related to Raspberry Pi" target="_blank">Adafruit Blog</a></li>
+<li><a href="http://averagemaker.com/category/rpi" rel="acquaintance" target="_blank">Average Maker</a></li>
+<li><a href="http://www.raspberrypi.org/" rel="acquaintance" target="_blank">Official RaspBerry Pi Site</a></li>
+<li><a href="http://www.recantha.co.uk/blog/" rel="acquaintance" title="Experiences with the Raspberry Pi micro computer" target="_blank">Raspberry Pi Pod</a></li>
+<li><a href="http://raspi.tv/" rel="friend" title="Raspberry Pi Tutorials, Videos &amp; Reviews" target="_blank">RasPi.tv</a></li>
+<li><a href="http://www.rasptut.co.uk/" title="Articles and tutorials for the Raspberry Pi" target="_blank">RaspTut</a></li>
+<li><a href="https://www.stuffaboutcode.com/" rel="acquaintance" title="The ultimate site for hacking Minecraft on the Pi" target="_blank">Stuff About Code</a></li></ul>
+</li><li id="linkcat-234" class="widget widget_links"><h3 class="widgettitle">Tech Resources</h3><ul class="xoxo blogroll">
+<li><a href="https://www.mattsbits.co.uk/cat-14.html" rel="me" target="_blank">MattsBits – Pi Resources</a></li>
+<li><a href="https://www.microbit-spy.co.uk/" rel="me" title="A blog dedicated to the BBC Micro:bit" target="_blank">Microbit Spy</a></li>
+<li><a href="https://www.tech-spy.co.uk/" rel="me" title="Technology, gadgets and scripts." target="_blank">Technology Spy</a></li></ul>
+</li><li id="bunyad_ads_widget-5" class="widget code-widget"><div class="a-widget"> <script async="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/adsbygoogle.js"></script> 
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5084177467956694" data-ad-slot="6800448931" data-ad-format="auto"><iframe id="aswift_3" style="height: 1px !important; max-height: 1px !important; max-width: 1px !important; width: 1px !important;"><iframe id="google_ads_frame2"></iframe></iframe></ins> <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> </div>
+</li>
+<li id="archives-4" class="widget widget_archive"><h3 class="widgettitle">Archives</h3>		<label class="screen-reader-text" for="archives-dropdown-4">Archives</label>
+<select id="archives-dropdown-4" name="archive-dropdown"><option value="" selected="selected">Select Month</option><option value="https://www.raspberrypi-spy.co.uk/2021/01/"> January 2021</option><option value="https://www.raspberrypi-spy.co.uk/2020/12/"> December 2020</option><option value="https://www.raspberrypi-spy.co.uk/2020/11/"> November 2020</option><option value="https://www.raspberrypi-spy.co.uk/2020/08/"> August 2020</option><option value="https://www.raspberrypi-spy.co.uk/2020/06/"> June 2020</option><option value="https://www.raspberrypi-spy.co.uk/2020/05/"> May 2020</option><option value="https://www.raspberrypi-spy.co.uk/2019/11/"> November 2019</option><option value="https://www.raspberrypi-spy.co.uk/2019/10/"> October 2019</option><option value="https://www.raspberrypi-spy.co.uk/2019/09/"> September 2019</option><option value="https://www.raspberrypi-spy.co.uk/2019/06/"> June 2019</option><option value="https://www.raspberrypi-spy.co.uk/2019/02/"> February 2019</option><option value="https://www.raspberrypi-spy.co.uk/2019/01/"> January 2019</option><option value="https://www.raspberrypi-spy.co.uk/2018/12/"> December 2018</option><option value="https://www.raspberrypi-spy.co.uk/2018/11/"> November 2018</option><option value="https://www.raspberrypi-spy.co.uk/2018/09/"> September 2018</option><option value="https://www.raspberrypi-spy.co.uk/2018/06/"> June 2018</option><option value="https://www.raspberrypi-spy.co.uk/2018/05/"> May 2018</option><option value="https://www.raspberrypi-spy.co.uk/2018/04/"> April 2018</option><option value="https://www.raspberrypi-spy.co.uk/2018/03/"> March 2018</option><option value="https://www.raspberrypi-spy.co.uk/2018/02/"> February 2018</option><option value="https://www.raspberrypi-spy.co.uk/2018/01/"> January 2018</option><option value="https://www.raspberrypi-spy.co.uk/2017/12/"> December 2017</option><option value="https://www.raspberrypi-spy.co.uk/2017/11/"> November 2017</option><option value="https://www.raspberrypi-spy.co.uk/2017/10/"> October 2017</option><option value="https://www.raspberrypi-spy.co.uk/2017/09/"> September 2017</option><option value="https://www.raspberrypi-spy.co.uk/2017/08/"> August 2017</option><option value="https://www.raspberrypi-spy.co.uk/2017/07/"> July 2017</option><option value="https://www.raspberrypi-spy.co.uk/2017/06/"> June 2017</option><option value="https://www.raspberrypi-spy.co.uk/2017/05/"> May 2017</option><option value="https://www.raspberrypi-spy.co.uk/2017/04/"> April 2017</option><option value="https://www.raspberrypi-spy.co.uk/2017/03/"> March 2017</option><option value="https://www.raspberrypi-spy.co.uk/2017/02/"> February 2017</option><option value="https://www.raspberrypi-spy.co.uk/2017/01/"> January 2017</option><option value="https://www.raspberrypi-spy.co.uk/2016/12/"> December 2016</option><option value="https://www.raspberrypi-spy.co.uk/2016/10/"> October 2016</option><option value="https://www.raspberrypi-spy.co.uk/2016/09/"> September 2016</option><option value="https://www.raspberrypi-spy.co.uk/2016/08/"> August 2016</option><option value="https://www.raspberrypi-spy.co.uk/2016/07/"> July 2016</option><option value="https://www.raspberrypi-spy.co.uk/2016/05/"> May 2016</option><option value="https://www.raspberrypi-spy.co.uk/2016/04/"> April 2016</option><option value="https://www.raspberrypi-spy.co.uk/2016/03/"> March 2016</option><option value="https://www.raspberrypi-spy.co.uk/2016/02/"> February 2016</option><option value="https://www.raspberrypi-spy.co.uk/2015/12/"> December 2015</option><option value="https://www.raspberrypi-spy.co.uk/2015/11/"> November 2015</option><option value="https://www.raspberrypi-spy.co.uk/2015/10/"> October 2015</option><option value="https://www.raspberrypi-spy.co.uk/2015/09/"> September 2015</option><option value="https://www.raspberrypi-spy.co.uk/2015/08/"> August 2015</option><option value="https://www.raspberrypi-spy.co.uk/2015/07/"> July 2015</option><option value="https://www.raspberrypi-spy.co.uk/2015/06/"> June 2015</option><option value="https://www.raspberrypi-spy.co.uk/2015/05/"> May 2015</option><option value="https://www.raspberrypi-spy.co.uk/2015/04/"> April 2015</option><option value="https://www.raspberrypi-spy.co.uk/2015/03/"> March 2015</option><option value="https://www.raspberrypi-spy.co.uk/2015/02/"> February 2015</option><option value="https://www.raspberrypi-spy.co.uk/2015/01/"> January 2015</option><option value="https://www.raspberrypi-spy.co.uk/2014/12/"> December 2014</option><option value="https://www.raspberrypi-spy.co.uk/2014/11/"> November 2014</option><option value="https://www.raspberrypi-spy.co.uk/2014/10/"> October 2014</option><option value="https://www.raspberrypi-spy.co.uk/2014/09/"> September 2014</option><option value="https://www.raspberrypi-spy.co.uk/2014/08/"> August 2014</option><option value="https://www.raspberrypi-spy.co.uk/2014/07/"> July 2014</option><option value="https://www.raspberrypi-spy.co.uk/2014/06/"> June 2014</option><option value="https://www.raspberrypi-spy.co.uk/2014/05/"> May 2014</option><option value="https://www.raspberrypi-spy.co.uk/2014/04/"> April 2014</option><option value="https://www.raspberrypi-spy.co.uk/2014/03/"> March 2014</option><option value="https://www.raspberrypi-spy.co.uk/2014/02/"> February 2014</option><option value="https://www.raspberrypi-spy.co.uk/2014/01/"> January 2014</option><option value="https://www.raspberrypi-spy.co.uk/2013/12/"> December 2013</option><option value="https://www.raspberrypi-spy.co.uk/2013/11/"> November 2013</option><option value="https://www.raspberrypi-spy.co.uk/2013/10/"> October 2013</option><option value="https://www.raspberrypi-spy.co.uk/2013/09/"> September 2013</option><option value="https://www.raspberrypi-spy.co.uk/2013/07/"> July 2013</option><option value="https://www.raspberrypi-spy.co.uk/2013/06/"> June 2013</option><option value="https://www.raspberrypi-spy.co.uk/2013/05/"> May 2013</option><option value="https://www.raspberrypi-spy.co.uk/2013/04/"> April 2013</option><option value="https://www.raspberrypi-spy.co.uk/2013/03/"> March 2013</option><option value="https://www.raspberrypi-spy.co.uk/2013/02/"> February 2013</option><option value="https://www.raspberrypi-spy.co.uk/2013/01/"> January 2013</option><option value="https://www.raspberrypi-spy.co.uk/2012/12/"> December 2012</option><option value="https://www.raspberrypi-spy.co.uk/2012/11/"> November 2012</option><option value="https://www.raspberrypi-spy.co.uk/2012/10/"> October 2012</option><option value="https://www.raspberrypi-spy.co.uk/2012/09/"> September 2012</option><option value="https://www.raspberrypi-spy.co.uk/2012/08/"> August 2012</option><option value="https://www.raspberrypi-spy.co.uk/2012/07/"> July 2012</option><option value="https://www.raspberrypi-spy.co.uk/2012/06/"> June 2012</option><option value="https://www.raspberrypi-spy.co.uk/2012/05/"> May 2012</option><option value="https://www.raspberrypi-spy.co.uk/2012/03/"> March 2012</option></select> <script>(function() {
+	var dropdown = document.getElementById( "archives-dropdown-4" );
+	function onSelectChange() {
+		if ( dropdown.options[ dropdown.selectedIndex ].value !== '' ) {
+			document.location.href = this.options[ this.selectedIndex ].value;
+		}
+	}
+	dropdown.onchange = onSelectChange;
+})();</script> </li></ul></div></aside></div></div><footer class="main-footer"><div class="wrap"><ul class="widgets row cf">
+<li class="widget col-4 bunyad-about"><h3 class="widgettitle">About</h3><div class="about-widget"><p>Unofficial
+ site devoted to the Raspberry Pi credit card sized computer offering 
+tutorials, guides, resources,scripts and downloads. We hope to help 
+everyone get the most out of their Pi by providing clear, simple 
+articles on configuring, programming and operating it.</p></div>
+</li>
+<li class="widget col-4 popular-posts"><h3 class="widgettitle">Popular Posts</h3><ul class="posts-list">
+<li>
+<a href="https://www.raspberrypi-spy.co.uk/2014/09/top-5-reasons-the-raspberry-pi-sucks/"><img src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/raspberry_pi_sucks1-110x96.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image no-display" alt="Raspberry Pi Sucks" loading="lazy" title="Top 5 Reasons The Raspberry Pi Sucks" width="110" height="96">
+</a><div class="content"><div class="cf listing-meta meta above">
+<time datetime="2014-09-19T20:06:23+01:00" class="meta-item">September 19, 2014</time><span class="meta-item comments"><a href="https://www.raspberrypi-spy.co.uk/2014/09/top-5-reasons-the-raspberry-pi-sucks/#comments"><i class="fa fa-comments-o"></i> 105</a></span></div>
+<a href="https://www.raspberrypi-spy.co.uk/2014/09/top-5-reasons-the-raspberry-pi-sucks/" title="Top 5 Reasons The Raspberry Pi Sucks">
+Top 5 Reasons The Raspberry Pi Sucks</a></div>
+</li>
+<li>
+<a href="https://www.raspberrypi-spy.co.uk/2012/07/16x2-lcd-module-control-using-python/"><img src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/16x2_lcd_module_1-110x96.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image no-display" alt="16x2 LCD Module" loading="lazy" title="16×2 LCD Module Control Using Python" width="110" height="96">
+</a><div class="content"><div class="cf listing-meta meta above">
+<time datetime="2012-07-27T08:48:19+01:00" class="meta-item">July 27, 2012</time><span class="meta-item comments"><a href="https://www.raspberrypi-spy.co.uk/2012/07/16x2-lcd-module-control-using-python/#comments"><i class="fa fa-comments-o"></i> 102</a></span></div>
+<a href="https://www.raspberrypi-spy.co.uk/2012/07/16x2-lcd-module-control-using-python/" title="16×2 LCD Module Control Using Python">
+16×2 LCD Module Control Using Python</a></div>
+</li>
+<li>
+<a href="https://www.raspberrypi-spy.co.uk/2013/10/analogue-sensors-on-the-raspberry-pi-using-an-mcp3008/"><img src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/mcp3008_tmp36_02-110x96.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image no-display" alt="MCP3008 Example Circuit #2" loading="lazy" title="Analogue Sensors On The Raspberry Pi Using An MCP3008" width="110" height="96">
+</a><div class="content"><div class="cf listing-meta meta above">
+<time datetime="2013-10-20T11:26:28+01:00" class="meta-item">October 20, 2013</time><span class="meta-item comments"><a href="https://www.raspberrypi-spy.co.uk/2013/10/analogue-sensors-on-the-raspberry-pi-using-an-mcp3008/#comments"><i class="fa fa-comments-o"></i> 100</a></span></div>
+<a href="https://www.raspberrypi-spy.co.uk/2013/10/analogue-sensors-on-the-raspberry-pi-using-an-mcp3008/" title="Analogue Sensors On The Raspberry Pi Using An MCP3008">
+Analogue Sensors On The Raspberry Pi Using An MCP3008</a></div>
+</li></ul>
+</li>
+<li class="widget col-4 latest-posts"><h3 class="widgettitle">Recent Posts</h3><ul class="posts-list">
+<li>
+<a href="https://www.raspberrypi-spy.co.uk/2021/01/pi-pico-pinout-and-power-pins/"><img src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/raspberry_pi_pico_board_01-110x96.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image no-display" alt="Raspberry Pi Pico" loading="lazy" title="Pi Pico Pinout and Power Pins" width="110" height="96">
+</a><div class="content"><div class="cf listing-meta meta above">
+<time datetime="2021-01-24T00:14:57+00:00" class="meta-item">January 24, 2021</time><span class="meta-item comments"><a href="https://www.raspberrypi-spy.co.uk/2021/01/pi-pico-pinout-and-power-pins/#respond"><i class="fa fa-comments-o"></i> 0</a></span></div>
+<a href="https://www.raspberrypi-spy.co.uk/2021/01/pi-pico-pinout-and-power-pins/" title="Pi Pico Pinout and Power Pins">
+Pi Pico Pinout and Power Pins</a></div>
+</li>
+<li>
+<a href="https://www.raspberrypi-spy.co.uk/2020/12/install-arduino-ide-on-raspberry-pi/"><img src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/pi-arduino-ide-04-110x96.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image no-display" alt="Install Arduino IDE on Raspberry Pi" loading="lazy" title="Install Arduino IDE on Raspberry Pi" width="110" height="96">
+</a><div class="content"><div class="cf listing-meta meta above">
+<time datetime="2020-12-28T21:47:29+00:00" class="meta-item">December 28, 2020</time><span class="meta-item comments"><a href="https://www.raspberrypi-spy.co.uk/2020/12/install-arduino-ide-on-raspberry-pi/#comments"><i class="fa fa-comments-o"></i> 1</a></span></div>
+<a href="https://www.raspberrypi-spy.co.uk/2020/12/install-arduino-ide-on-raspberry-pi/" title="Install Arduino IDE on Raspberry Pi">
+Install Arduino IDE on Raspberry Pi</a></div>
+</li>
+<li>
+<a href="https://www.raspberrypi-spy.co.uk/2020/12/raspberry-pi-400-ssd-upgrade/"><img src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/pi_400_ssd_featured-110x96.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image no-display" alt="Pi 400 SSD Upgrade" loading="lazy" title="Raspberry Pi 400 SSD Upgrade" width="110" height="96">
+</a><div class="content"><div class="cf listing-meta meta above">
+<time datetime="2020-12-23T18:04:38+00:00" class="meta-item">December 23, 2020</time><span class="meta-item comments"><a href="https://www.raspberrypi-spy.co.uk/2020/12/raspberry-pi-400-ssd-upgrade/#comments"><i class="fa fa-comments-o"></i> 12</a></span></div>
+<a href="https://www.raspberrypi-spy.co.uk/2020/12/raspberry-pi-400-ssd-upgrade/" title="Raspberry Pi 400 SSD Upgrade">
+Raspberry Pi 400 SSD Upgrade</a></div>
+</li></ul>
+</li></ul></div><div class="lower-foot"><div class="wrap"><div class="widgets"><div class="textwidget custom-html-widget"><div style="text-align:center;width:100%;"><p><a href="https://www.raspberrypi-spy.co.uk/feed/">Entries RSS</a>&nbsp;|&nbsp;<a href="https://www.raspberrypi-spy.co.uk/comments/feed/">Comments RSS</a></p><p>This
+ site is not associated with the official Raspberrypi.org site or the 
+Raspberry Pi Foundation. Raspberry Pi is a trademark of the Raspberry Pi
+ Foundation.</p><p>Copyright © 2021 - All Rights Reserved - Matt Hawkins</p></div></div></div></div></div></footer></div><div id="amzn-assoc-ad-b98a761d-6443-4080-9b6a-3a6fc63e3201"></div><script async="" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/onejs"></script> <script type="application/ld+json">{"@context":"http:\/\/schema.org","@type":"Article","headline":"Using the BME280 I2C Temperature and Pressure Sensor in Python","url":"https:\/\/www.raspberrypi-spy.co.uk\/2016\/07\/using-bme280-i2c-temperature-pressure-sensor-in-python\/","image":{"@type":"ImageObject","url":"https:\/\/www.raspberrypi-spy.co.uk\/wp-content\/uploads\/2016\/07\/bme280_temp_sensor-702x336.jpg","width":702,"height":336},"datePublished":"2016-07-21T21:10:16+01:00","dateModified":"2016-07-29T10:07:33+01:00","author":{"@type":"Person","name":"Matt"},"publisher":{"@type":"Organization","name":"Raspberry Pi Spy","sameAs":"https:\/\/www.raspberrypi-spy.co.uk","logo":{"@type":"ImageObject","url":"https:\/\/www.raspberrypi-spy.co.uk\/wp-content\/uploads\/2015\/05\/Raspberry-Pi-Spy-Logo-140x140-Outline.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/www.raspberrypi-spy.co.uk\/2016\/07\/using-bme280-i2c-temperature-pressure-sensor-in-python\/"}}</script> <script type="application/ld+json">{"@context":"https:\/\/schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"WebPage","@id":"https:\/\/www.raspberrypi-spy.co.uk\/","name":"Home"}},{"@type":"ListItem","position":2,"item":{"@type":"WebPage","@id":"https:\/\/www.raspberrypi-spy.co.uk\/category\/hardware\/","name":"Hardware"}},{"@type":"ListItem","position":3,"item":{"@type":"WebPage","@id":"https:\/\/www.raspberrypi-spy.co.uk\/category\/hardware\/interfaces\/","name":"Interfaces"}},{"@type":"ListItem","position":4,"item":{"@type":"WebPage","@id":"https:\/\/www.raspberrypi-spy.co.uk\/category\/hardware\/interfaces\/i2c\/","name":"I2C"}},{"@type":"ListItem","position":5,"item":{"@type":"WebPage","@id":"https:\/\/www.raspberrypi-spy.co.uk\/2016\/07\/using-bme280-i2c-temperature-pressure-sensor-in-python\/","name":"Using the BME280 I2C Temperature and Pressure Sensor in Python"}}]}</script> <script src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/shCore.js" id="syntaxhighlighter-core-js"></script> <script src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/shBrushPython.js" id="syntaxhighlighter-brush-python-js"></script> <script>(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "https://www.raspberrypi-spy.co.uk/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9b";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.head.appendChild( corecss );
+		var themecssurl = "https://www.raspberrypi-spy.co.uk/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9b";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		document.head.appendChild( themecss );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['auto-links'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = false;
+	SyntaxHighlighter.defaults['tab-size'] = 2;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+
+	// Infinite scroll support
+	if ( typeof( jQuery ) !== 'undefined' ) {
+		jQuery( function( $ ) {
+			$( document.body ).on( 'post-load', function() {
+				SyntaxHighlighter.highlight();
+			} );
+		} );
+	}</script> <script src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/comment-reply.js" id="comment-reply-js"></script> <script id="easyazonpro-localize-links-js-extra">var EasyAzonPro_Localize_Links = {"ajaxAction":"easyazonpro_localize","ajaxUrl":"https:\/\/www.raspberrypi-spy.co.uk\/wp-admin\/admin-ajax.php"};</script> <script src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/links.js" id="easyazonpro-localize-links-js"></script> <script src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/bootstrap.js" id="easyazonpro-bootstrap-popovers-js"></script> <script id="easyazonpro-popovers-js-extra">/*<![CDATA[*/var EasyAzonPro_Components_Popovers = {"ajaxUrl":"https:\/\/www.raspberrypi-spy.co.uk\/wp-admin\/admin-ajax.php","ajaxAction":"easyazon_get_popover_markup","loading":"Loading product data.","placement":"top","template":"<div class=\"popover easyazon-popover\"><div class=\"arrow\"><\/div><h3 class=\"popover-title\"><\/h3><div class=\"popover-content easyazon-popover-content\"><\/div><\/div>","timeout":"750"};/*]]>*/</script> <script src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/popovers.js" id="easyazonpro-popovers-js"></script> <script id="bunyad-theme-js-extra">var Bunyad = {"ajaxurl":"https:\/\/www.raspberrypi-spy.co.uk\/wp-admin\/admin-ajax.php"};</script> <script src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/bunyad-theme.js" id="bunyad-theme-js"></script> <script src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/jquery_003.js" id="flex-slider-js"></script> <script src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/jquery.js" id="sticky-sidebar-js"></script> <script src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/wp-embed.js" id="wp-embed-js"></script> <script async="async" src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/form.js" id="akismet-form-js"></script>  <script>window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website","dismiss":"Got it!","learnMore":"More info","link":null,"theme":"dark-floating"};</script> <script src="Using%20the%20BME280%20I2C%20Temperature%20and%20Pressure%20Sensor%20in%20Python%20-%20Raspberry%20Pi%20Spy_files/cookieconsent.js"></script> <div class="fbc-badge js-fbc-UID_1 fbc-badge-small fbc-badge-share-passive fbc-badge-share" style="z-index: 2; left: 722.967px; top: 4510.98px;"><div class="fbc-badge-fence"></div><div class="fbc-badge-tooltip">If you click this button, Facebook will be able to track your visit to this site.</div><div class="fbc-badge-prompt"></div></div></body></html>
