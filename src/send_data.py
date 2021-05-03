@@ -6,8 +6,8 @@ try:
     from BMP280 import get_temp as bmp_tmp, get_presure
 except IOError:
     # Temp hack for broken sensor
-    bmp_tmp = lambda x: 0
-    get_presure = lambda x: 0
+    bmp_tmp = lambda: 0
+    get_presure = lambda: 0
 
 try:
     from credentials import balkoni
