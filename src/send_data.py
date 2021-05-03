@@ -1,6 +1,7 @@
 import api
 import DHT22
 import wifi
+import system_tempr 
 from BMP280 import get_temp as bmp_tmp, get_presure
 
 
@@ -42,7 +43,13 @@ WIFI = {
     "value": wifi.get_signal()
 }
 
+SYS_TEMPR = {
+    "space_uuid": balkoni['space'],
+    "sensor_uuid": balkoni['SYS_TEMPR'],
+    "value": system_tempr.get_tempr()
+}
+
 # Some values overwrite the imports
-pack = [DHT22_tmpr, DHT22_hum, WIFI, BMP280, BMP280_TMP]
+pack = [DHT22_tmpr, DHT22_hum, WIFI, BMP280, BMP280_TMP, SYS_TEMPR]
 
 station.send_packet(pack)
