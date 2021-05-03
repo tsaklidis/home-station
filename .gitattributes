@@ -2,3 +2,4 @@
 *.js linguist-vendored
 *.css linguist-vendored
 *.html linguist-vendored
+src/bmp280 linguist-vendored
