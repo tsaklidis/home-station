@@ -3,7 +3,7 @@ import re
 
 
 def get_signal():
-    result = os.popen("iwconfig wlan0 | grep level")
+    result = os.popen("sudo iwconfig wlan0 | grep level")
     result = result.readlines()
     try:
         value = int(
