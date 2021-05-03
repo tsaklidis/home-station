@@ -11,4 +11,3 @@ def get_signal():
         return value
     except Exception as e:
         return 0
-
