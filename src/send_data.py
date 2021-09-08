@@ -1,12 +1,16 @@
 import api
 import DHT22
 import wifi
-import system_tempr 
-from BMP280 import get_temp as bmp_tmp, get_presure
-
+import system_tempr
+try:
+    from BMP280 import get_temp as bmp_tmp, get_presure
+except IOError:
+    # Temp hack for broken sensor
+    bmp_tmp = lambda rnd: 0
+    get_presure = lambda: 0
 
 try:
-    from credentials import UUIDS, balkoni
+    from credentials import balkoni
 except ImportError, exc:
     exc.args = tuple(['%s (did you created own credentials.py?)' %
                       exc.args[0]])
