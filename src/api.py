@@ -56,7 +56,7 @@ class RemoteApi:
         except Exception as e:
             # Something else happened, eg network error
             self._log({"error": '{}'.format(e.message)}, file='errors.log')
-            raise ValueError(e.message)
+            return None
 
     def _log(self, er, file=None):
         if file:
@@ -67,7 +67,7 @@ class RemoteApi:
             log_time = datetime.datetime.now()
             outfile.write(log_time.strftime('%Y-%m-%d %H:%M:%S'))
             outfile.write('\n')
-            json.dump(er, outfile)
+            json.dump(str(er), outfile)
             outfile.write('\n\n')
 
     def _get_token(self, persistent=False):
@@ -116,7 +116,16 @@ class RemoteApi:
         }
         ask = self._request(url['token_check'],
                             dt=json.dumps(creds), hdrs=headers)
-        return ask.json()['valid']
+        if ask:
+            return ask.json()['valid']
+        else:
+            error = {
+                'method': '_validate_token()',
+                'url': url['token_check'],
+                'reason': '_request returned None'
+            }
+            self._log(error)
+            return False
 
     def _init_token(self):
         # Try to load local token from token.txt file
@@ -133,7 +142,11 @@ class RemoteApi:
                         headers['Authorization'] = 'Token {}'.format(token)
                     else:
                         # Take actions for invalid/expired token
-                        res = self._get_token(persistent=False)
+                        try:
+                            res = self._get_token(persistent=False)
+                        except Exception as e:
+                            self._log(e)
+                            return None
                         if res:
                             if 'token' in res:
                                 # We have a valid token, save it
@@ -154,7 +167,12 @@ class RemoteApi:
             # No token.txt OR no token value in file.
             if not self.TOKEN:
                 #  No local token, ask for new
-                res = self._get_token(persistent=False)
+                try:
+                    res = self._get_token(persistent=False)
+                except Exception as e:
+                    # Network and other local errors
+                    self._log(e)
+                    return None
                 if res:
                     if 'token' in res:
                         # We have a valid token, save it
