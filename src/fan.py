@@ -4,7 +4,7 @@ import datetime
 import sqlite3
 import RPi.GPIO as GPIO
 
-start_tmp = 45
+start_tmp = 80
 
 
 class FanDB:

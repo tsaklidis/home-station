@@ -11,7 +11,11 @@ import time
 
 # Finds the correct device file that holds the temperature data
 base_dir = '/sys/bus/w1/devices/'
-device_folder = glob.glob(base_dir + '28*')[0]
+try:
+    device_folder = glob.glob(base_dir + '28*')[0]
+except (ValueError, IndexError):
+    print('No sensor found from DS18B20 module')
+
 device_file = device_folder + '/w1_slave'
 
 # A function that reads the sensors data

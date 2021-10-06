@@ -1,17 +1,26 @@
 import RPi.GPIO as GPIO
+import time
+import pins
 
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-led_pin = 27
-GPIO.setup(led_pin, GPIO.OUT)
+GPIO.setup(pins.LED, GPIO.OUT)
 
 
 def on():
-    GPIO.output(led_pin, GPIO.HIGH)
+    GPIO.output(pins.LED, GPIO.HIGH)
     return True
 
 
 def off():
-    GPIO.output(led_pin, GPIO.LOW)
+    GPIO.output(pins.LED, GPIO.LOW)
     return True
+
+
+def blink(times):
+    for x in range(times):
+        on()
+        time.sleep(0.2)
+        off()
+        time.sleep(0.2)

@@ -1,7 +1,8 @@
+import pins
 import Adafruit_DHT
 
 # Physical pin 11 BCM pin 17
-dht_pin = 17
+dht_pin = pins.DHT22
 sensor = Adafruit_DHT.DHT22
 
 
