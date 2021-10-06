@@ -8,4 +8,4 @@
 *credentials.py
 *pins.py
 .idea
-/logs
+src/logs
