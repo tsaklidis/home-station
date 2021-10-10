@@ -18,9 +18,9 @@ def off():
     return True
 
 
-def blink(times):
+def blink(times, speed=0.2):
     for x in range(times):
         on()
-        time.sleep(0.2)
+        time.sleep(speed)
         off()
-        time.sleep(0.2)
+        time.sleep(speed)

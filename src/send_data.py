@@ -73,14 +73,14 @@ SYS_TEMPR = {
     "sensor_uuid": balkoni['SYS_TEMPR'],
     "value": system_tempr.get_tempr()
 }
-led.blink(3)
+led.blink(4, 0.1)
 
 DS18B20_tmpr = {
     "space_uuid": balkoni['space'],
     "sensor_uuid": balkoni['DS18B20'],
     "value": ds_tmp()
 }
-led.blink(3)
+led.blink(4, 0.1)
 
 
 if DHT11_hum['value'] > 100 or DHT11_hum['value'] < 0:
@@ -89,7 +89,7 @@ if DHT11_hum['value'] > 100 or DHT11_hum['value'] < 0:
 if DHT22_hum['value'] > 100 or DHT22_hum['value'] < 0:
     DHT22_hum['value'] = 0
 
-if DS18B20_tmpr['value'] > 100 or DS18B20_tmpr['value'] < 0:
+if DS18B20_tmpr['value'] > 100:
     DS18B20_tmpr['value'] = 0
 
 # Some values overwrite the imports
