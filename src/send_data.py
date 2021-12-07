@@ -83,12 +83,6 @@ DS18B20_tmpr = {
 led.blink(4, 0.1)
 
 
-if DHT11_hum['value'] > 100 or DHT11_hum['value'] < 0:
-    DHT11_hum['value'] = 0
-
-if DHT22_hum['value'] > 100 or DHT22_hum['value'] < 0:
-    DHT22_hum['value'] = 0
-
 if DS18B20_tmpr['value'] > 100:
     DS18B20_tmpr['value'] = 0
 
