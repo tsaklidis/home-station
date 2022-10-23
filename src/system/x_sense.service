@@ -1,0 +1,15 @@
+[Unit]
+Description=Listen for Xiaomi sensor
+After=meadiacenter.service
+
+[Service]
+# If User and Group are not specified, then by default systemd ExecStart runs as root
+User=st
+Group=st
+Type=simple
+ExecStart=/usr/bin/python /home/st/home-station/src/LYWSD03MMC.py
+# write to journal or within script to separate log file
+Restart=Always
+
+[Install]
+WantedBy=multi-user.target

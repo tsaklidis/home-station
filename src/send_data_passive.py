@@ -1,7 +1,7 @@
-#!/usr/bin/python
-
 import api
-import sys
+import x_sense
+import system_tempr
+
 
 
 try:
@@ -13,7 +13,7 @@ except ImportError as exc:
 
 station = api.RemoteApi()
 
-tempr, humid, batt, batt_lvl, signal = float(sys.argv[3]), float(sys.argv[4]), float(sys.argv[5]), float(sys.argv[6]), float(sys.argv[7])
+tempr, humid, batt = x_sense.get_all_data()
 
 x_tmpr = {
     "space_uuid": saloni['space'],
@@ -34,21 +34,14 @@ x_batt = {
     "value": batt
 }
 
-x_batt_lvl = {
+SYS_TEMPR = {
     "space_uuid": saloni['space'],
-    "sensor_uuid": saloni['battery_lvl'],
-    "value": batt_lvl
+    "sensor_uuid": saloni['sys_tmp'],
+    "value": system_tempr.get_tempr()
 }
-
-x_signal = {
-    "space_uuid": saloni['space'],
-    "sensor_uuid": saloni['signal'],
-    "value": signal
-}
-
-
 
 # Some values overwrite the imports
-pack = [x_tmpr, x_hum, x_batt, x_batt_lvl, x_signal]
+pack = [x_tmpr, x_hum, x_batt, SYS_TEMPR]
 
 station.send_packet(pack)
+

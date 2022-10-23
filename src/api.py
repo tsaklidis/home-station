@@ -7,7 +7,7 @@ from requests.exceptions import ConnectionError
 
 try:
     from credentials import auth
-except ImportError, exc:
+except ImportError as  exc:
     exc.args = tuple(['%s (did you created own credentials.py?)' %
                       exc.args[0]])
     raise exc
