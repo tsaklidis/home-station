@@ -14,7 +14,8 @@ This file explains very detailed about the usage and covers everything you need 
 
 print(readme)
 
-import api 
+import api
+import system_tempr
 from bluepy import btle
 import argparse
 import os
@@ -72,7 +73,13 @@ def do_api_stuff(tempr, humid, batt, batt_lvl, signal):
         "value": signal
     }
 
-    pack = [x_tmpr, x_hum, x_batt, x_batt_lvl, x_signal]
+    sys_tmp = {
+        "space_uuid": saloni['space'],
+        "sensor_uuid": saloni['sys_tmp'],
+        "value": system_tempr.get_tempr()
+    }
+
+    pack = [x_tmpr, x_hum, x_batt, x_batt_lvl, x_signal, sys_tmp]
 
     station.send_packet(pack)
 
