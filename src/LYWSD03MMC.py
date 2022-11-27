@@ -32,9 +32,9 @@ import json
 import requests
 import ssl
 
-def do_api_stuff(tempr, humid, batt, batt_lvl, signal):
+def do_api_stuff(sensor_mac, tempr, humid, batt, batt_lvl, signal):
     try:
-        from credentials import saloni
+        from credentials import spaces
     except ImportError as exc:
         exc.args = tuple(['%s (did you created own credentials.py?)' %
                           exc.args[0]])
@@ -43,39 +43,39 @@ def do_api_stuff(tempr, humid, batt, batt_lvl, signal):
     station = api.RemoteApi()
 
     x_tmpr = {
-        "space_uuid": saloni['space'],
-        "sensor_uuid": saloni['tempr'],
+        "space_uuid": spaces[sensor_mac]['space'],
+        "sensor_uuid": spaces[sensor_mac]['tempr'],
         "value": tempr
     }
 
 
     x_hum = {
-        "space_uuid": saloni['space'],
-        "sensor_uuid": saloni['humid'],
+        "space_uuid": spaces[sensor_mac]['space'],
+        "sensor_uuid": spaces[sensor_mac]['humid'],
         "value": humid
     }
 
     x_batt = {
-        "space_uuid": saloni['space'],
-        "sensor_uuid": saloni['battery'],
+        "space_uuid": spaces[sensor_mac]['space'],
+        "sensor_uuid": spaces[sensor_mac]['battery'],
         "value": batt
     }
 
     x_batt_lvl = {
-        "space_uuid": saloni['space'],
-        "sensor_uuid": saloni['battery_lvl'],
+        "space_uuid": spaces[sensor_mac]['space'],
+        "sensor_uuid": spaces[sensor_mac]['battery_lvl'],
         "value": batt_lvl
     }
 
     x_signal = {
-        "space_uuid": saloni['space'],
-        "sensor_uuid": saloni['signal'],
+        "space_uuid": spaces[sensor_mac]['space'],
+        "sensor_uuid": spaces[sensor_mac]['signal'],
         "value": signal
     }
 
     sys_tmp = {
-        "space_uuid": saloni['space'],
-        "sensor_uuid": saloni['sys_tmp'],
+        "space_uuid": spaces[sensor_mac]['space'],
+        "sensor_uuid": spaces[sensor_mac]['sys_tmp'],
         "value": system_tempr.get_tempr()
     }
 
@@ -844,11 +844,10 @@ elif args.passive:
                     print ("Battery voltage:", measurement.voltage,"V")
                 print ("RSSI:", rssi, "dBm")
                 print ("Battery:", measurement.battery,"%")
+                print ("MAC:", mac)
+                do_api_stuff(mac, measurement.temperature, measurement.humidity, measurement.voltage, measurement.battery, rssi)
+                quit('Exiting...')
 
-                do_api_stuff(measurement.temperature, measurement.humidity, measurement.voltage, measurement.battery, rssi)
-                print('Will take a nap... ')
-                time.sleep(300)
-                
                 currentMQTTTopic = MQTTTopic
                 if mac in sensors:
                     try:
