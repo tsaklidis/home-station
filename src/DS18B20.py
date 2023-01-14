@@ -14,6 +14,7 @@ base_dir = '/sys/bus/w1/devices/'
 try:
     device_folder = glob.glob(base_dir + '28*')[0]
 except (ValueError, IndexError):
+    device_folder = ''
     print('No sensor found from DS18B20 module')
 
 device_file = device_folder + '/w1_slave'
@@ -22,7 +23,10 @@ device_file = device_folder + '/w1_slave'
 
 
 def read_temp_raw():
-    f = open(device_file, 'r')  # Opens the temperature device file
+    try:
+        f = open(device_file, 'r')  # Opens the temperature device file
+    except IOError:
+        return
     lines = f.readlines()  # Returns the text
     f.close()
     return lines
