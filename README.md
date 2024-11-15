@@ -45,6 +45,19 @@ I created an API system. You can use it in order to save your data. If you like 
 >	<li>On data loss, save all the data saved to pickle file</li>
 > </ul>
 
+## Permissions issue:
+In some cases you may get a bluetooth error:
+```python
+fcntl.ioctl(hci_sock.fileno(),
+PermissionError: [Errno 1] Operation not permitted
+```
+
+In order to resolve use this command:
+
+```shell
+sudo setcap cap_net_raw,cap_net_admin+eip $(eval readlink -f `which python3`)
+```
+
 If you have any questions or problems running the scripts just contact me. 
 
 ![](photo/dark.png)
