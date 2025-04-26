@@ -73,13 +73,22 @@ def do_api_stuff(sensor_mac, tempr, humid, batt, batt_lvl, signal):
         "value": signal
     }
 
-    sys_tmp = {
-        "space_uuid": spaces[sensor_mac]['space'],
-        "sensor_uuid": spaces[sensor_mac]['sys_tmp'],
-        "value": system_tempr.get_tempr()
-    }
+    #sys_tmp = {
+    #    "space_uuid": spaces[sensor_mac]['space'],
+    #    "sensor_uuid": spaces[sensor_mac].get('sys_tmp'),
+    #    "value": system_tempr.get_tempr()
+    #}
 
-    pack = [x_tmpr, x_hum, x_batt, x_batt_lvl, x_signal, sys_tmp]
+    pack = [x_tmpr, x_hum, x_batt, x_batt_lvl, x_signal]
+
+    if spaces[sensor_mac].get('sys_tmp'):
+        sys_tmp = {
+            "space_uuid": spaces[sensor_mac]['space'],
+            "sensor_uuid": spaces[sensor_mac].get('sys_tmp'),
+            "value": system_tempr.get_tempr()
+        }
+        pack.append(sys_tmp)
+
 
     station.send_packet(pack)
 
