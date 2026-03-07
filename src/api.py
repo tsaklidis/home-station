@@ -133,7 +133,8 @@ class RemoteApi:
     def _log(self, er, file=None):
         """Append a timestamped JSON entry to a log file."""
         log_dir = the_path + '/logs'
-        os.makedirs(log_dir, exist_ok=True)
+        if not os.path.exists(log_dir):
+            os.makedirs(log_dir)
         the_file = os.path.join(log_dir, file or 'errors.log')
         try:
             with open(the_file, 'a+') as outfile:
