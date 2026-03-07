@@ -51,7 +51,7 @@ class RemoteApi:
         self._init_token()
         self._flush_unsent()
 
-    # ── HTTP helpers ────────────────────────────────────────────────
+    # -- HTTP helpers ------------------------------------------------
 
     def _request(self, link, dt=None, hdrs=None, method='POST', params=None,
                  retries=MAX_RETRIES):
@@ -61,7 +61,7 @@ class RemoteApi:
             link:    Target URL.
             dt:      JSON-encoded body string (for POST).
             hdrs:    Extra headers (merged with session headers).
-            method:  HTTP method – 'POST' or 'GET'.
+            method:  HTTP method - 'POST' or 'GET'.
             params:  Query-string dict (for GET).
             retries: How many times to retry on failure.
 
@@ -107,7 +107,7 @@ class RemoteApi:
                     }, file='requests.log')
                     return ans
 
-                # Server error or 429 → retry
+                # Server error or 429 - retry
                 self._log({
                     'warning': 'Retryable error',
                     'status': ans.status_code,
@@ -128,7 +128,7 @@ class RemoteApi:
 
         return None
 
-    # ── Logging ─────────────────────────────────────────────────────
+    # -- Logging ---------------------------------------------------
 
     def _log(self, er, file=None):
         """Append a timestamped JSON entry to a log file."""
@@ -146,7 +146,7 @@ class RemoteApi:
             # Last-resort: can't even write logs
             print('Logging failed: {}'.format(e))
 
-    # ── Token management ────────────────────────────────────────────
+    # -- Token management --------------------------------------------
 
     def _get_token(self, persistent=False):
         """Request a new token (expiring or persistent) from the API."""
@@ -167,7 +167,7 @@ class RemoteApi:
         if response.status_code == 403:
             return response.json()
         if response.status_code == 409:
-            # A valid token with the same name already exists – recall it
+            # A valid token with the same name already exists -- recall it
             return self._remind_token()
 
         return False
@@ -285,13 +285,13 @@ class RemoteApi:
                 self._apply_token(data['token'])
                 self._store_token(data)
                 return
-            # Token invalid/expired → get a new one
+            # Token invalid/expired -- get a new one
             self._obtain_and_apply_token(persistent=False)
         else:
             # No local token at all
             self._obtain_and_apply_token(persistent=False)
 
-    # ── Unsent-data buffer (offline resilience) ─────────────────────
+    # -- Unsent-data buffer (offline resilience) ---------------------
 
     def _save_unsent(self, measurements):
         """Append measurements to the unsent-data buffer file."""
@@ -338,7 +338,7 @@ class RemoteApi:
                 len(unsent))}, file='requests.log')
         # If still failing, leave the file for next time
 
-    # ── Measurement methods ─────────────────────────────────────────
+    # -- Measurement methods -----------------------------------------
 
     def send_measurement(self, space_uuid, sensor_uuid, value,
                          custom_created_on=None):
@@ -464,7 +464,7 @@ class RemoteApi:
             return response.json()
         return None
 
-    # ── House / Space helpers ───────────────────────────────────────
+    # -- House / Space helpers ---------------------------------------
 
     def list_my_houses(self):
         """List all houses related to the authenticated user.
