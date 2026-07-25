@@ -15,7 +15,7 @@ station = api.RemoteApi()
 
 tempr, humid, batt, batt_lvl, signal = float(sys.argv[3]), float(sys.argv[4]), float(sys.argv[5]), float(sys.argv[6]), float(sys.argv[7])
 
-# Build gateway ingest readings — each reading has sensor_id and data dict
+# Build gateway ingest readings - each reading has sensor_id and data dict
 pack = [
     {
         "sensor_id": saloni['tempr'],

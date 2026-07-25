@@ -42,7 +42,7 @@ def do_api_stuff(sensor_mac, tempr, humid, batt, batt_lvl, signal):
 
     station = api.RemoteApi()
 
-    # Build gateway ingest readings — each reading has sensor_id and data dict
+    # Build gateway ingest readings - each reading has sensor_id and data dict
     pack = [
         {
             "sensor_id": spaces[sensor_mac]['tempr'],

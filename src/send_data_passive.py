@@ -15,7 +15,7 @@ station = api.RemoteApi()
 
 tempr, humid, batt = x_sense.get_all_data()
 
-# Build gateway ingest readings — each reading has sensor_id and data dict
+# Build gateway ingest readings - each reading has sensor_id and data dict
 pack = [
     {
         "sensor_id": saloni['tempr'],
