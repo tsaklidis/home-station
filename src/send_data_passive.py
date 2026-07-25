@@ -15,33 +15,24 @@ station = api.RemoteApi()
 
 tempr, humid, batt = x_sense.get_all_data()
 
-x_tmpr = {
-    "space_uuid": saloni['space'],
-    "sensor_uuid": saloni['tempr'],
-    "value": tempr
-}
-
-
-x_hum = {
-    "space_uuid": saloni['space'],
-    "sensor_uuid": saloni['humid'],
-    "value": humid
-}
-
-x_batt = {
-    "space_uuid": saloni['space'],
-    "sensor_uuid": saloni['battery'],
-    "value": batt
-}
-
-SYS_TEMPR = {
-    "space_uuid": saloni['space'],
-    "sensor_uuid": saloni['sys_tmp'],
-    "value": system_tempr.get_tempr()
-}
-
-# Some values overwrite the imports
-pack = [x_tmpr, x_hum, x_batt, SYS_TEMPR]
+# Build gateway ingest readings — each reading has sensor_id and data dict
+pack = [
+    {
+        "sensor_id": saloni['tempr'],
+        "data": {"temperature": tempr}
+    },
+    {
+        "sensor_id": saloni['humid'],
+        "data": {"humidity": humid}
+    },
+    {
+        "sensor_id": saloni['battery'],
+        "data": {"battery_voltage": batt}
+    },
+    {
+        "sensor_id": saloni['sys_tmp'],
+        "data": {"temperature": system_tempr.get_tempr()}
+    },
+]
 
 station.send_packet(pack)
-

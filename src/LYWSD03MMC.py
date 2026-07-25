@@ -42,53 +42,35 @@ def do_api_stuff(sensor_mac, tempr, humid, batt, batt_lvl, signal):
 
     station = api.RemoteApi()
 
-    x_tmpr = {
-        "space_uuid": spaces[sensor_mac]['space'],
-        "sensor_uuid": spaces[sensor_mac]['tempr'],
-        "value": tempr
-    }
-
-
-    x_hum = {
-        "space_uuid": spaces[sensor_mac]['space'],
-        "sensor_uuid": spaces[sensor_mac]['humid'],
-        "value": humid
-    }
-
-    x_batt = {
-        "space_uuid": spaces[sensor_mac]['space'],
-        "sensor_uuid": spaces[sensor_mac]['battery'],
-        "value": batt
-    }
-
-    x_batt_lvl = {
-        "space_uuid": spaces[sensor_mac]['space'],
-        "sensor_uuid": spaces[sensor_mac]['battery_lvl'],
-        "value": batt_lvl
-    }
-
-    x_signal = {
-        "space_uuid": spaces[sensor_mac]['space'],
-        "sensor_uuid": spaces[sensor_mac]['signal'],
-        "value": signal
-    }
-
-    #sys_tmp = {
-    #    "space_uuid": spaces[sensor_mac]['space'],
-    #    "sensor_uuid": spaces[sensor_mac].get('sys_tmp'),
-    #    "value": system_tempr.get_tempr()
-    #}
-
-    pack = [x_tmpr, x_hum, x_batt, x_batt_lvl, x_signal]
+    # Build gateway ingest readings — each reading has sensor_id and data dict
+    pack = [
+        {
+            "sensor_id": spaces[sensor_mac]['tempr'],
+            "data": {"temperature": tempr}
+        },
+        {
+            "sensor_id": spaces[sensor_mac]['humid'],
+            "data": {"humidity": humid}
+        },
+        {
+            "sensor_id": spaces[sensor_mac]['battery'],
+            "data": {"battery_voltage": batt}
+        },
+        {
+            "sensor_id": spaces[sensor_mac]['battery_lvl'],
+            "data": {"battery_level": batt_lvl}
+        },
+        {
+            "sensor_id": spaces[sensor_mac]['signal'],
+            "data": {"signal_strength": signal}
+        },
+    ]
 
     if spaces[sensor_mac].get('sys_tmp'):
-        sys_tmp = {
-            "space_uuid": spaces[sensor_mac]['space'],
-            "sensor_uuid": spaces[sensor_mac].get('sys_tmp'),
-            "value": system_tempr.get_tempr()
-        }
-        pack.append(sys_tmp)
-
+        pack.append({
+            "sensor_id": spaces[sensor_mac]['sys_tmp'],
+            "data": {"temperature": system_tempr.get_tempr()}
+        })
 
     station.send_packet(pack)
 

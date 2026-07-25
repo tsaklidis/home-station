@@ -15,40 +15,28 @@ station = api.RemoteApi()
 
 tempr, humid, batt, batt_lvl, signal = float(sys.argv[3]), float(sys.argv[4]), float(sys.argv[5]), float(sys.argv[6]), float(sys.argv[7])
 
-x_tmpr = {
-    "space_uuid": saloni['space'],
-    "sensor_uuid": saloni['tempr'],
-    "value": tempr
-}
-
-
-x_hum = {
-    "space_uuid": saloni['space'],
-    "sensor_uuid": saloni['humid'],
-    "value": humid
-}
-
-x_batt = {
-    "space_uuid": saloni['space'],
-    "sensor_uuid": saloni['battery'],
-    "value": batt
-}
-
-x_batt_lvl = {
-    "space_uuid": saloni['space'],
-    "sensor_uuid": saloni['battery_lvl'],
-    "value": batt_lvl
-}
-
-x_signal = {
-    "space_uuid": saloni['space'],
-    "sensor_uuid": saloni['signal'],
-    "value": signal
-}
-
-
-
-# Some values overwrite the imports
-pack = [x_tmpr, x_hum, x_batt, x_batt_lvl, x_signal]
+# Build gateway ingest readings — each reading has sensor_id and data dict
+pack = [
+    {
+        "sensor_id": saloni['tempr'],
+        "data": {"temperature": tempr}
+    },
+    {
+        "sensor_id": saloni['humid'],
+        "data": {"humidity": humid}
+    },
+    {
+        "sensor_id": saloni['battery'],
+        "data": {"battery_voltage": batt}
+    },
+    {
+        "sensor_id": saloni['battery_lvl'],
+        "data": {"battery_level": batt_lvl}
+    },
+    {
+        "sensor_id": saloni['signal'],
+        "data": {"signal_strength": signal}
+    },
+]
 
 station.send_packet(pack)

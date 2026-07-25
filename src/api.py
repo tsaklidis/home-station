@@ -7,7 +7,7 @@ import requests
 from requests.exceptions import ConnectionError
 
 try:
-    from credentials import auth
+    from credentials import GATEWAY_KEY, BASE_URL, auth
 except ImportError as exc:
     exc.args = tuple(['%s (did you created own credentials.py?)' %
                       exc.args[0]])
@@ -16,20 +16,16 @@ except ImportError as exc:
 
 the_path = os.path.dirname(os.path.abspath(__file__))
 UNSENT_FILE = the_path + '/unsent_data.json'
+TOKEN_FILE = the_path + '/token.json'
 
-base_url = 'https://logs.tsaklidis.gr/api/'
 url = {
-    'ms_new': base_url + 'measurement/new/',
-    'ms_list': base_url + 'measurement/list/',
-    'ms_list_last': base_url + 'open/measurement/list/last/',
-    'ms_pack_new': base_url + 'measurement/pack/new/',
-    'token_new': base_url + 'token/expiring/new/',
-    'token_persist_new': base_url + 'token/persistent/new/',
-    'token_check': base_url + 'token/check/',
-    'token_remember': base_url + 'token/remember/',
-    'token_invalidate': base_url + 'token/invalidate/',
-    'house_all': base_url + 'house/all/',
-    'house_my': base_url + 'house/my/',
+    'ingest': BASE_URL + '/ingest/',
+    'ingest_bulk': BASE_URL + '/ingest/bulk/',
+    'ingest_gateway': BASE_URL + '/ingest/gateway/',
+    'token': BASE_URL + '/auth/token/',
+    'token_refresh': BASE_URL + '/auth/token/refresh/',
+    'homes': BASE_URL + '/homes/',
+    'health': BASE_URL + '/health/',
 }
 
 DEFAULT_HEADERS = {
@@ -42,13 +38,17 @@ RETRY_BACKOFF = 2  # seconds, doubles on each retry
 
 
 class RemoteApi:
-    """Client for the LogingAPI remote measurement service."""
+    """Client for the LogingAPIEnhanced remote sensor platform.
+
+    Uses X-Gateway-Key authentication for data ingestion (no JWT needed).
+    JWT is only used for management operations (listing homes, sensors, etc.).
+    """
 
     def __init__(self):
-        self.TOKEN = False
+        self.access_token = None
+        self.refresh_token = None
         self.session = requests.Session()
         self.session.headers.update(DEFAULT_HEADERS)
-        self._init_token()
         self._flush_unsent()
 
     # -- HTTP helpers ------------------------------------------------
@@ -90,12 +90,10 @@ class RemoteApi:
                         body = ans.json()
                     except ValueError:
                         body = ans.text
-                    # Prevent saving token to logs
-                    if isinstance(body, dict) and 'token' not in body:
-                        self._log({
-                            'response': body,
-                            'url': link,
-                        }, file='requests.log')
+                    self._log({
+                        'response': body,
+                        'url': link,
+                    }, file='requests.log')
                     return ans
 
                 # Non-retryable client errors (4xx except 429)
@@ -147,160 +145,97 @@ class RemoteApi:
             # Last-resort: can't even write logs
             print('Logging failed: {}'.format(e))
 
-    # -- Token management --------------------------------------------
+    # -- JWT Token management (for management operations) -----------
 
-    def _get_token(self, persistent=False):
-        """Request a new token (expiring or persistent) from the API."""
+    def _get_jwt_token(self):
+        """Obtain a new JWT access + refresh token pair."""
         body = {
             "username": auth['username'],
             "password": auth['password'],
-            "token_name": "rpi"
         }
-
-        hit_url = url['token_persist_new'] if persistent else url['token_new']
-        response = self._request(hit_url, dt=json.dumps(body))
-
-        if response is None:
-            return False
-
-        if response.status_code == 201:
-            return response.json()
-        if response.status_code == 403:
-            return response.json()
-        if response.status_code == 409:
-            # A valid token with the same name already exists -- recall it
-            return self._remind_token()
-
-        return False
-
-    def _remind_token(self):
-        """Ask the API to return an existing valid token by name.
-
-        Endpoint: POST /api/token/remember/
-        """
-        body = {
-            "username": auth['username'],
-            "password": auth['password'],
-            "token_name": "rpi"
-        }
-        response = self._request(url['token_remember'], dt=json.dumps(body))
-        if response and response.status_code in (200, 201):
-            return response.json()
-        return False
-
-    def invalidate_token(self, key=None):
-        """Invalidate a token on the remote API.
-
-        Args:
-            key: The token string to invalidate.
-                 Defaults to the currently active token.
-
-        Returns:
-            True if the token was successfully invalidated, False otherwise.
-        """
-        token_key = key or (self.TOKEN if isinstance(self.TOKEN, str)
-                            else (self.TOKEN or {}).get('token'))
-        if not token_key:
-            self._log({'error': 'No token to invalidate'})
-            return False
-
-        body = {
-            "username": auth['username'],
-            "password": auth['password'],
-            "token_name": "rpi",
-            "key": token_key
-        }
-        response = self._request(url['token_invalidate'],
-                                 dt=json.dumps(body))
-        if response and response.status_code in (200, 201):
-            self.TOKEN = False
-            self.session.headers.pop('Authorization', None)
+        response = self._request(url['token'], dt=json.dumps(body))
+        if response and response.status_code == 200:
+            data = response.json()
+            self.access_token = data.get('access')
+            self.refresh_token = data.get('refresh')
+            self._store_tokens(data)
             return True
         return False
 
-    def _store_token(self, d):
-        """Persist token data to local token.txt file."""
+    def _refresh_jwt_token(self):
+        """Use refresh token to get a new access token."""
+        if not self.refresh_token:
+            return self._get_jwt_token()
+
+        body = {"refresh": self.refresh_token}
+        response = self._request(url['token_refresh'], dt=json.dumps(body))
+        if response and response.status_code == 200:
+            data = response.json()
+            self.access_token = data.get('access')
+            # New refresh token may be returned (rotation)
+            if 'refresh' in data:
+                self.refresh_token = data['refresh']
+            self._store_tokens({
+                'access': self.access_token,
+                'refresh': self.refresh_token
+            })
+            return True
+        # Refresh token expired, get new pair
+        return self._get_jwt_token()
+
+    def _store_tokens(self, data):
+        """Persist JWT tokens to local file."""
         try:
-            with open(the_path + '/token.txt', 'w') as outfile:
-                json.dump(d, outfile)
+            with open(TOKEN_FILE, 'w') as f:
+                json.dump(data, f)
         except OSError as e:
-            self._log({'error': 'Failed to store token: {}'.format(str(e))})
+            self._log({'error': 'Failed to store tokens: {}'.format(str(e))})
 
-    def _apply_token(self, token_str):
-        """Set the token on the instance and session headers."""
-        self.TOKEN = token_str
-        self.session.headers['Authorization'] = 'Token {}'.format(token_str)
-
-    def _validate_token(self, data):
-        """Check whether a stored token is still valid via the API."""
-        creds = {
-            "username": auth['username'],
-            "password": auth['password'],
-            "key": data['token']
-        }
-        ask = self._request(url['token_check'], dt=json.dumps(creds))
-        if ask and ask.status_code in (200, 201):
-            try:
-                return ask.json().get('valid', False)
-            except (ValueError, KeyError):
-                pass
-        self._log({
-            'method': '_validate_token()',
-            'url': url['token_check'],
-            'reason': 'Validation request failed or returned unexpected data'
-        })
-        return False
-
-    def _obtain_and_apply_token(self, persistent=False):
-        """Helper: fetch a new token, store it and apply it.
-
-        Returns:
-            True if a token was successfully obtained, False otherwise.
-        """
+    def _load_tokens(self):
+        """Load JWT tokens from disk."""
         try:
-            res = self._get_token(persistent=persistent)
-        except Exception as e:
-            self._log({'error': str(e), 'from': '_obtain_and_apply_token'})
+            with open(TOKEN_FILE) as f:
+                data = json.load(f)
+                self.access_token = data.get('access')
+                self.refresh_token = data.get('refresh')
+                return True
+        except (IOError, ValueError):
             return False
 
-        if res and isinstance(res, dict) and 'token' in res:
-            self._store_token(res)
-            self._apply_token(res['token'])
-            return True
+    def _ensure_jwt(self):
+        """Ensure we have a valid JWT token for management operations."""
+        if not self.access_token:
+            if not self._load_tokens():
+                return self._get_jwt_token()
+        return True
 
-        if res:
-            self._log(res)
-        return False
+    def _jwt_headers(self):
+        """Return headers dict with JWT Bearer token."""
+        self._ensure_jwt()
+        return {'Authorization': 'Bearer {}'.format(self.access_token)}
 
-    def _init_token(self):
-        """Load a token from disk or request a new one from the API."""
-        # Try to load local token from token.txt file
-        try:
-            with open(the_path + '/token.txt') as json_file:
-                data = json.load(json_file)
-        except (IOError, ValueError):
-            data = None
-
-        if data and 'token' in data:
-            if self._validate_token(data):
-                self._apply_token(data['token'])
-                self._store_token(data)
-                return
-            # Token invalid/expired -- get a new one
-            self._obtain_and_apply_token(persistent=False)
-        else:
-            # No local token at all
-            self._obtain_and_apply_token(persistent=False)
+    def _jwt_request(self, link, dt=None, method='GET', params=None):
+        """Make a JWT-authenticated request, refreshing token if expired."""
+        hdrs = self._jwt_headers()
+        response = self._request(link, dt=dt, hdrs=hdrs, method=method,
+                                 params=params)
+        # If 401, try refreshing the token and retry once
+        if response and response.status_code == 401:
+            if self._refresh_jwt_token():
+                hdrs = self._jwt_headers()
+                response = self._request(link, dt=dt, hdrs=hdrs, method=method,
+                                         params=params)
+        return response
 
     # -- Unsent-data buffer (offline resilience) ---------------------
 
-    def _save_unsent(self, measurements):
-        """Append measurements to the unsent-data buffer file."""
+    def _save_unsent(self, readings):
+        """Append readings to the unsent-data buffer file."""
         existing = self._load_unsent()
-        if isinstance(measurements, list):
-            existing.extend(measurements)
+        if isinstance(readings, list):
+            existing.extend(readings)
         else:
-            existing.append(measurements)
+            existing.append(readings)
         try:
             with open(UNSENT_FILE, 'w') as f:
                 json.dump(existing, f)
@@ -308,7 +243,7 @@ class RemoteApi:
             self._log({'error': 'Cannot write unsent buffer: {}'.format(e)})
 
     def _load_unsent(self):
-        """Load previously unsent measurements from disk."""
+        """Load previously unsent readings from disk."""
         if not os.path.exists(UNSENT_FILE):
             return []
         try:
@@ -327,130 +262,87 @@ class RemoteApi:
             pass
 
     def _flush_unsent(self):
-        """Try to re-send any measurements that failed previously."""
+        """Try to re-send any readings that failed previously."""
         unsent = self._load_unsent()
         if not unsent:
             return
-        response = self._request(url['ms_pack_new'],
-                                 dt=json.dumps(unsent))
+        # Unsent data is stored as gateway readings format
+        payload = {"readings": unsent}
+        hdrs = {'X-Gateway-Key': GATEWAY_KEY}
+        response = self._request(url['ingest_gateway'],
+                                 dt=json.dumps(payload), hdrs=hdrs)
         if response and response.status_code in (200, 201):
             self._clear_unsent()
-            self._log({'info': 'Flushed {} unsent measurements'.format(
+            self._log({'info': 'Flushed {} unsent readings'.format(
                 len(unsent))}, file='requests.log')
         # If still failing, leave the file for next time
 
-    # -- Measurement methods -----------------------------------------
+    # -- Data Ingestion methods --------------------------------------
 
-    def send_measurement(self, space_uuid, sensor_uuid, value,
-                         custom_created_on=None):
-        """Send a single measurement to the API.
+    def send_reading(self, sensor_uuid, data, recorded_at=None):
+        """Send a single reading via the gateway endpoint.
 
         Args:
-            space_uuid:  UUID of the space.
             sensor_uuid: UUID of the sensor.
-            value:       The measured value.
-            custom_created_on: Optional datetime string 'YYYY-MM-DD HH:MM:SS'.
+            data:        Dict of measurement values,
+                         e.g. {"temperature": 25.6, "humidity": 48.2}
+            recorded_at: Optional ISO 8601 datetime string.
 
         Returns:
             True on success, False on failure.
         """
-        body = {
-            "space_uuid": space_uuid,
-            "sensor_uuid": sensor_uuid,
-            "value": value
+        reading = {
+            "sensor_id": sensor_uuid,
+            "data": data,
         }
-        if custom_created_on:
-            body["custom_created_on"] = custom_created_on
+        if recorded_at:
+            reading["recorded_at"] = recorded_at
 
-        response = self._request(url['ms_new'], dt=json.dumps(body))
+        payload = {"readings": [reading]}
+        hdrs = {'X-Gateway-Key': GATEWAY_KEY}
+        response = self._request(url['ingest_gateway'],
+                                 dt=json.dumps(payload), hdrs=hdrs)
         if response and response.status_code in (200, 201):
             return True
 
         # Buffer for later
-        self._save_unsent([body])
+        self._save_unsent([reading])
         return False
 
-    def send_packet(self, measurements):
-        """Send a batch of measurements to the API.
+    def send_packet(self, readings):
+        """Send a batch of sensor readings via the gateway endpoint.
 
-        If the request fails the measurements are saved locally
-        and retried on the next instantiation of RemoteApi.
+        This is the primary method for sending data from multiple sensors
+        in a single request.
 
         Args:
-            measurements: A list of measurement dicts, each containing
-                          space_uuid, sensor_uuid and value.
+            readings: A list of dicts, each containing:
+                - sensor_id: UUID of the sensor
+                - data: dict of measurement values
+                - recorded_at: (optional) ISO 8601 datetime string
 
         Returns:
             True on success, False on failure (data buffered).
         """
-        response = self._request(url['ms_pack_new'],
-                                 dt=json.dumps(measurements))
+        payload = {"readings": readings}
+        hdrs = {'X-Gateway-Key': GATEWAY_KEY}
+        response = self._request(url['ingest_gateway'],
+                                 dt=json.dumps(payload), hdrs=hdrs)
         if response and response.status_code in (200, 201):
             return True
 
         # Prevent data loss: save to disk for later retry
-        self._save_unsent(measurements)
+        self._save_unsent(readings)
         self._log({
             'warning': 'Packet saved to unsent buffer',
-            'count': len(measurements),
+            'count': len(readings),
         }, file='errors.log')
         return False
 
-    def list_measurements(self, space_uuid, sensor_uuid, filters=None):
-        """Retrieve measurements for a sensor in a space.
+    # -- Reading query methods ---------------------------------------
 
-        Args:
-            space_uuid:  UUID of the space.
-            sensor_uuid: UUID of the sensor.
-            filters:     Optional dict of query filters, e.g.
-                         {'date__month': 9, 'date__day__gt': 10,
-                          'time__hour__lte': 18}
-
-        Returns:
-            Parsed JSON response dict with 'count', 'next', 'previous'
-            and 'results' keys, or None on failure.
-        """
-        params = {
-            'space_uuid': space_uuid,
-            'sensor_uuid': sensor_uuid,
-        }
-        if filters:
-            params.update(filters)
-
-        response = self._request(url['ms_list'], method='GET', params=params)
-        if response and response.status_code == 200:
-            return response.json()
-        return None
-
-    def list_all_measurements(self, space_uuid, sensor_uuid, filters=None):
-        """Retrieve *all pages* of measurements (auto-pagination).
-
-        Returns:
-            A list of all measurement dicts, or None on failure.
-        """
-        results = []
-        params = {
-            'space_uuid': space_uuid,
-            'sensor_uuid': sensor_uuid,
-        }
-        if filters:
-            params.update(filters)
-
-        next_url = url['ms_list']
-        while next_url:
-            response = self._request(next_url, method='GET', params=params)
-            if response is None or response.status_code != 200:
-                return None
-            data = response.json()
-            results.extend(data.get('results', []))
-            next_url = data.get('next')
-            # After first page, params are embedded in next_url
-            params = None
-
-        return results
-
-    def get_last_measurement(self, sensor_uuid):
-        """Get the latest measurement for a sensor (open endpoint).
+    def get_latest_reading(self, sensor_uuid):
+        """Get the latest reading for a sensor.
 
         Args:
             sensor_uuid: UUID of the sensor.
@@ -458,37 +350,100 @@ class RemoteApi:
         Returns:
             Parsed JSON response or None on failure.
         """
-        params = {'sensor_uuid': sensor_uuid}
-        response = self._request(url['ms_list_last'], method='GET',
-                                 params=params)
+        reading_url = '{}/sensors/{}/readings/latest/'.format(
+            BASE_URL, sensor_uuid)
+        response = self._jwt_request(reading_url, method='GET')
         if response and response.status_code == 200:
             return response.json()
         return None
 
-    # -- House / Space helpers ---------------------------------------
-
-    def list_my_houses(self):
-        """List all houses related to the authenticated user.
-
-        Returns:
-            Parsed JSON list of houses or None on failure.
-        """
-        response = self._request(url['house_my'], method='GET')
-        if response and response.status_code == 200:
-            return response.json()
-        return None
-
-    def get_house(self, house_uuid):
-        """Retrieve details for a specific house by UUID.
+    def list_readings(self, sensor_uuid, from_date=None, to_date=None,
+                      ordering=None, limit=None, page=None):
+        """Retrieve readings for a sensor with optional filters.
 
         Args:
-            house_uuid: UUID of the house.
+            sensor_uuid: UUID of the sensor.
+            from_date:   ISO 8601 datetime - readings at or after this time.
+            to_date:     ISO 8601 datetime - readings at or before this time.
+            ordering:    'recorded_at' or '-recorded_at' (default: descending).
+            limit:       Page size (max 1000, default 50).
+            page:        Page number.
+
+        Returns:
+            Parsed JSON response dict with 'count', 'next', 'previous'
+            and 'results' keys, or None on failure.
+        """
+        reading_url = '{}/sensors/{}/readings/'.format(BASE_URL, sensor_uuid)
+        params = {}
+        if from_date:
+            params['from_date'] = from_date
+        if to_date:
+            params['to_date'] = to_date
+        if ordering:
+            params['ordering'] = ordering
+        if limit:
+            params['limit'] = limit
+        if page:
+            params['page'] = page
+
+        response = self._jwt_request(reading_url, method='GET', params=params)
+        if response and response.status_code == 200:
+            return response.json()
+        return None
+
+    def get_public_latest(self, sensor_uuid):
+        """Get the latest reading for a public sensor (no auth needed).
+
+        Args:
+            sensor_uuid: UUID of the sensor.
+
+        Returns:
+            Parsed JSON response or None on failure.
+        """
+        reading_url = '{}/public/sensors/{}/readings/latest/'.format(
+            BASE_URL, sensor_uuid)
+        response = self._request(reading_url, method='GET')
+        if response and response.status_code == 200:
+            return response.json()
+        return None
+
+    # -- Home / Space / Sensor management ----------------------------
+
+    def list_homes(self):
+        """List all homes for the authenticated user.
+
+        Returns:
+            Parsed JSON list of homes or None on failure.
+        """
+        response = self._jwt_request(url['homes'], method='GET')
+        if response and response.status_code == 200:
+            return response.json()
+        return None
+
+    def get_home(self, home_uuid):
+        """Retrieve details for a specific home (includes spaces).
+
+        Args:
+            home_uuid: UUID of the home.
 
         Returns:
             Parsed JSON dict or None on failure.
         """
-        house_url = base_url + 'house/{}/'.format(house_uuid)
-        response = self._request(house_url, method='GET')
+        home_url = '{}/homes/{}/'.format(BASE_URL, home_uuid)
+        response = self._jwt_request(home_url, method='GET')
         if response and response.status_code == 200:
             return response.json()
         return None
+
+    def health_check(self):
+        """Check server health (no authentication required).
+
+        Returns:
+            True if server is healthy, False otherwise.
+        """
+        response = self._request(url['health'], method='GET')
+        if response and response.status_code == 200:
+            data = response.json()
+            return data.get('status') == 'healthy'
+        return False
+
