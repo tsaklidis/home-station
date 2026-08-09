@@ -15,6 +15,7 @@ try:
     device_folder = glob.glob(base_dir + '28*')[0]
 except (ValueError, IndexError):
     print('No sensor found from DS18B20 module')
+    raise IndexError('DS18B20 sensor not found')
 
 device_file = device_folder + '/w1_slave'
 

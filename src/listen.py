@@ -11,7 +11,7 @@ import os
 
 try:
     from credentials import balkoni
-except ImportError, exc:
+except ImportError as exc:
     exc.args = tuple(['%s (did you created own credentials.py?)' %
                       exc.args[0]])
     raise exc
@@ -78,13 +78,12 @@ def on_message_from_pack(client, userdata, message):
             try:
                 _log({"data: ": '{}'.format(value)}, file='errors.log')
                 tmp = {
-                    "space_uuid": balkoni['space'],
-                    "sensor_uuid": balkoni[sensor],
-                    "value": round(float(value), 2) if value else 0,
+                    "sensor_id": balkoni[sensor],
+                    "data": {sensor.lower(): round(float(value), 2) if value else 0},
                 }
                 pack.append(tmp)
             except Exception as e:
-                _log({"listen_error": '{}'.format(e.message)}, file='errors.log')
+                _log({"listen_error": '{}'.format(e)}, file='errors.log')
 
         esp32.send_packet(pack)
     else:
